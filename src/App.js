@@ -1,26 +1,42 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+import PrivateRoute from './components/Routes/PrivateRoute'
+import Login from './components/Routes/SingUp'
+import Add from './components/Routes/Add'
+import Drawer from './components/Drawer'
+import Home from './components/Routes/Home'
+import Dashboard from './components/Routes/Dashboard'
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Switch>
+        <Route path="/" exact>
+          <Home/>
+        </Route>
+        <Route path="/login">
+          <Login />
+        </Route>
+        <Route path="/cadastro">
+          <Add />
+        </Route>
+        <PrivateRoute path="/dashboard" exact>
+          <Drawer><Dashboard/></Drawer>
+        </PrivateRoute>
+        <PrivateRoute path="/blockly" exact>
+          <Drawer><Dashboard/></Drawer>
+        </PrivateRoute>
+        <PrivateRoute path="/roulette" exact>
+          <Drawer><Dashboard/></Drawer>
+        </PrivateRoute>
+
+      </Switch>
+    </Router>
   );
 }
 
-export default App;
