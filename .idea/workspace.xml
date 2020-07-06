@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="fc66758a-83d7-46ac-ba51-77ad56af746e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Blockly/Blockly.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Blockly/Blockly.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Blockly/BlocklyEditor.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Blockly/BlocklyHelper.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Blockly/BlocklyToolbox.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Blockly/BlocklyToolboxBlock.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Blockly/BlocklyToolboxButton.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Blockly/BlocklyToolboxCategory.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Blockly/BlocklyWorkspace.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Blockly/dev-index.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Blockly/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Blockly/initContent/content.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Drawer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Drawer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Routes/Dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Routes/Dashboard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1eHiCKlyl089hjaraXkZTp0HRoz" />
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fc66758a-83d7-46ac-ba51-77ad56af746e" name="Default Changelist" comment="" />
+      <created>1593984799209</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1593984799209</updated>
+    </task>
+    <servers />
+  </component>
+</project>

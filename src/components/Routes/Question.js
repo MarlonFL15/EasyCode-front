@@ -9,6 +9,6 @@ export default props =>{
         /*
         <Roullete items={['Se','Faça','Estruturas alinhadas','Enquanto', 'Repita', 'Escolha-caso']}/>
         */
-       <div>Dashboard do perfil</div>
+       <Blockly/>
     )
 }

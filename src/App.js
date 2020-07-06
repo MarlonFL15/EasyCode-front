@@ -10,8 +10,9 @@ import Login from './components/Routes/SingUp'
 import Add from './components/Routes/Add'
 import Drawer from './components/Drawer'
 import Home from './components/Routes/Home'
+import Blockly from './components/Blockly/Blockly'
 import Dashboard from './components/Routes/Dashboard'
-
+import Form from './components/Questions/Form'
 export default function App() {
   return (
     <Router>
@@ -28,13 +29,15 @@ export default function App() {
         <PrivateRoute path="/dashboard" exact>
           <Drawer><Dashboard/></Drawer>
         </PrivateRoute>
-        <PrivateRoute path="/blockly" exact>
-          <Drawer><Dashboard/></Drawer>
+        <PrivateRoute path="/question" exact>
+          <Drawer><Blockly/></Drawer>
         </PrivateRoute>
         <PrivateRoute path="/roulette" exact>
           <Drawer><Dashboard/></Drawer>
         </PrivateRoute>
-
+        <PrivateRoute path="/form" exact>
+          <Drawer><Form/></Drawer>
+        </PrivateRoute>
       </Switch>
     </Router>
   );

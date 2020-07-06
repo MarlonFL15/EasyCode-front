@@ -34,6 +34,7 @@ const theme = createMuiTheme({
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+    height: '100%'
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -180,9 +181,9 @@ export default function MiniDrawer(props) {
         </Drawer>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          <Typography>
+          <div style={{height:'100%'}}> 
               {props.children}
-          </Typography>
+          </div>
         </main>
       </div>
     </ThemeProvider>
