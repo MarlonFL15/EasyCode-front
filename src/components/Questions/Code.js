@@ -13,7 +13,7 @@ import Select from '@material-ui/core/Select';
 
 const useStyles = makeStyles({
   root: {
-    height:'55%',
+    height:'100%',
     display:'flex',
     flexDirection:'column',
     padding:15,

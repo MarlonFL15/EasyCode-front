@@ -1,5 +1,5 @@
 import React from 'react'
-import Blockly from '../Blockly/Blockly'
+import Blockly from '../Questions/Blockly'
 
 import ReactDOM from 'react-dom';
 

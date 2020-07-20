@@ -22,16 +22,13 @@
  */
 
 import React from 'react';
-import './Blocklys/BlocklyComponent.css'
+import '../Blockly/Blocklys/BlocklyComponent.css'
 
-import BlocklyComponent, { Block, Value, Field, Shadow } from './Blocklys';
+import BlocklyComponent, { Block, Value, Field, Shadow } from '../Blockly/Blocklys';
 
-import BlocklyJS from 'blockly/javascript';
-import Languages from './generator/generators'
-import './generator/generator';
-import Question from '../Questions/Question-blockly'
+import Languages from '../Blockly/generator/generators'
+import '../Blockly/generator/generator';
 import Code from '../Questions/Code'
-
 class BlockDiv extends React.Component {
   constructor(props) {
     super(props);
@@ -39,6 +36,10 @@ class BlockDiv extends React.Component {
     this.lang = 'Javascript'
   }
 
+  state = {
+    question:{}
+  }
+  
   generateCode = () => {
     
     var code = Languages[this.lang].workspaceToCode(
@@ -57,13 +58,12 @@ class BlockDiv extends React.Component {
     return (
       <div className="blockly-area">
         <div className="sidebar-blockly">
-          <Question></Question>
-          <Code changeLanguage = {this.changeLanguage}></Code>
+          <Code style={{height:'100%'}} changeLanguage = {this.changeLanguage}></Code>
         </div>
         
         <div className="blocklyDiv">
           <BlocklyComponent ref={this.simpleWorkspace}
-            readOnly={false} trashcan={true} media={'media/'}
+            readOnly={false} trashcan={true} media={'../media/'}
             changeCode = {this.generateCode}
             move={{
               scrollbars: false,

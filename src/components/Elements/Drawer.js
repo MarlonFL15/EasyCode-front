@@ -19,6 +19,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
+import ExtensionIcon from '@material-ui/icons/Extension';
+import CodeIcon from '@material-ui/icons/Code';
 import MailIcon from '@material-ui/icons/Mail';
 import Button from '@material-ui/core/Button';
 import { camelCase } from 'jquery';
@@ -165,15 +167,19 @@ export default function MiniDrawer(props) {
               <ListItemIcon><DashboardIcon/></ListItemIcon>
               <ListItemText primary="Dashboard"></ListItemText>  
             </ListItem>
-            <ListItem button onClick={(event) =>{ history.push('/dashboard')}}>
+            <ListItem button onClick={(event) =>{ history.push('/roleta')}}>
               <ListItemIcon><PieChartIcon/></ListItemIcon>
               <ListItemText primary="Roleta"></ListItemText>  
             </ListItem>
-            <ListItem button onClick={(event) =>{ history.push('/dashboard')}}>
-              <ListItemIcon><InboxIcon/></ListItemIcon>
+            <ListItem button onClick={(event) =>{ history.push('/blocos')}}>
+              <ListItemIcon><ExtensionIcon/></ListItemIcon>
               <ListItemText primary="Blocos"></ListItemText>  
             </ListItem>
-            <ListItem button onClick={(event) =>{ history.push('/dashboard')}}>
+            <ListItem button onClick={(event) =>{ history.push('/questoes')}}>
+              <ListItemIcon><CodeIcon/></ListItemIcon>
+              <ListItemText primary="Questões"></ListItemText>  
+            </ListItem>
+            <ListItem button onClick={(event) =>{ history.push('/')}}>
               <ListItemIcon><ExitToAppIcon/></ListItemIcon>
               <ListItemText primary="Sair"></ListItemText>  
             </ListItem>

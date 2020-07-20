@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
+import TextField from '@material-ui/core/TextField'
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
@@ -27,6 +28,9 @@ const useStyles = makeStyles((theme) => ({
     minHeight:50,
     resize: "none",
     padding:10
+  },
+  input:{
+      marginTop:10
   }
 }));
 
@@ -36,10 +40,9 @@ export default function ErrorRadios(props) {
   const [error, setError] = React.useState(false);
   const [helperText, setHelperText] = React.useState('');
 
-  const handleRadioChange = (event) => {
+  const changeValue = (event) => {
     setValue(event.target.value);
     setHelperText(' ');
-    setError(false);
     props.change(event, props.id)
   };
 
@@ -60,13 +63,7 @@ export default function ErrorRadios(props) {
         <div className={classes.title}>{props.titulo}</div>
         <div>{props.t}</div>
         {props.code?<textarea className={classes.code} disabled>{props.code}</textarea>:false}
-        
-        <RadioGroup aria-label="quiz" name="quiz" value={value} onChange={handleRadioChange}>
-          {props.alternativas.map((alt, index) => (
-            <FormControlLabel value={alt} control={<Radio/>} label={alt}></FormControlLabel>
-          ))}
-          
-        </RadioGroup>
+        <TextField value={value} onChange={changeValue} size="small" className={classes.input} id="outlined-basic" label="Insira a resposta" />
         <FormHelperText>{helperText}</FormHelperText>
         
       </FormControl>
