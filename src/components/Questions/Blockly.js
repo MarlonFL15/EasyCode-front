@@ -34,6 +34,12 @@ import Code from './Code'
 import axios  from '../../bd/client'
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import {
+  BrowserRouter as Router,
+  Switch,
+  withRouter,
+  Link
+} from "react-router-dom";
 class BlockDiv extends React.Component {
   constructor(props) {
     super(props);
@@ -47,8 +53,9 @@ class BlockDiv extends React.Component {
     incorrect:false
   }
   componentDidMount = () =>{
-    
-     const  id  = this.props.match.params.id
+
+     const id = this.props.location.state.id
+     
      axios.get("/pergunta/"+id).then(response => {
       console.log('entrou aqui')
       this.setState({question:response.data})
@@ -131,4 +138,4 @@ class BlockDiv extends React.Component {
   }
 }
 
-export default BlockDiv;
+export default withRouter(BlockDiv);

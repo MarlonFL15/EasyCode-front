@@ -1,23 +1,17 @@
-import React, { Component, useState } from "react";
+import React , {useState} from "react";
 import { makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'; 
 import { Avatar, TextField, Button, Grid } from "@material-ui/core";
-import Alert from '@material-ui/lab/Alert';
 import Typography from '@material-ui/core/Typography';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import axios from  '../../bd/client';
+import Box from '@material-ui/core/Box';
+import axios  from '../../bd/client';
 import { Redirect, useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-      flexGrow: 1,
-    },
     paper: {
-        paddingTop: theme.spacing(8),
+        paddingTop: theme.spacing(6),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -32,16 +26,16 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-const theme = createMuiTheme({
+  const theme = createMuiTheme({
     palette: {
         primary: { 500: '#054A91' } ,
+        
       },
-});
-
-
-const Login = function(){
+  });
+ const Add = function(props){
     const [email, setEmail] = useState('')
     const [senha, setSenha] = useState('')
+    const [name, setName] = useState('')
     const [error, setError] = useState({})
     const history = useHistory()
     const changeEmail = (event) =>{
@@ -50,8 +44,12 @@ const Login = function(){
     const changeSenha = (event) =>{
         setSenha(event.target.value)
     }
-
-    const valida = (data) => {
+    
+    const changeName = (event) =>{
+        setName(event.target.value)
+    }
+    
+    const valida = (data) =>{
         const errorLocal = {email:'', nome:'', senha:''}
         setError(error)
         if(data.email == '') 
@@ -65,41 +63,74 @@ const Login = function(){
             setError(errorLocal)
             return false;
         }
-        return true;
-    }
 
+        if(data.nome.length < 5) 
+            errorLocal.nome = 'O nome deve conter mais de 5 letras'
+        if(data.senha.length < 5) 
+            errorLocal.senha = 'A senha deve conter mais de 5 letras'
+      
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if(!re.test(data.email))
+            errorLocal.email = 'Insira um e-mail válido'
+        
+        if(errorLocal.senha || errorLocal.email || errorLocal.nome){
+            setError(errorLocal)
+            return false;
+        }  
+        //verifica se já existe algum usuário cadastrado
+        return axios.post('/getUserEmail', data).then(
+            function(response){
+                if(response.data.result){
+                    setError({email:'Email já está cadastrado no sistema'})
+                    return false;
+                }
+                else
+                    return true;
+            }
+        )
+        
+    }
     const submit = (event) => {
+        
         const data = {
             email:email,
             senha:senha,
+            nome:name 
         }
         if(valida(data)){
-            axios.post('/login', data).then(function(response){
-                if(response.data.result){
-                    localStorage.setItem('app-token',true)
-                    history.push("/user")
-                }
-                    
-                else
-                    setError({login:true})
+            axios.post('addUser', data).then(function(response){
+                localStorage.setItem('app-token',true)
+                history.push("/dashboard")
+            }).catch(function(error){
+                
             })
         }
     }
     
-    const classes  = useStyles();
-    return(
+    const classes = useStyles();
+     return(
         <ThemeProvider theme={theme}>
             <Container className={classes.paper} component="main" maxWidth="xs"> 
             <Avatar className={classes.avatar}>
                 <LockOutlinedIcon />
             </Avatar>
-            <Typography variant="h6">Login</Typography>
-
-            
+            <Typography variant="h6">Cadastro</Typography>
             <form className={classes.form}>
-                {error.login ? 
-                <Alert severity="error">Email e/ou senha inválidos</Alert>:false}
-           
+                <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="nome"
+                    label="Nome"
+                    name="nome"
+                    autoComplete="name"
+                    autoFocus
+                    value = {name}
+                    error = {error.nome ? true: false}
+                    helperText = {error.nome ? error.nome: false}
+                    onChange = {(event) => changeName(event)}
+                />
                 <TextField
                     variant="outlined"
                     margin="normal"
@@ -109,7 +140,6 @@ const Login = function(){
                     label="Email"
                     name="email"
                     autoComplete="email"
-                    autoFocus
                     value = {email}
                     error = {error.email ? true: false}
                     helperText = {error.email ? error.email: false}
@@ -121,35 +151,27 @@ const Login = function(){
                     required
                     fullWidth
                     id="senha"
-                    label="Senha"
+                    label="senha"
                     name="senha"
-                    autoComplete="senha"
-                    value = {senha}
+                    type="password"
+                    autoComplete="current-password"
                     error = {error.senha ? true: false}
                     helperText = {error.senha ? error.senha: false}
+                    value = {senha}
                     onChange = {(event) => changeSenha(event)}
-                    
                 />
-                <FormControlLabel
-                    control={<Checkbox value="remember" color="primary" />}
-                    label="Mantenha-me conectado"
-                />
-                <Button variant="contained" color="primary" fullWidth onClick={(event) => submit(event)}>
-                    Login
-                </Button>
+                <Box mt={2}>
+                    <Button variant="contained" color="primary" fullWidth margin="dense" onClick={(event) =>submit(event)}> 
+                        Cadastrar
+                    </Button>
+                </Box>
                 
-            
             </form>
-            <Grid container>
-                <Grid item xs>
-                    <Link href="#" variant="body2">Esqueceu sua senha?</Link>
-                </Grid>           
-            </Grid>
         </Container>
     </ThemeProvider>
         
     )
- }
+}
 
 /**cores 
  * #054A91 (azul escuro)
@@ -159,4 +181,4 @@ const Login = function(){
  * #F17300 (laranja)
 */
 
-export default Login;
+export default Add;

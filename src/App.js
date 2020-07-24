@@ -6,42 +6,54 @@ import {
   Link
 } from "react-router-dom";
 import PrivateRoute from './components/Routes/PrivateRoute'
-import Login from './components/Routes/SingUp'
-import Add from './components/Routes/Add'
-import Drawer from './components/Elements/Drawer'
-import Home from './components/Routes/Home'
+import Login from './components/Login/SingUp'
+import Add from './components/Cadastro/Add'
+import Drawer from './components/Drawer/Drawer'
+import Home from './components/Home/Home'
 import BlocklyQuestion from './components/Questions/Blockly'
-import Blockly from './components/Routes/Blockly'
+import Blockly from './components/Blocos/Blockly'
 import Question from './components/Questions/Question-Card'
-import Dashboard from './components/Routes/Dashboard'
+import Dashboard from './components/Dashboard/Dashboard'
 import Form from './components/Questions/Form'
-import Table from './components/Routes/Table/Container'
-import Roullete from './components/Routes/Roulette/index'
+import Table from './components/Tabela-Questoes/Container'
+import Roullete from './components/Roleta/index'
 export default function App() {
   return (
     <Router>
       <Switch>
-        <Drawer>
-          <PrivateRoute path="/dashboard" exact>
+        <PrivateRoute path="/dashboard" exact>
+          <Drawer>
             <Dashboard/>
-          </PrivateRoute>
-          <PrivateRoute path="/blocos" exact>
+          </Drawer>
+        </PrivateRoute>
+        <PrivateRoute path="/blocos" exact>
+          <Drawer>
             <Blockly/>
-          </PrivateRoute>
-          <PrivateRoute path="/questoes" exact>
+          </Drawer>
+        </PrivateRoute>
+        <PrivateRoute path="/questoes" exact>
+          <Drawer>
             <Table/>
-          </PrivateRoute>
-          <PrivateRoute path="/roleta" exact>
+          </Drawer>
+        </PrivateRoute>
+        <PrivateRoute path="/roleta" exact>
+          <Drawer>
             <Roullete/>
-          </PrivateRoute>
-          <Route path="/questao/:id" component={BlocklyQuestion}>
-            
-          </Route>
-          <PrivateRoute path="/form" exact>
+          </Drawer>
+        </PrivateRoute>
+        
+        <Route path="/questao/">
+          <Drawer>
+            <BlocklyQuestion/>
+          </Drawer>
+        </Route>
+        <PrivateRoute path="/form" exact>
+          <Drawer>
             <Form/>
-          </PrivateRoute>
-        </Drawer>
+          </Drawer>
+        </PrivateRoute>
       
+    
         <Route path="/" exact>
           <Home/>
         </Route>

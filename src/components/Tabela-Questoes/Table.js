@@ -10,9 +10,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Nivel from './Icons'
-import {removeAcentos} from '../../../functions'
+import {removeAcentos} from '../../functions'
 import { withRouter, useHistory } from "react-router-dom";
-import axios  from '../../../bd/client';
+import axios from '../../bd/client'
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -107,7 +107,9 @@ class CustomTable extends Component {
             </TableHead>
             <TableBody>
             {rowsfilter.slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage).map((row) => (
-                <StyledTableRow key={row.name} onClick={(event) => this.props.history.push('/questao/'+row.id)}>
+                <StyledTableRow key={row.name} onClick={(event) => this.props.history.push({
+                  pathname: '/questao',
+                  state: { id: row.id }})}>
                 <StyledTableCell component="th" scope="row">
                     {row.titulo}
                 </StyledTableCell>

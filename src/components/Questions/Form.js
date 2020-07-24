@@ -11,8 +11,6 @@ import SwipeableViews from 'react-swipeable-views';
 import QuestionRadio from './Question-Radio'
 import QuestionText from './Question-Text'
 import { Card } from '@material-ui/core';
-import Question from '../Routes/Question';
-
 const questions = [
   {
     type:'radio',
