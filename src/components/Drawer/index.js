@@ -2,6 +2,8 @@ import React, {useState} from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
+import colors from '../Colors.js'
+
 // Import de icons
 import ExtensionIcon from '@material-ui/icons/Extension';
 import DashboardIcon from '@material-ui/icons/Dashboard';
@@ -16,12 +18,13 @@ const topbarHeight=50;
 const sidebar = makeStyles((theme) => ({
     sidebarBox: {
         position: 'fixed',
-        backgroundColor: '#1083CA',
+        backgroundColor: colors.blue,
         display: 'block',
         overflow: 'hidden',
         height: '100%',
         top: 0,
-        borderRadius: '0 20px 20px 0',
+        zIndex: 3,
+        borderRadius: '0 15px 15px 0',
         [theme.breakpoints.down('xl')]: {    
             width: drawerWidth[0],
             padding: '30px 14px'
@@ -41,6 +44,13 @@ const sidebar = makeStyles((theme) => ({
         [theme.breakpoints.down('sm')]: {
             display: 'none'
         },
+        fontFamily: 'Quicksand, sans-serif',
+    },
+    title: {
+        marginLeft: 20,
+        [theme.breakpoints.down('sm')]: {
+            display: 'none'
+        },
         fontFamily: 'Nunito, sans-serif',
     },
     list: {
@@ -49,6 +59,7 @@ const sidebar = makeStyles((theme) => ({
         marginBottom: 20,
         padding: 6,
         borderRadius: 10,
+        cursor: 'pointer',
         [theme.breakpoints.down('xl')]: {
             padding: '6px 20px',
         },
@@ -71,20 +82,29 @@ const sidebar = makeStyles((theme) => ({
 const topbar = makeStyles((theme) => ({
     topBarBox: {
         position: 'fixed',
-        height: topbarHeight,
+        // height: topbarHeight,
+        display: 'flex',
+        width: '100%',
+        justifyContent: 'flex-end',
+        padding: 15,
+        background: 'linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 80%, rgba(255,255,255,0) 100%);',
+        zIndex: 2,
         [theme.breakpoints.down('xl')]: {
             top: 0,
-            left: drawerWidth[0],
-            width: '100%'
+            paddingLeft: drawerWidth[0],
         },
         [theme.breakpoints.down('sm')]: {
-            left: drawerWidth[1],
+            paddingLeft: drawerWidth[1],
         },
         transition: theme.transitions.create(['left'], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
           }),
+        
     },
+    perfil: {
+
+    }
 }))
 
 const container = makeStyles((theme)=> ({
@@ -97,6 +117,10 @@ const container = makeStyles((theme)=> ({
         [theme.breakpoints.down('sm')]: {
             paddingLeft: drawerWidth[1],
         },
+        transition: theme.transitions.create(['paddingLeft'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
     }
     
 }))
@@ -105,7 +129,9 @@ function TopBar(){
     const classes = topbar()
     return(
         <nav className={classes.topBarBox}>
-                topbar
+            <div className={classes.perfil}>
+                Perfil
+            </div>
         </nav>
     )
 }
@@ -141,7 +167,7 @@ function SideBar(){
                 <div style={{marginLeft: -5}}>
                     <img src={EBIcon} alt="Bloco azul com carinha fofa" />
                 </div>
-                <div className={classes.text}>
+                <div className={classes.title}>
                     <b>EASYCODE</b>
                 </div>
             </div>
