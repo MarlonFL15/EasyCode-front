@@ -59,17 +59,12 @@ const sidebar = makeStyles((theme) => ({
           }),
     },
     middle: {
-        height: '29rem',
+        height: 'calc(100% - 80px)',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',   
+        justifyContent: 'center',
+        minHeight: 240,
     },
-    bottom: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'bottom', 
-    }
-
 }))
 const topbar = makeStyles((theme) => ({
     topBarBox: {
@@ -150,11 +145,11 @@ function SideBar(){
             </div>
             <div className={classes.middle}>
                 <SideBarItem name="Inicio" link='/dashboard' icon={<DashboardIcon/>}/>
-                <SideBarItem  name="Roleta" link='/roleta' icon={<PieChartIcon/>}/>
+                <SideBarItem name="Roleta" link='/roleta' icon={<PieChartIcon/>}/>
                 <SideBarItem name="Blocos" link='/blocos' icon={<ExtensionIcon/>}/>
                 <SideBarItem name="Questões" link='/questoes' icon={<CodeIcon/>}/>    
             </div>
-            <SideBarItem name="Sair"  className={classes.bottom} icon={<ExitToAppIcon/>} />
+            <SideBarItem name="Sair"  link="/"  icon={<ExitToAppIcon/>} />
             
         </Grid>
     )
