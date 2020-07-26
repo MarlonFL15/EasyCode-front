@@ -1,9 +1,13 @@
 import React, {useState} from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
-import DashboardIcon from '@material-ui/icons/Dashboard';
 import { useHistory } from "react-router-dom";
-
+// Import de icons
+import ExtensionIcon from '@material-ui/icons/Extension';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import PieChartIcon from '@material-ui/icons/PieChart';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import CodeIcon from '@material-ui/icons/Code';
 
 const drawerWidth = [200, 68];
 const topbarHeight=50;
@@ -146,11 +150,11 @@ function SideBar(){
             </div>
             <div className={classes.middle}>
                 <SideBarItem name="Inicio" link='/dashboard' icon={<DashboardIcon/>}/>
-                <SideBarItem  name="Roleta" link='/roleta' icon={<DashboardIcon/>}/>
-                <SideBarItem name="Blocos" link='/blocos' icon={<DashboardIcon/>}/>
-                <SideBarItem name="Questões" link='/questoes' icon={<DashboardIcon/>}/>    
+                <SideBarItem  name="Roleta" link='/roleta' icon={<PieChartIcon/>}/>
+                <SideBarItem name="Blocos" link='/blocos' icon={<ExtensionIcon/>}/>
+                <SideBarItem name="Questões" link='/questoes' icon={<CodeIcon/>}/>    
             </div>
-            <SideBarItem name="Sair"  className={classes.bottom} icon={<DashboardIcon/>} />
+            <SideBarItem name="Sair"  className={classes.bottom} icon={<ExitToAppIcon/>} />
             
         </Grid>
     )
