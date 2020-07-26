@@ -1,9 +1,8 @@
 import React, {useState} from 'react'
-import { makeStyles } from '@material-ui/core/styles';
-import { Grid } from '@material-ui/core';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { Grid, Menu, MenuItem, IconButton } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import colors from '../Colors.js'
-
 // Import de icons
 import ExtensionIcon from '@material-ui/icons/Extension';
 import DashboardIcon from '@material-ui/icons/Dashboard';
@@ -11,9 +10,10 @@ import PieChartIcon from '@material-ui/icons/PieChart';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import CodeIcon from '@material-ui/icons/Code';
 import EBIcon from '../assets/easyblock-icon.svg'
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 const drawerWidth = [200, 68];
-const topbarHeight=50;
+const topbarHeight=65;
 
 const sidebar = makeStyles((theme) => ({
     sidebarBox: {
@@ -103,7 +103,35 @@ const topbar = makeStyles((theme) => ({
         
     },
     perfil: {
-
+        display: 'flex'
+    },
+    icon: {
+        backgroundColor: colors.red,
+        height: 35,
+        width: 35,
+        borderRadius: 7,
+        marginRight: 7
+    },
+    button:{
+        height: 35,
+        width: 35
+    },
+    menu: {
+        marginTop: 10,
+        transition: theme.transitions.create(["transform"], {
+            duration: theme.transitions.duration.short
+        })
+    },
+    iconDown: {
+        transition: theme.transitions.create(["transform"], {
+            duration: theme.transitions.duration.short
+        })
+    },
+    iconRotate: {
+        transition: theme.transitions.create(["transform"], {
+            duration: theme.transitions.duration.short
+        }),
+        transform: "rotate(-180deg)",
     }
 }))
 
@@ -125,12 +153,66 @@ const container = makeStyles((theme)=> ({
     
 }))
 
+const StyledMenu = withStyles({
+    paper: {
+      backgroundColor: colors.blue,
+      color: '#FFF',
+      borderRadius: 2,
+      fontFamily: 'Nunito, sans-serif'
+    },
+  })((props) => (
+    <Menu
+      elevation={0}
+      getContentAnchorEl={null}
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'center',
+      }}
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'center',
+      }}
+      {...props}
+    />
+  ));
+  
+  const StyledMenuItem = withStyles((theme) => ({
+    root: {
+       fontFamily: 'Quicksand, sans-serif',
+    },
+  }))(MenuItem);
+
 function TopBar(){
     const classes = topbar()
+    const [anchorEl, setAnchorEl] = React.useState(null);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
     return(
         <nav className={classes.topBarBox}>
+            
+            <StyledMenu
+            className={classes.menu}
+            id="menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}            
+            >
+                <StyledMenuItem onClick={handleClose}>Profile</StyledMenuItem>
+                <StyledMenuItem onClick={handleClose}>My account</StyledMenuItem>
+                <StyledMenuItem onClick={handleClose}>Logout</StyledMenuItem>
+            </StyledMenu>
             <div className={classes.perfil}>
-                Perfil
+                <div className={classes.icon}>
+                </div>
+                <IconButton className={classes.button} aria-controls="menu" aria-haspopup="true" onClick={handleClick}>
+                    <ArrowDropDownIcon className={anchorEl?classes.iconRotate:classes.iconDown}/>
+                </IconButton>         
             </div>
         </nav>
     )
