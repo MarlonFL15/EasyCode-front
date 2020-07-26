@@ -1,8 +1,9 @@
 import React, {useState} from 'react'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { Grid, Menu, MenuItem, IconButton } from '@material-ui/core';
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import colors from '../Colors.js'
+
 // Import de icons
 import ExtensionIcon from '@material-ui/icons/Extension';
 import DashboardIcon from '@material-ui/icons/Dashboard';
@@ -25,6 +26,7 @@ const sidebar = makeStyles((theme) => ({
         top: 0,
         zIndex: 3,
         borderRadius: '0 15px 15px 0',
+        boxShadow: '0 0 15px rgba(38, 100, 208, 0.6)',
         [theme.breakpoints.down('xl')]: {    
             width: drawerWidth[0],
             padding: '30px 14px'
@@ -220,7 +222,7 @@ function TopBar(){
 
 function SideBar(){
     const classes = sidebar()
-    const [ ativo, setAtivo ] = useState('/dashboard') 
+    const [ ativo, setAtivo ] = useState(useLocation().pathname) 
     
     function SideBarItem(props){
         const history = useHistory()
