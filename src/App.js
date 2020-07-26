@@ -8,8 +8,9 @@ import {
 } from "react-router-dom";
 import PrivateRoute from './components/Routes/PrivateRoute'
 import Login from './components/Login/SingUp'
+import Login2 from './components/Login'
 import Add from './components/Cadastro/Add'
-import Drawer from './components/Drawer/index.js'
+import Add2 from './components/Cadastro/'
 import Home from './components/Home/Home'
 import BlocklyQuestion from './components/Questions/Blockly'
 import Blockly from './components/Blocos/Blockly'
@@ -49,8 +50,14 @@ export default function App() {
         <Route path="/login">
           <Login />
         </Route>
+        <Route path="/login2">
+          <Login2 />
+        </Route>
         <Route path="/cadastro">
           <Add />
+        </Route>
+        <Route path="/cadastro2">
+          <Add2 />
         </Route>
       </Switch>
     </Router>
