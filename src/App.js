@@ -8,7 +8,7 @@ import {
 import PrivateRoute from './components/Routes/PrivateRoute'
 import Login from './components/Login/SingUp'
 import Add from './components/Cadastro/Add'
-import Drawer from './components/Drawer/Drawer'
+import Drawer from './components/Drawer/index.js'
 import Home from './components/Home/Home'
 import BlocklyQuestion from './components/Questions/Blockly'
 import Blockly from './components/Blocos/Blockly'
@@ -22,35 +22,23 @@ export default function App() {
     <Router>
       <Switch>
         <PrivateRoute path="/dashboard" exact>
-          <Drawer>
             <Dashboard/>
-          </Drawer>
         </PrivateRoute>
         <PrivateRoute path="/blocos" exact>
-          <Drawer>
             <Blockly/>
-          </Drawer>
         </PrivateRoute>
         <PrivateRoute path="/questoes" exact>
-          <Drawer>
             <Table/>
-          </Drawer>
         </PrivateRoute>
         <PrivateRoute path="/roleta" exact>
-          <Drawer>
             <Roullete/>
-          </Drawer>
         </PrivateRoute>
         
         <Route path="/questao/">
-          <Drawer>
             <BlocklyQuestion/>
-          </Drawer>
         </Route>
         <PrivateRoute path="/form" exact>
-          <Drawer>
             <Form/>
-          </Drawer>
         </PrivateRoute>
       
     
@@ -63,7 +51,11 @@ export default function App() {
         <Route path="/cadastro">
           <Add />
         </Route>
-        
+        <Route path="/drawer" exact>
+          <Drawer>
+            <Roullete/>           
+          </Drawer>
+        </Route>
       </Switch>
     </Router>
   );
