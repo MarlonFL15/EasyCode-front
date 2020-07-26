@@ -1,4 +1,5 @@
 import React from "react";
+import './index.css'
 import {
   BrowserRouter as Router,
   Switch,
@@ -50,11 +51,6 @@ export default function App() {
         </Route>
         <Route path="/cadastro">
           <Add />
-        </Route>
-        <Route path="/drawer" exact>
-          <Drawer>
-            <Roullete/>           
-          </Drawer>
         </Route>
       </Switch>
     </Router>

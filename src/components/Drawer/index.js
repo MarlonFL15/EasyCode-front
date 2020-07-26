@@ -8,6 +8,7 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import PieChartIcon from '@material-ui/icons/PieChart';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import CodeIcon from '@material-ui/icons/Code';
+import EBIcon from '../assets/easyblock-icon.svg'
 
 const drawerWidth = [200, 68];
 const topbarHeight=50;
@@ -39,7 +40,8 @@ const sidebar = makeStyles((theme) => ({
        
         [theme.breakpoints.down('sm')]: {
             display: 'none'
-        }
+        },
+        fontFamily: 'Nunito, sans-serif',
     },
     list: {
         display: 'flex',
@@ -136,11 +138,11 @@ function SideBar(){
     return(
         <Grid container className={classes.sidebarBox}>
             <div className={classes.list}>
-                <div>
-                    III
+                <div style={{marginLeft: -5}}>
+                    <img src={EBIcon} alt="Bloco azul com carinha fofa" />
                 </div>
                 <div className={classes.text}>
-                    EASYCODE
+                    <b>EASYCODE</b>
                 </div>
             </div>
             <div className={classes.middle}>

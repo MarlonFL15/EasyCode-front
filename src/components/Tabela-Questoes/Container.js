@@ -10,7 +10,7 @@ import DirectionsIcon from '@material-ui/icons/Directions'
 import { Redirect, useHistory } from "react-router-dom";
 import Table from './Table'
 
-const useStyles = makeStyles((theme: Theme) => createStyles({
+const useStyles = makeStyles((theme) => createStyles({
   table: {
   },
   root:{
