@@ -188,6 +188,7 @@ export default function Login(){
                             size="small"
                             fullWidth
                             id="senha"
+                            type="password"
                             label="Senha"
                             name="senha"
                             autoComplete="senha"
