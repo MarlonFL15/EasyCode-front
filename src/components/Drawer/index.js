@@ -3,7 +3,6 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { Grid, Menu, MenuItem, IconButton } from '@material-ui/core';
 import { useHistory, useLocation } from "react-router-dom";
 import colors from '../Colors.js'
-
 // Import de icons
 import ExtensionIcon from '@material-ui/icons/Extension';
 import DashboardIcon from '@material-ui/icons/Dashboard';
@@ -71,7 +70,7 @@ const sidebar = makeStyles((theme) => ({
         transition: theme.transitions.create(['padding'], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
-          }),
+        }),
     },
     middle: {
         height: 'calc(100% - 80px)',
