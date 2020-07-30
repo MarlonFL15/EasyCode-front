@@ -1,14 +1,12 @@
 import React, { useState }  from 'react'
 import colors from '../Colors'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined'; 
 import { Divider, TextField, Button, Grid } from "@material-ui/core";
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import axios  from '../../bd/client';
 import { Redirect, useHistory } from "react-router-dom";
+import SignUpSVG from '../assets/signup-easyblock.svg'
 
 const AddTextField = withStyles({
     root: {
@@ -172,7 +170,8 @@ export default function Login(){
             <Grid item xs={12} sm={6} md={4}
             className={classes.right}>
                 <div className={classes.addContent}>
-                        <Typography variant="h6" style={{textAlign: 'center', fontFamily: 'Quicksand, sans-serif', margin: '15px 0'}}>
+                    <img src={SignUpSVG} style={{textAlign: 'center'}}/>
+                    <Typography variant="h6" style={{textAlign: 'center', fontFamily: 'Quicksand, sans-serif', margin: '15px 0'}}>
                                 Cadastrar em <b style={{color: colors.blue}}>EasyCode</b>
                             </Typography>
 
@@ -196,7 +195,7 @@ export default function Login(){
                         <AddTextField
                             variant="outlined"
                             margin="normal"
-                            required
+                            // required
                             fullWidth
                             size="small"
                             id="email"
@@ -211,7 +210,7 @@ export default function Login(){
                         <AddTextField
                             variant="outlined"
                             margin="normal"
-                            required
+                            // required
                             fullWidth
                             size="small"
                             id="senha"

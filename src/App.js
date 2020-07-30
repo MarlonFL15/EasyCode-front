@@ -4,7 +4,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from "react-router-dom";
 import PrivateRoute from './components/Routes/PrivateRoute'
 import Login from './components/Login'

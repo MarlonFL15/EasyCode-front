@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import { Grid, Menu, MenuItem, IconButton } from '@material-ui/core';
+import { Grid, Menu, Tooltip, MenuItem, IconButton } from '@material-ui/core';
 import { useHistory, useLocation } from "react-router-dom";
 import colors from '../Colors.js'
 // Import de icons
@@ -14,6 +14,14 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 const drawerWidth = [200, 68];
 const topbarHeight=65;
+
+const SideTooltip = withStyles((theme) => ({
+    tooltip: {
+      [theme.breakpoints.up('md')]: {
+          display: 'none'
+      }
+    },
+  }))(Tooltip);
 
 const sidebar = makeStyles((theme) => ({
     sidebarBox: {
@@ -234,9 +242,9 @@ function SideBar(){
             }} 
             style={{backgroundColor: ativo===props.link?'rgba(0, 0, 0, 0.2)':'rgba(0, 0, 0, 0)'}}
             >
-                <div>
-                    {props.icon}
-                </div>
+                <SideTooltip title={props.name} placement="right">
+                 {props.icon}
+                </SideTooltip>
                 <div className={classes.text}>
                     {props.name}
                 </div>
@@ -257,7 +265,7 @@ function SideBar(){
             <div className={classes.middle}>
                 <SideBarItem name="Inicio" link='/dashboard' icon={<DashboardIcon/>}/>
                 <SideBarItem name="Roleta" link='/roleta' icon={<PieChartIcon/>}/>
-                <SideBarItem name="Blocos" link='/blocos' icon={<ExtensionIcon/>}/>
+                <SideBarItem name="Blocos" link='/blocos' icon={<ExtensionIcon titleAcess="teste"/>}/>
                 <SideBarItem name="Questões" link='/questoes' icon={<CodeIcon/>}/>    
             </div>
             <SideBarItem name="Sair"  link="/"  icon={<ExitToAppIcon/>} />
