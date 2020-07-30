@@ -150,12 +150,13 @@ const container = makeStyles((theme)=> ({
         position: 'absolute',
             height:  '100%',
             width:  '100%',
+        paddingRight:15,
         [theme.breakpoints.down('xl')]: {
-            paddingLeft: drawerWidth[0],
+            paddingLeft: drawerWidth[0]+15,
           
         },
         [theme.breakpoints.down('sm')]: {
-            paddingLeft: drawerWidth[1],
+            paddingLeft: drawerWidth[1]+15,
         },
         transition: theme.transitions.create(['paddingLeft'], {
             easing: theme.transitions.easing.sharp,
@@ -280,10 +281,10 @@ function SideBar(){
 export default function Drawer(props){
     const classes = container()
     return (
-        <div>
+        <div style={{height:'100%'}}>
             <SideBar/>
             <TopBar/>
-            <div className={classes.box}>
+            <div className={classes.box} style={{height:'100%'}}>
                 {props.children}
             </div>
         </div>
