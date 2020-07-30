@@ -10,13 +10,14 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Nivel from './Icons'
+import colors from '../Colors'
 import {removeAcentos} from '../../functions'
 import { withRouter, useHistory } from "react-router-dom";
 import axios from '../../bd/client'
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: '#3E7CB1',
+    backgroundColor: colors.blue,
     color: theme.palette.common.white,
   },
   body: {

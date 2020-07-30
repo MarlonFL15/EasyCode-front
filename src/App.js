@@ -33,9 +33,9 @@ export default function App() {
             <Roullete/>
         </PrivateRoute>
         
-        <Route path="/questao/">
+        <PrivateRoute path="/questao/">
             <BlocklyQuestion/>
-        </Route>
+        </PrivateRoute>
         <PrivateRoute path="/form" exact>
             <Form/>
         </PrivateRoute>
