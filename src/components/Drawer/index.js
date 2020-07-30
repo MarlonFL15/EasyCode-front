@@ -150,7 +150,6 @@ const container = makeStyles((theme)=> ({
         position: 'absolute',
             height:  '100%',
             width:  '100%',
-        paddingRight:15,
         [theme.breakpoints.down('xl')]: {
             paddingLeft: drawerWidth[0]+15,
           
