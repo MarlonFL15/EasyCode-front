@@ -147,6 +147,9 @@ const topbar = makeStyles((theme) => ({
 const container = makeStyles((theme)=> ({
     box: {
         paddingTop: topbarHeight,
+        position: 'absolute',
+            height:  '100%',
+            width:  '100%',
         [theme.breakpoints.down('xl')]: {
             paddingLeft: drawerWidth[0],
           

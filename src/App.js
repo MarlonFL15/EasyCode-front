@@ -16,6 +16,7 @@ import Dashboard from './components/Dashboard/Dashboard'
 import Form from './components/Questions/Form'
 import Table from './components/Tabela-Questoes/Container'
 import Roullete from './components/Roleta/index'
+import Roullete2 from './components/Roleta/Roleta.js'
 export default function App() {
   return (
     <Router>
@@ -30,9 +31,11 @@ export default function App() {
             <Table/>
         </PrivateRoute>
         <PrivateRoute path="/roleta" exact>
-            <Roullete/>
+            <Roullete2/>
         </PrivateRoute>
-        
+        <PrivateRoute path="/roleta2" exact>
+            <Roullete />
+        </PrivateRoute>
         <Route path="/questao/">
             <BlocklyQuestion/>
         </Route>
