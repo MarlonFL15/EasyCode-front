@@ -5,6 +5,7 @@ import { Divider, TextField, Button, Grid } from "@material-ui/core";
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import axios  from '../../bd/client';
+import Axios from 'axios'
 import { Redirect, useHistory } from "react-router-dom";
 import SignUpSVG from '../assets/signup-easyblock.svg'
 
@@ -80,7 +81,10 @@ const useStyles = makeStyles((theme)=>({
 export default function Login(){
     const [email, setEmail] = useState('')
     const [senha, setSenha] = useState('')
+    const [confirmarSenha, setConfirmarSenha] = useState('')
+            
     const [name, setName] = useState('')
+    const [foto, setFoto] = useState(null)
     const [error, setError] = useState({})
     const history = useHistory()
     const changeEmail = (event) =>{
@@ -89,13 +93,21 @@ export default function Login(){
     const changeSenha = (event) =>{
         setSenha(event.target.value)
     }
-    
+
+    const changeFoto = (event) =>{  
+        setFoto(event.target.files)
+        
+    }
+
+    const changeConfirmarSenha = (event) =>{
+        setConfirmarSenha(event.target.value)
+    }
     const changeName = (event) =>{
         setName(event.target.value)
     }
     
     const valida = (data) =>{
-        const errorLocal = {email:'', nome:'', senha:''}
+        const errorLocal = {email:'', nome:'', senha:'', confirmarSenha:''}
         setError(error)
         if(data.email == '') 
             errorLocal.email = 'Insira seu e-mail'
@@ -108,7 +120,8 @@ export default function Login(){
             setError(errorLocal)
             return false;
         }
-
+        if(data.senhaConfirm != data.senha) 
+            errorLocal.confirmarSenha = 'As senhas precisam ser iguais'
         if(data.nome.length < 5) 
             errorLocal.nome = 'O nome deve conter mais de 5 letras'
         if(data.senha.length < 5) 
@@ -118,10 +131,11 @@ export default function Login(){
         if(!re.test(data.email))
             errorLocal.email = 'Insira um e-mail válido'
         
-        if(errorLocal.senha || errorLocal.email || errorLocal.nome){
+        if(errorLocal.senha || errorLocal.email || errorLocal.nome /*|| errorLocal.confirmarSenha*/){
             setError(errorLocal)
             return false;
         }  
+        console.log(foto)
         //verifica se já existe algum usuário cadastrado
         return axios.post('/getUserEmail', data).then(
             function(response){
@@ -140,15 +154,35 @@ export default function Login(){
         const data = {
             email:email,
             senha:senha,
-            nome:name 
+            nome:name ,
+            senhaConfirm:confirmarSenha,
+            foto:null,
+            pathFoto:null,
+            google:false
         }
+        
         if(valida(data)){
-            axios.post('addUser', data).then(function(response){
-                localStorage.setItem('app-token',true)
-                history.push("/dashboard")
-            }).catch(function(error){
-                
-            })
+            if(!!foto){    
+                let reader = new FileReader();
+                reader.readAsDataURL(foto[0]);
+                reader.onloadend = () => {
+                    data.foto = reader.result
+                    axios.post('addUser', data).then(function(response){
+                        localStorage.setItem('app-token',true)
+                        history.push("/dashboard")
+                    })
+                }
+                reader.onerror = () =>{
+                    alert('error')
+                }
+            }
+            else{
+                alert('entrou aqui no else')
+                axios.post('addUser', data).then(function(response){
+                    localStorage.setItem('app-token',true)
+                    history.push("/dashboard")
+                })
+            }
         }
     }
     const classes = useStyles()
@@ -214,7 +248,7 @@ export default function Login(){
                             fullWidth
                             size="small"
                             id="senha"
-                            label="senha"
+                            label="Senha"
                             name="senha"
                             type="password"
                             autoComplete="current-password"
@@ -222,6 +256,32 @@ export default function Login(){
                             helperText = {error.senha ? error.senha: false}
                             value = {senha}
                             onChange = {(event) => changeSenha(event)}
+                        />
+                        <AddTextField
+                            variant="outlined"
+                            margin="normal"
+                            // required
+                            fullWidth
+                            size="small"
+                            id="senha"
+                            label="Confirmar senha"
+                            name="senhaConfirm"
+                            type="password"
+                            autoComplete="current-password"
+                            error = {error.confirmarSenha ? true: false}
+                            helperText = {error.confirmarSenha ? error.confirmarSenha: false}
+                            value = {confirmarSenha}
+                            onChange = {(event) => changeConfirmarSenha(event)}
+                        />
+                        <AddTextField
+                            variant="outlined"
+                            margin="normal"
+                            // required
+                            fullWidth
+                            size="small"
+                            id="senha"
+                            type="file"
+                            onChange = {(event) => changeFoto(event)}
                         />
                         <Box mt={2}>
                             <AddButton variant="contained" color="primary" fullWidth margin="dense" onClick={(event) =>submit(event)}> 

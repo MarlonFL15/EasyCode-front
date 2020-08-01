@@ -11,6 +11,7 @@ import axios from  '../../bd/client';
 import { useHistory } from "react-router-dom";
 import colors from '../Colors'
 import SignInSVG from '../assets/easyblock-signin.svg'
+import { GoogleLogin } from 'react-google-login';
 
 const LoginTextField = withStyles({
     root: {
@@ -139,6 +140,30 @@ export default function Login(){
         }
     }
     
+    const googleLogin = (event) =>{
+        const data = {
+            email: event.Ot.yu,
+            nome: event.Ot.Cd,
+            pathFoto:event.Ot.eL,
+            senha:null,
+            foto:null,
+            google:true
+        }
+        axios.post('/getUserGoogle', data).then(
+            function(response){
+                if(!response.data.result){
+                    axios.post('/addUser', data).then(function(response){
+                        localStorage.setItem('app-token',true)
+                        history.push("/dashboard")
+                    })
+                }
+                else{
+                    localStorage.setItem('app-token',true)
+                    history.push("/dashboard")
+                }
+            }
+        )
+    }
     const classes = useStyles()
 
     return (
@@ -198,10 +223,23 @@ export default function Login(){
                             helperText = {error.senha ? error.senha: false}
                             onChange = {(event) => changeSenha(event)}                 
                         />
+                       
+                        <GoogleLogin 
+                            clientId="424250984029-orr4co5ga13rsn1ho4e3ragp9t6ams6f.apps.googleusercontent.com"
+                            /*render={renderProps => (
+                            <button onClick={renderProps.onClick} disabled={renderProps.disabled}>This is my custom Google button</button>
+                            )}*/
+                            icon={true}
+                            buttonText="Login com o google"
+                            onSuccess={googleLogin}
+                            onFailure={googleLogin}
+                            cookiePolicy={'single_host_origin'}
+                        />
                         <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
                             label="Mantenha-me conectado"
                         />
+                        
                         <LoginButton variant="contained" color="primary" fullWidth onClick={(event) => submit(event)}>
                             Login
                         </LoginButton>
