@@ -112,7 +112,7 @@ export default function Roleta() {
                 display: 'flex',
                 height: '100%'
             }}>
-            <Grid container sm={12} md={8} style={{ paddingBottom: 10 }}>
+            <Grid item sm={12} md={8} style={{ paddingBottom: 10 }}>
                 <Grid item sm={12}
                     style={{
                         textAlign: 'center',

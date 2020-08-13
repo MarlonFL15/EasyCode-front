@@ -109,8 +109,8 @@ const useStyles = makeStyles((theme) => createStyles({
 
 
 const assuntos = [
-  {nome: 'Matemática', link: '/questoes', cor: colors.blue, icon: '+-*/'},
-  {nome: 'Seleção', link: '/questoes', cor: colors.green, icon: 'if()'},
+  {nome: 'Matemática', link: '/roleta', cor: colors.blue, icon: '+-*/'},
+  {nome: 'Seleção', link: '/dashboard', cor: colors.green, icon: 'if()'},
   {nome: 'Sequência', link: '/questoes', cor: colors.red, icon:(<div><TrendingFlatIcon style={{ fontSize: 60 }}/><TrendingFlatIcon style={{ fontSize: 60 }}/></div>)},
   {nome: 'Repetição', link: '/questoes', cor: colors.yellow, icon: (<LoopIcon style={{ fontSize: 60 }}/>)},
   {nome: 'Textos', link: '/questoes', cor: colors.blue, icon: 'abc'},
@@ -121,7 +121,7 @@ export default function Container() {
     const [value, setValue] = React.useState('')
     const classes = useStyles();
     const history = useHistory()
-
+    
     const changeValue = (event) =>{
         console.log('tá mudando')
         setValue(event.target.value)
@@ -129,11 +129,10 @@ export default function Container() {
     const Card = (props) => {
       const classes = useStyles();
       const { nome, icon, link, cor } = props.card;
-      console.log(props.nome)
       return (
         <Grid item className={classes.cardContainer} md={4} sm={6}  xs={12}
         >
-            <div className={classes.card} onClick={(event) => history.push(link)}
+            <div className={classes.card} onClick={(event) => {history.push(link); history.go(0)}}
             style={{backgroundColor: cor, boxShadow: '0 2px 7px ' + cor,}}>
               <div className={classes.cardIcon}>
                 {icon}

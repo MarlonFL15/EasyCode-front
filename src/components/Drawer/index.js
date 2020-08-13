@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { Grid, Menu, Tooltip, MenuItem, IconButton } from '@material-ui/core';
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation, BrowserRouter } from "react-router-dom";
 import colors from '../Colors.js'
 // Import de icons
 import ExtensionIcon from '@material-ui/icons/Extension';
@@ -232,15 +232,17 @@ function TopBar(){
 
 function SideBar(){
     const classes = sidebar()
-    const [ ativo, setAtivo ] = useState(useLocation().pathname) 
-    
+    let location = useLocation();
+    const [ ativo, setAtivo ] = useState(location.pathname) 
+    console.log(location)
     function SideBarItem(props){
         const history = useHistory()
-
+        
         return (
             <div className={classes.list}
             onClick={(event) =>{
                 setAtivo(props.link)
+                
                 history.push(props.link)    
             }} 
             style={{backgroundColor: ativo===props.link?'rgba(0, 0, 0, 0.2)':'rgba(0, 0, 0, 0)'}}
