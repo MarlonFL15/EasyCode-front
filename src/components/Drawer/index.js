@@ -12,6 +12,7 @@ import CodeIcon from '@material-ui/icons/Code';
 import EBIcon from '../assets/easyblock-icon.svg'
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
+import ViewListIcon from '@material-ui/icons/ViewList';
 const drawerWidth = [200, 68];
 const topbarHeight=65;
 
@@ -271,7 +272,8 @@ function SideBar(){
                 <SideBarItem name="Inicio" link='/dashboard' icon={<DashboardIcon/>}/>
                 <SideBarItem name="Roleta" link='/roleta' icon={<PieChartIcon/>}/>
                 <SideBarItem name="Blocos" link='/blocos' icon={<ExtensionIcon titleAcess="teste"/>}/>
-                <SideBarItem name="Questões" link='/questoes' icon={<CodeIcon/>}/>    
+                <SideBarItem name="Questões" link='/questoes' icon={<CodeIcon/>}/>   
+                <SideBarItem name="Quiz" link='/Quiz' icon={<ViewListIcon/>}/>    
             </div>
             <SideBarItem name="Sair"  link="/"  icon={<ExitToAppIcon/>} />
             

@@ -82,9 +82,10 @@ class BlockDiv extends React.Component {
     const code = Languages['Python'].workspaceToCode(
       this.simpleWorkspace.current.workspace
     );
-    axios.post('/submit', {code:code, id:this.state.question.id}).then(response => {
+    axios.post('/submit', {idUsuario:1, code:code, idQuestao:this.state.question.id}).then(response => {
       if(response.data.result){
         this.setState({incorrect:false, correct:true})
+        
         
       }
       else{

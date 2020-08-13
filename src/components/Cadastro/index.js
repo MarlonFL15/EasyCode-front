@@ -211,6 +211,9 @@ export default function Login(){
 
                     <Divider light />
                     <form className={classes.form}>
+                        {/**Label que aponta para o input de foto */}
+                        <label for="foto">Testando</label>
+                        
                         <AddTextField
                             variant="outlined"
                             margin="normal"
@@ -279,7 +282,8 @@ export default function Login(){
                             // required
                             fullWidth
                             size="small"
-                            id="senha"
+                            id="foto"
+                            name="foto"
                             type="file"
                             onChange = {(event) => changeFoto(event)}
                         />

@@ -17,6 +17,7 @@ import Form from './components/Questions/Form'
 import Table from './components/Tabela-Questoes/Container'
 import Roullete from './components/Roleta/index'
 import Roullete2 from './components/Roleta/Roleta.js'
+import Quiz from './components/Quiz'
 export default function App() {
   return (
     <Router>
@@ -42,7 +43,9 @@ export default function App() {
         <PrivateRoute path="/form" exact>
             <Form/>
         </PrivateRoute>
-      
+        <PrivateRoute path="/quiz" exact>
+            <Quiz/>
+        </PrivateRoute>
     
         <Route path="/" exact>
           <Home/>

@@ -9,7 +9,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import DirectionsIcon from '@material-ui/icons/Directions'
 import { Redirect, useHistory, Link} from "react-router-dom";
-import Table from './Table'
 import colors from './../Colors'
 import LoopIcon from '@material-ui/icons/Loop';
 import TrendingFlatIcon from '@material-ui/icons/TrendingFlat';
@@ -145,8 +144,10 @@ export default function Container() {
 
     return (
         <div className={classes.root}>
-           <h2 className={classes.title}>Escolha uma questão para praticar</h2>
-            <Paper component="form" className={classes.search}>
+            <h2 className={classes.title}>Escolha uma categoria para praticar</h2>
+            <h2 className={classes.seeAll}>Visualizar todas as questoes</h2>
+            
+            {/* <Paper component="form" className={classes.search}>
             <InputBase
                 className={classes.input}
                 placeholder="Pesquisar"
@@ -157,8 +158,14 @@ export default function Container() {
                 <SearchIcon />
             </IconButton>
         </Paper>
-        <Table search={value}/> 
-        
+        <Table search={value}/> */}
+        <Grid container justify="center">
+        {assuntos.map(item=>{
+              return(
+                <Card card={item}/>
+              )
+            })}
+        </Grid>
         
     </div>
   );
