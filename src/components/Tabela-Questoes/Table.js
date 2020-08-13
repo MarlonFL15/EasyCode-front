@@ -39,7 +39,7 @@ function createData(id,nome, assunto, nivel, pontos, feito) {
   return { id,nome, assunto, nivel, pontos, feito };
 }
 
-const useStyles = makeStyles((theme: Theme) => createStyles({
+const useStyles = makeStyles((theme) => createStyles({
   table: {
   },
   root:{

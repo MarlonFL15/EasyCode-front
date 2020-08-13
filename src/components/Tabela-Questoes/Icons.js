@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { withStyles, makeStyles, createStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme: Theme) => createStyles({
+const useStyles = makeStyles((theme) => createStyles({
     table: {
     },
     root:{

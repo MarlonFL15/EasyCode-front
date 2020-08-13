@@ -1,5 +1,5 @@
-const INITIAL_TOOLBOX_XML = '<xml xmlns="http://www.w3.org/1999/xhtml" id="toolbox" style="display: none;">\n'
-  + '  <category name="Lógica" colour="#5C81A6">\n'
+const INITIAL_TOOLBOX_XML = '<xml xmlns="http://www.w3.org/1999/xhtml" id="toolbox" style="display: none;font-family: Nunito, sans-serif;">\n'
+  + '  <category name="Lógica" colour="#3d9eff">\n'
   + '    <block type="controls_if"></block>\n'
   + '    <block type="logic_compare">\n'
   + '      <field name="OP">EQ</field>\n'

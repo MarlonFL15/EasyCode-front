@@ -36,7 +36,6 @@ class BlocklyComponent extends React.Component {
         console.log(props)
         this.blocklyDiv = React.createRef();
         this.toolbox = React.createRef();
-        
     }
     onFirstComment = (event) =>{
         console.log(event)
@@ -77,7 +76,8 @@ class BlocklyComponent extends React.Component {
 
     render() {
         const { children } = this.props;
-        
+        Blockly.HSV_SATURATION=0.8;
+   
         return <div>
             <div ref={this.blocklyDiv} id="blocklyDiv" />
             <xml xmlns="https://developers.google.com/blockly/xml" is="blockly" style={{ display: 'none' }} ref={this.toolbox}>
