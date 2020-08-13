@@ -8,6 +8,8 @@ import axios  from '../../bd/client';
 import Axios from 'axios'
 import { Redirect, useHistory } from "react-router-dom";
 import SignUpSVG from '../assets/signup-easyblock.svg'
+import SignUp from '../assets/sign-up.svg'
+
 
 const AddTextField = withStyles({
     root: {
@@ -68,7 +70,25 @@ const useStyles = makeStyles((theme)=>({
     left: {
         [theme.breakpoints.down('xs')]: {
             display: 'none'
-        }
+        },
+        padding: 30,
+        margin: 'auto 0',
+        textAlign: 'center',
+        '& img': {
+            height: 400
+        },
+        color: "#FFF",
+    },
+    title: {
+        fontFamily: 'Quicksand, sans-serif',
+        fontSize: 30,
+        fontWeight: 800,
+    },
+    subtitle: {
+        fontFamily: 'Nunito, sans-serif',
+        fontSize: 20,
+        opacity: .75,
+        fontWeight: 500,
     },
     addContent: {
         fontFamily: 'Nunito, sans-serif',
@@ -200,6 +220,14 @@ export default function Login(){
             <Grid item 
             className={classes.left}
             item xs={12} sm={6} md={8} >
+                <Grid item xs={12}>
+                    <img src={SignUp}/>
+                </Grid>  
+                <Grid item xs={12}>
+                    <h4 className={classes.title}>Pratique programação de uma forma divertida!</h4>
+                    <div className={classes.subtitle}>Encontreuestões variadas para você resolver</div>
+
+                </Grid>
             </Grid>
             <Grid item xs={12} sm={6} md={4}
             className={classes.right}>
@@ -212,7 +240,7 @@ export default function Login(){
                     <Divider light />
                     <form className={classes.form}>
                         {/**Label que aponta para o input de foto */}
-                        <label for="foto">Testando</label>
+                        {/* <label for="foto">Testando</label> */}
                         
                         <AddTextField
                             variant="outlined"
@@ -276,7 +304,7 @@ export default function Login(){
                             value = {confirmarSenha}
                             onChange = {(event) => changeConfirmarSenha(event)}
                         />
-                        <AddTextField
+                        {/* <AddTextField
                             variant="outlined"
                             margin="normal"
                             // required
@@ -286,7 +314,7 @@ export default function Login(){
                             name="foto"
                             type="file"
                             onChange = {(event) => changeFoto(event)}
-                        />
+                        /> */}
                         <Box mt={2}>
                             <AddButton variant="contained" color="primary" fullWidth margin="dense" onClick={(event) =>submit(event)}> 
                                 Cadastrar

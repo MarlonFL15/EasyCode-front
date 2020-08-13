@@ -3,7 +3,7 @@ import Blockly from '../Questions/Blockly'
 import { Grid, Divider, Typography } from '@material-ui/core'
 import { makeStyles, withStyles } from '@material-ui/core/styles'
 import colors from '../Colors'
-
+import UserSVG from './../assets/user.svg'
 const Text = withStyles({
     root: {
         fontFamily: 'Quicksand, sans-serif'
@@ -36,6 +36,9 @@ export default props =>{
             <Grid item sm={4}>
                 <div className={classes.top}>
                     <Text variant="h6" style={{textAlign: 'center'}}><b>Meu perfil</b></Text>
+                    <img src={null}/>
+                    {/* <Text variant="h6" style={{textAlign: 'center'}}><b>Meu perfil</b></Text>
+                    <Text variant="h6" style={{textAlign: 'center'}}><b>Meu perfil</b></Text> */}
                 </div>
             </Grid>
             <Grid item sm={8}>
