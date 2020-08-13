@@ -18,7 +18,12 @@ const useStyles = makeStyles((theme)=>({
         borderRadius: 10,
         padding: 15,
         margin: 6,
-        color: '#fff'
+        color: '#fff',
+        textAlign: 'center',
+        '& img': {
+            height: 100,
+            marginTop: 10
+        }
     },
     bottom: {
         backgroundColor: colors.blue,
@@ -36,9 +41,10 @@ export default props =>{
             <Grid item sm={4}>
                 <div className={classes.top}>
                     <Text variant="h6" style={{textAlign: 'center'}}><b>Meu perfil</b></Text>
-                    <img src={null}/>
-                    {/* <Text variant="h6" style={{textAlign: 'center'}}><b>Meu perfil</b></Text>
-                    <Text variant="h6" style={{textAlign: 'center'}}><b>Meu perfil</b></Text> */}
+                    <img src={UserSVG}/>
+                    <Text variant="h6" style={{textAlign: 'center'}}>Nome</Text>
+                    <Text variant="h6" style={{textAlign: 'center'}}>Nivel X</Text>
+                    <Text variant="h6" style={{textAlign: 'center'}}>email@email.com</Text>
                 </div>
             </Grid>
             <Grid item sm={8}>
