@@ -34,6 +34,7 @@ import Code from './Code'
 import axios  from '../../bd/client'
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import {getToken} from '../auth'
 import {
   BrowserRouter as Router,
   Switch,
@@ -50,21 +51,21 @@ class BlockDiv extends React.Component {
   state = {
     question:{},
     correct: false,
-    incorrect:false
+    incorrect:false,
+    idUsuario:getToken()
   }
   componentDidMount = () =>{
 
      const id = this.props.location.state.id
      
      axios.get("/pergunta/"+id).then(response => {
-      console.log('entrou aqui')
+      
       this.setState({question:response.data})
-      console.log(response.data)
+      
   
     })
   }
   generateCode = () => {
-    
     var code = Languages[this.lang].workspaceToCode(
       this.simpleWorkspace.current.workspace
     );
@@ -74,7 +75,7 @@ class BlockDiv extends React.Component {
 
   changeLanguage = (event) =>{
     this.lang = event.target.value
-    console.log('eae')
+    
     this.generateCode()
   }
 
@@ -82,7 +83,11 @@ class BlockDiv extends React.Component {
     const code = Languages['Python'].workspaceToCode(
       this.simpleWorkspace.current.workspace
     );
-    axios.post('/submit', {idUsuario:1, code:code, idQuestao:this.state.question.id}).then(response => {
+    axios.post('/submit', {
+      idUsuario:this.state.idUsuario, 
+      code:code, 
+      idQuestao:this.state.question.id
+    }).then(response => {
       if(response.data.result){
         this.setState({incorrect:false, correct:true})
         
@@ -104,7 +109,6 @@ class BlockDiv extends React.Component {
     this.setState({incorrect:false, correct:false})
   };
   render() {
-    console.log(this.state)
     return (
       <div className="blockly-area">
         <div className="sidebar-blockly">

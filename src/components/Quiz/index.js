@@ -145,7 +145,7 @@ export default function Container() {
     return (
         <div className={classes.root}>
             <h2 className={classes.title}>Escolha uma categoria para praticar</h2>
-            <h2 className={classes.seeAll}>Visualizar todas as questoes</h2>
+            {/* <h2 className={classes.seeAll}>Visualizar todas as questoes</h2> */}
             
             {/* <Paper component="form" className={classes.search}>
             <InputBase

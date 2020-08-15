@@ -12,6 +12,7 @@ import { useHistory } from "react-router-dom";
 import colors from '../Colors'
 import SignInSVG from '../assets/easyblock-signin.svg'
 import { GoogleLogin } from 'react-google-login';
+import {login} from '../auth'
 
 const LoginTextField = withStyles({
     root: {
@@ -130,7 +131,8 @@ export default function Login(){
         if(valida(data)){
             axios.post('/login', data).then(function(response){
                 if(response.data.result){
-                    localStorage.setItem('app-token',true)
+                    login(response.data.result[0].id)
+                    //localStorage.setItem('app-token',true)
                     history.push("/dashboard")
                 }
                     
@@ -149,20 +151,24 @@ export default function Login(){
             foto:null,
             google:true
         }
-        axios.post('/getUserGoogle', data).then(
-            function(response){
-                if(!response.data.result){
-                    axios.post('/addUser', data).then(function(response){
-                        localStorage.setItem('app-token',true)
-                        history.push("/dashboard")
-                    })
-                }
-                else{
-                    localStorage.setItem('app-token',true)
+
+        axios.post('/getUserGoogle', data).then(response =>{
+            
+            //console.log(response.data)
+            //alert(response.data.result)
+
+            if(!response.data.result){
+                axios.post('/addUser', data).then(function(response){
+                    login(response.data.insertId)
                     history.push("/dashboard")
-                }
+                })
             }
-        )
+            else{
+                login(response.data.result[0].id)
+                //alert('login')
+                history.push("/dashboard")
+            }
+        })
     }
     const classes = useStyles()
 
