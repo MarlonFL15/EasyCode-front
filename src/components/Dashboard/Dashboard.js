@@ -7,6 +7,9 @@ import UserSVG from './../assets/user.svg'
 import {getToken} from '../auth'
 import axios from '../../bd/client'
 import { Redirect, useHistory } from "react-router-dom";
+import GraficoHabilidade from './GraficoHabilidades';
+import GraficoSubmissoes from './GraficoSubmissoes'
+
 
 const Text = withStyles({
     root: {
@@ -35,6 +38,16 @@ const useStyles = makeStyles((theme)=>({
         minHeight: 180,
         borderRadius: 10,
         margin: 6,
+    },
+    graphic: {
+        //backgroundColor: colors.blue,
+        border: '1px solid blue',
+        height: '100%',
+        minHeight: 180,
+        borderRadius: 10,
+        margin: 6,
+        //color:'#fff',
+        color: colors.blue,
     }
 }))
 export default props =>{
@@ -113,6 +126,18 @@ export default props =>{
             <Grid item sm={4}>
                 <div className={classes.bottom}>
                     
+                </div>
+            </Grid>
+            <Grid item sm={6}> 
+                <div className={classes.graphic}>
+                    <Text variant="h6" style={{textAlign: 'center'}}><b>Habilidades</b></Text>
+                    <GraficoHabilidade/>
+                </div>
+            </Grid>
+            <Grid item sm={6}> 
+                <div className={classes.graphic}>
+                    <Text variant="h6" style={{textAlign: 'center'}}><b>Exercícios na semana</b></Text>
+                    <GraficoSubmissoes/>
                 </div>
             </Grid>
         </Grid>

@@ -55,7 +55,7 @@ export default function Roleta() {
             transform: 'rotate(' + 360 * Math.random() + 'deg)'
         },
         spinOn: {
-            animation: `$spin 2000ms ${theme.transitions.easing.easeInOut}`
+            animation: `$spin 5000ms ${theme.transitions.easing.easeInOut}`
         },
         '@keyframes spin': {
             '60%': {
