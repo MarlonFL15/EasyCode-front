@@ -230,6 +230,7 @@ export default function Login(){
                             <button onClick={renderProps.onClick} disabled={renderProps.disabled}>This is my custom Google button</button>
                             )}*/
                             icon={true}
+                            justifyContent="center"
                             buttonText="Login com o google"
                             onSuccess={googleLogin}
                             onFailure={googleLogin}
