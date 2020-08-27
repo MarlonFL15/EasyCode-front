@@ -17,7 +17,8 @@ import Dashboard from './components/Dashboard/Dashboard'
 import Table from './components/Tabela-Questoes/Container'
 
 import Roullete from './components/Roleta/Roleta.js'
-import Quiz from './components/Quiz'
+import Quiz from './components/Quiz/Categories.js'
+import Questions from "./components/Quiz/Question.js";
 export default function App() {
   return (
     <Router>
@@ -42,6 +43,9 @@ export default function App() {
         </PrivateRoute>
         <PrivateRoute path="/quiz" exact>
             <Quiz/>
+        </PrivateRoute>
+        <PrivateRoute path="/quiz/responder" exact>
+            <Questions/>
         </PrivateRoute>
     
         <Route path="/" exact>
