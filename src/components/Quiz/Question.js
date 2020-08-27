@@ -1,18 +1,15 @@
 import React from 'react';
 import { withStyles, makeStyles, createStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import InputBase from '@material-ui/core/InputBase';
-import { Grid, Typography, Button, FormGroup, FormControlLabel, Checkbox, Box } from '@material-ui/core';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import DirectionsIcon from '@material-ui/icons/Directions'
-import { Redirect, useHistory, Link } from "react-router-dom";
+import { Grid, Typography, Button, FormGroup, FormControlLabel, Checkbox, Box, FormControl, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import colors from '../Colors'
-import Favorite from '@material-ui/icons/Favorite';
-import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Slide from '@material-ui/core/Slide';
+
 
 function LinearProgressWithLabel(props) {
     return (
@@ -29,9 +26,12 @@ function LinearProgressWithLabel(props) {
     );
 }
 
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
+
+
 const useStyles = makeStyles((theme) => createStyles({
-    table: {
-    },
     root: {
         width: '100%',
         display: 'flex',
@@ -40,20 +40,7 @@ const useStyles = makeStyles((theme) => createStyles({
         alignItems: 'center',
         padding: 25
     },
-    search: {
-        padding: '2px 4px',
-        display: 'flex',
-        alignItems: 'center',
-        width: 350,
-        margin: '15px 0',
-        [theme.breakpoints.down('sm')]: {
-            width: '100%',
-        }
-    },
-    input: {
-        marginLeft: 8,
-        flex: 1,
-    },
+
     iconButton: {
         padding: 10,
     },
@@ -114,11 +101,15 @@ const useStyles = makeStyles((theme) => createStyles({
         fontFamily: 'Quicksand, sans-serif',
         fontSize: 40,
     },
-    seeAll: {
+    box: {
         fontFamily: 'Nunito, sans-serif',
-        fontSize: 20,
-        color: colors.blue,
-        fontWeight: 500,
+        backgroundColor: '#cce6ed',
+        display: 'block',
+        border: '2px solid ' + colors.blue,
+        borderRadius: 5,
+        margin: 5,
+        padding: 15,
+
     }
 }));
 
@@ -131,30 +122,55 @@ const questoes = [
     },
     {
         enunciado: 'Enunciado 2',
+        alternativas: ['Resposta 1', 'Resposta 2', 'Resposta 3'],
+        indexCerta: 2
+    },
+    {
+        enunciado: 'Enunciado 3',
+        alternativas: ['Resposta 1', 'Resposta 2', 'Resposta 3'],
+        indexCerta: 2
+    },
+    {
+        enunciado: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
         alternativas: ['Resposta 1', 'Resposta 2', 'Resposta 3', 'Resposta 4'],
         indexCerta: 2
     },
 ]
 
 export default function Container() {
+    const [open, setOpen] = React.useState(false);
     const [selected, setSelected] = React.useState(null)
     const [show, setShow] = React.useState(false)
-    const [questao, setQuestao] = React.useState(questoes[0])
+    const [questao, setQuestao] = React.useState(0)
     const [gabarito, setGabarito] = React.useState([])
+    const [percent, setPercent] = React.useState(0)
 
     const classes = useStyles();
-    const history = useHistory()
+
+    const GreenCheckbox = withStyles({
+        root: {
+            color: colors.blue,
+
+            '&$checked': {
+                color: show ? selected === questoes[questao].indexCerta ? colors.green : colors.red : colors.green,
+            },
+        },
+        checked: {},
+    })((props) => <Checkbox color="default" {...props} />);
 
     const changeQuestion = () => {
-        const prox = questoes.indexOf(questao) + 1
-        setQuestao(questoes[prox])
+        setQuestao(questao + 1)
         setShow(false)
         setSelected(null)
     }
 
-    const showAnswer=()=>{
+    const showAnswer = () => {
         setShow(true)
-        setGabarito([...gabarito, selected])
+        if (questao === 0) {
+            setGabarito([questao === selected])
+        }
+        setGabarito([...gabarito, questao === selected])
+        setPercent(percent + parseFloat(1 / questoes.length * 100))
     }
 
     return (
@@ -164,30 +180,89 @@ export default function Container() {
 
             <Grid container>
                 <Grid item sm={12}>
-                    <LinearProgressWithLabel value={questoes.indexOf(questao)===questoes.length-1 && show?100:(parseFloat(questoes.indexOf(questao)*1/questoes.length)*100)} />
-
+                    <LinearProgressWithLabel
+                        value={percent} />
                 </Grid>
-                <Grid item sm={12}>
-                    {questao.enunciado}
+                <Grid item sm={12} className={classes.box}>
+                    {questoes[questao].enunciado}
                 </Grid>
 
-                {questao.alternativas.map((item, index) => {
+                {questoes[questao].alternativas.map((item, index) => {
+                    const lengthAlt = questoes[questao].alternativas.length
                     return (
-                        <FormGroup>
-                            <FormControlLabel
-                                control={<Checkbox color={'primary'} icon={<FavoriteBorder />} checkedIcon={<Favorite />} name="checkedH" />}
-                                label="Custom icon" checked={selected === index} onChange={(e) => !show?setSelected(index):null}
-                                style={{ color: show ? questao.indexCerta === index ? colors.green : index === selected ? 'red' : '#000' : '#000' }}
-                            />
-                        </FormGroup>
+                        <Grid item sm={12} md={lengthAlt%2==1 && index=== lengthAlt-1?12:6}>
+
+                            <div className={classes.box}
+
+
+                                style={{
+                                    backgroundColor: show ? questoes[questao].indexCerta === index ? '#d2edcc' : index === selected ? '#ffadad' : '' : '',
+                                    padding: 5,
+                                    fontFamily: 'Nunito, sans-serif',
+                                }}
+                            >
+                                <GreenCheckbox name="checkedH" checked={selected === index} onChange={(e) => !show ? setSelected(index) : null} />
+                                <span>{item}</span>
+                            </div>
+                        </Grid>
                         // <Grid item sm={12}>{item}</Grid>
                     )
                 })}
-                <Button variant="contained" color="primary" onClick={(e) =>showAnswer()}>Responder</Button>
-                <Button variant="contained" color="primary" onClick={(e) => changeQuestion()} style={{ display: show ? questoes.indexOf(questao)<questoes.length-1?'inherit' : 'none': 'none' }}>Próximo</Button>
-                <Button variant="contained" color="primary" onClick={(e) => console.log(gabarito)} style={{ display: show ? questoes.indexOf(questao)===questoes.length-1?'inherit' : 'none': 'none' }}>Ver gabarito</Button>
-            </Grid>
 
+                <Grid item sm={12} justify="space-between" style={{ display: 'flex' }}>
+                    <Button variant="contained" disabled={show} color="primary" onClick={(e) => showAnswer()}>Responder</Button>
+                    <Button variant="contained" color="primary" onClick={(e) => changeQuestion()} style={{ display: show ? questao < questoes.length - 1 ? 'inherit' : 'none' : 'none' }}>Próximo</Button>
+                    <Button variant="contained" color="primary" style={{ display: show ? questao === questoes.length - 1 ? 'inherit' : 'none' : 'none' }} onClick={() => setOpen(true)}>Ver gabarito</Button>
+                </Grid>
+            </Grid>
+            <Dialog
+                open={open}
+                TransitionComponent={Transition}
+                keepMounted
+                onClose={() => setOpen(false)}
+                aria-labelledby="alert-dialog-slide-title"
+                aria-describedby="alert-dialog-slide-description"
+            >
+                <DialogTitle id="alert-dialog-slide-title">Gabarito</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-slide-description">
+                        <List>
+                            {questoes.map((item, index) => {
+                                return <ListItem
+                                    style={{
+                                        height: 20,
+                                        textOverflow: 'ellipsis',
+                                            
+                                            whiteSpace: 'nowrap',
+                                       
+                                    }}>
+                                    <ListItemIcon>
+                                        {gabarito[index] ?
+                                            'Certa' :
+                                            'Errou'}
+                                    </ListItemIcon>
+                                    <ListItemText
+                                        primary={item.enunciado}
+                                        style={{
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis',
+                                            
+                                        }}
+                                    />
+                                </ListItem>
+                            })}
+                        </List>
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpen(false)} color="primary">
+                        Disagree
+          </Button>
+                    <Button onClick={() => setOpen(false)} color="primary">
+                        Agree
+          </Button>
+                </DialogActions>
+            </Dialog>
         </div>
     );
 }

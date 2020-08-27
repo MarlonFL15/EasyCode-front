@@ -219,6 +219,9 @@ export default function Login(){
             height: '100%',
             display: 'flex',
             position: 'absolute',
+            margin: 0,
+            padding: 0,
+            // overflow: 'hidden',
             backgroundColor: colors.gray
         }}
         justify="flex-end"
@@ -227,7 +230,7 @@ export default function Login(){
             className={classes.left}
             item xs={12} sm={6} md={8} >
                 <Grid item xs={12}>
-                    <img src={SignUp}/>
+                    <img src={SignUp} style={{ width: '100%'}}/>
                 </Grid>  
                 <Grid item xs={12}>
                     <h4 className={classes.title}>Pratique programação de uma forma divertida!</h4>
