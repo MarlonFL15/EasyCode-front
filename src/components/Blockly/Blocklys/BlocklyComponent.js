@@ -33,12 +33,11 @@ Blockly.setLocale(locale);
 class BlocklyComponent extends React.Component {
     constructor(props) {
         super(props);
-        console.log(props)
         this.blocklyDiv = React.createRef();
         this.toolbox = React.createRef();
     }
     onFirstComment = (event) =>{
-        console.log(event)
+        
         if(event.type == Blockly.Events.MOVE){
             this.changeCode()
         }

@@ -9,7 +9,7 @@ import Axios from 'axios'
 import { Redirect, useHistory } from "react-router-dom";
 import SignUpSVG from '../assets/signup-easyblock.svg'
 import SignUp from '../assets/sign-up.svg'
-
+import {login} from '../auth'
 
 const AddTextField = withStyles({
     root: {
@@ -155,18 +155,8 @@ export default function Login(){
             setError(errorLocal)
             return false;
         }  
-        console.log(foto)
         //verifica se já existe algum usuário cadastrado
-        return axios.post('/getUserEmail', data).then(
-            function(response){
-                if(response.data.result){
-                    setError({email:'Email já está cadastrado no sistema'})
-                    return false;
-                }
-                else
-                    return true;
-            }
-        )
+        return true
         
     }
     const submit = (event) => {
@@ -182,27 +172,43 @@ export default function Login(){
         }
         
         if(valida(data)){
-            if(!!foto){    
-                let reader = new FileReader();
-                reader.readAsDataURL(foto[0]);
-                reader.onloadend = () => {
-                    data.foto = reader.result
-                    axios.post('addUser', data).then(function(response){
-                        localStorage.setItem('app-token',true)
-                        history.push("/dashboard")
-                    })
+            axios.post('/getUserEmail', data).then(
+                function(response){
+                    if(response.data.result){
+                        setError({email:'Email já está cadastrado no sistema'})
+                        return false;
+                    }
+                    else{
+                        if(!!foto){    
+                            let reader = new FileReader();
+                            reader.readAsDataURL(foto[0]);
+                            reader.onloadend = () => {
+                                data.foto = reader.result
+                                axios.post('addUser', data).then(function(response){
+                                    //console.log('caiu aqui no log')
+                                    login(response.data.insertId)
+                                    //console.log(response)
+                                    history.push("/dashboard")
+                                })
+                            }
+                            reader.onerror = () =>{
+                                alert('error')
+                            }
+                        }
+                        else{
+                            //alert('entrou aqui no else')
+                            axios.post('addUser', data).then(function(response){
+                                //console.log('caiu aqui no log')
+                                //console.log(response)
+                                login(response.data.insertId)
+                                history.push("/dashboard")
+                            })
+                        }
+                    }
+                        
                 }
-                reader.onerror = () =>{
-                    alert('error')
-                }
-            }
-            else{
-                alert('entrou aqui no else')
-                axios.post('addUser', data).then(function(response){
-                    localStorage.setItem('app-token',true)
-                    history.push("/dashboard")
-                })
-            }
+            )
+            
         }
     }
     const classes = useStyles()
@@ -304,7 +310,7 @@ export default function Login(){
                             value = {confirmarSenha}
                             onChange = {(event) => changeConfirmarSenha(event)}
                         />
-                        {/* <AddTextField
+                        <AddTextField
                             variant="outlined"
                             margin="normal"
                             // required
@@ -314,7 +320,7 @@ export default function Login(){
                             name="foto"
                             type="file"
                             onChange = {(event) => changeFoto(event)}
-                        /> */}
+                        />
                         <Box mt={2}>
                             <AddButton variant="contained" color="primary" fullWidth margin="dense" onClick={(event) =>submit(event)}> 
                                 Cadastrar

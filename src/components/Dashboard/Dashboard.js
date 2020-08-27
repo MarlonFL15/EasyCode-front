@@ -1,9 +1,16 @@
-import React from 'react'
-import Blockly from '../Questions/Blockly'
+import React, {useEffect, useState} from 'react'
+import Blockly from '../Questions'
 import { Grid, Divider, Typography } from '@material-ui/core'
 import { makeStyles, withStyles } from '@material-ui/core/styles'
 import colors from '../Colors'
 import UserSVG from './../assets/user.svg'
+import {getToken} from '../auth'
+import axios from '../../bd/client'
+import { Redirect, useHistory } from "react-router-dom";
+import GraficoHabilidade from './GraficoHabilidades';
+import GraficoSubmissoes from './GraficoSubmissoes'
+
+
 const Text = withStyles({
     root: {
         fontFamily: 'Quicksand, sans-serif'
@@ -31,20 +38,60 @@ const useStyles = makeStyles((theme)=>({
         minHeight: 180,
         borderRadius: 10,
         margin: 6,
+    },
+    graphic: {
+        //backgroundColor: colors.blue,
+        border: '1px solid blue',
+        height: '100%',
+        minHeight: 180,
+        borderRadius: 10,
+        margin: 6,
+        //color:'#fff',
+        color: colors.blue,
     }
 }))
 export default props =>{
+    const [nome, setNome]=  useState('')
+    const [email, setEmail]=  useState('')
+    const [foto, setFoto]=  useState(null)
+
     const classes = useStyles()
-     
+    const history = useHistory()
+    
+
+    useEffect(() => {
+        // Atualiza o titulo do documento usando a API do browser
+        axios.get('getUserById/'+getToken()).then(response =>{
+            setEmail(response.data[0].email)
+            setNome(response.data[0].nome)
+
+            /**
+             * Recupera a imagem do perfil
+             */
+            if(response.data[0].foto){
+                const enc = new TextDecoder("utf-8");
+                const arr = new Uint8Array(response.data[0].foto.data);
+                const downloadUrl = enc.decode(arr)
+                console.log(downloadUrl)
+                setFoto(downloadUrl)
+            }
+            
+        }).catch(err => {
+
+        })
+       
+      });
+
+
     return(
         <Grid container style={{padding: 7}}>
             <Grid item sm={4}>
                 <div className={classes.top}>
                     <Text variant="h6" style={{textAlign: 'center'}}><b>Meu perfil</b></Text>
-                    <img src={UserSVG}/>
-                    <Text variant="h6" style={{textAlign: 'center'}}>Nome</Text>
+                    <img src={foto ? foto:UserSVG}/>
+                    <Text variant="h6" style={{textAlign: 'center'}}>{nome}</Text>
                     <Text variant="h6" style={{textAlign: 'center'}}>Nivel X</Text>
-                    <Text variant="h6" style={{textAlign: 'center'}}>email@email.com</Text>
+                    <Text variant="h6" style={{textAlign: 'center'}}>{email}</Text>
                 </div>
             </Grid>
             <Grid item sm={8}>
@@ -79,6 +126,18 @@ export default props =>{
             <Grid item sm={4}>
                 <div className={classes.bottom}>
                     
+                </div>
+            </Grid>
+            <Grid item sm={6}> 
+                <div className={classes.graphic}>
+                    <Text variant="h6" style={{textAlign: 'center'}}><b>Habilidades</b></Text>
+                    <GraficoHabilidade/>
+                </div>
+            </Grid>
+            <Grid item sm={6}> 
+                <div className={classes.graphic}>
+                    <Text variant="h6" style={{textAlign: 'center'}}><b>Exercícios na semana</b></Text>
+                    <GraficoSubmissoes/>
                 </div>
             </Grid>
         </Grid>

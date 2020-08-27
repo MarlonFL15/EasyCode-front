@@ -12,6 +12,9 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Zoom from '@material-ui/core/Zoom';
 import clsx from "clsx";
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import axios from '../../bd/client'
+import Axios from 'axios'
+import { Redirect, useHistory } from "react-router-dom";
 
 const randomDeg = ()=>{
  return 720 + 36 + (72 * Math.floor(Math.random() * 5))
@@ -42,6 +45,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function Roleta() {
     const [spin, setSpin] = useState(false)
     const [ deg, changeDeg ] = useState(randomDeg)
+
+    const history = useHistory()
     const useStyles = makeStyles((theme) => ({
         spin: {
             width: 350,
@@ -85,7 +90,7 @@ export default function Roleta() {
     const [open, setOpen] = React.useState(false);
 
     const classes = useStyles()
-    const assuntos = ['Textos', 'Sequencia', 'Repetição', 'Seleção', 'Matemática']
+    const assuntos = ['Textos', 'Sequência', 'Repetição', 'Seleção', 'Matemática']
 
 
     const handleOpen = () => {
@@ -99,6 +104,24 @@ export default function Roleta() {
         if(str==='novamente'){
             changeDeg(randomDeg)
             setSpin(true)
+        }
+        else{
+            axios.get('getRoleta',{
+                params:{
+                    assunto: assuntos[(deg - 36 - 720) / 72]
+                }
+            }).then(response => {
+                //console.log(response.data[0].id)
+                history.push({
+                    pathname: '/questao',
+                    state: {
+                        id: response.data[0].id
+                    }
+                })
+                
+            }).catch(err => {
+                console.log(err)
+            })
         }
     };
 
