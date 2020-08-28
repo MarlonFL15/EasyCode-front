@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { withStyles, makeStyles, createStyles } from '@material-ui/core/styles';
 import { Grid, Typography, Button, FormGroup, FormControlLabel, Checkbox, Box, FormControl, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import colors from '../Colors'
@@ -9,6 +9,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
+import { useHistory, useLocation, BrowserRouter } from "react-router-dom";
+import axios from '../../bd/client'
+import { getToken } from '../auth';
 
 
 function LinearProgressWithLabel(props) {
@@ -114,10 +117,10 @@ const useStyles = makeStyles((theme) => createStyles({
 }));
 
 
-const questoes = [
+/*const questoes = [
     {
         enunciado: 'Enunciado 1',
-        alternativas: ['Resposta 1', 'Resposta 2', 'Resposta 3', 'Resposta 4'],
+        alternativas: [{alternativa:'Resposta 1'}, {alternativa:'Resposta 2'}, {alternativa:'Resposta 3'}, {alternativa:'Resposta 4'}],
         indexCerta: 2
     },
     {
@@ -136,17 +139,49 @@ const questoes = [
         indexCerta: 2
     },
 ]
-
-export default function Container() {
+*/
+export default function Container(props) {
     const [open, setOpen] = React.useState(false);
     const [selected, setSelected] = React.useState(null)
     const [show, setShow] = React.useState(false)
     const [questao, setQuestao] = React.useState(0)
     const [gabarito, setGabarito] = React.useState([])
     const [percent, setPercent] = React.useState(0)
-
+    
+    const [questoes, setQuestoes] = React.useState([])
+    let location = useLocation();
+    const [assunto, setAssunto] = React.useState(location.state.assunto)
     const classes = useStyles();
 
+    useEffect(() => {
+        //const assunto = location.state.assunto;
+        axios.get('quiz', {params:{
+            assunto: assunto,
+            idUsuario: getToken()
+        }}).then(response => {
+            const perguntas = []
+            response.data.forEach(el => {
+                console.log(el)
+                el.alternativas.forEach((alt, index)=>{
+                    el.alternativas[index] = alt.alternativa
+                })
+                perguntas.push({
+                    enunciado: el.enunciado,
+                    alternativas: el.alternativas,
+                    codigo: el.codigo,
+                    idFormPergunta: el.idFormPergunta,
+                    indexCerta: el.alternativas.indexOf(el.resposta)
+                })
+                setQuestoes(perguntas)
+            })
+             /**Criar o formulario no banco */
+             //console.log({assunto:assunto, idUsuario:getToken()})
+             //axios.post('createForm', {assunto:assunto, idUsuario:getToken()})
+        }).catch(error => {
+            console.log(error)
+        })
+        
+    },[]);
     const GreenCheckbox = withStyles({
         root: {
             color: colors.blue,
@@ -164,19 +199,40 @@ export default function Container() {
         setSelected(null)
     }
 
+    const finish = () =>{
+        setOpen(true)
+        axios.post('/sendQuiz', {respostas:gabarito}).then(response => {
+            
+        }).catch(err => {
+            
+        })
+        /**Criar o registro do formulário */
+        /**Criar o registro das perguntas no formulário */
+        /**Criar o registro das respostas */
+    }
     const showAnswer = () => {
         setShow(true)
-        if (questao === 0) {
-            setGabarito([questao === selected])
-        }
-        setGabarito([...gabarito, questao === selected])
+        let newgabarito = [...gabarito, 
+            {
+                correto:selected === questoes[questao].indexCerta, 
+                respostaUsuario:questoes[questao].alternativas[selected], 
+                idFormPergunta: questoes[questao].idFormPergunta
+            }
+        ]
+        //console.log(newgabarito)
+        setGabarito(newgabarito)
+        
         setPercent(percent + parseFloat(1 / questoes.length * 100))
     }
 
+    if(questoes.length == 0)
+        return (
+            <div>Carregando</div>
+        )
     return (
         <div className={classes.root}>
 
-            <h2 className={classes.title}>QUIZ</h2>
+            <h2 className={classes.title}>Quiz sobre {assunto}</h2>
 
             <Grid container>
                 <Grid item sm={12}>
@@ -185,6 +241,8 @@ export default function Container() {
                 </Grid>
                 <Grid item sm={12} className={classes.box}>
                     {questoes[questao].enunciado}
+                    <br/>
+                    {questoes[questao].codigo}
                 </Grid>
 
                 {questoes[questao].alternativas.map((item, index) => {
@@ -212,7 +270,7 @@ export default function Container() {
                 <Grid item sm={12} justify="space-between" style={{ display: 'flex' }}>
                     <Button variant="contained" disabled={show} color="primary" onClick={(e) => showAnswer()}>Responder</Button>
                     <Button variant="contained" color="primary" onClick={(e) => changeQuestion()} style={{ display: show ? questao < questoes.length - 1 ? 'inherit' : 'none' : 'none' }}>Próximo</Button>
-                    <Button variant="contained" color="primary" style={{ display: show ? questao === questoes.length - 1 ? 'inherit' : 'none' : 'none' }} onClick={() => setOpen(true)}>Ver gabarito</Button>
+                    <Button variant="contained" color="primary" style={{ display: show ? questao === questoes.length - 1 ? 'inherit' : 'none' : 'none' }} onClick={() => finish()}>Ver gabarito</Button>
                 </Grid>
             </Grid>
             <Dialog

@@ -108,11 +108,11 @@ const useStyles = makeStyles((theme) => createStyles({
 
 
 const assuntos = [
-  {nome: 'Matemática', link: '/roleta', cor: colors.blue, icon: '+-*/'},
-  {nome: 'Seleção', link: '/dashboard', cor: colors.green, icon: 'if()'},
-  {nome: 'Sequência', link: '/questoes', cor: colors.red, icon:(<div><TrendingFlatIcon style={{ fontSize: 60 }}/><TrendingFlatIcon style={{ fontSize: 60 }}/></div>)},
-  {nome: 'Repetição', link: '/questoes', cor: colors.yellow, icon: (<LoopIcon style={{ fontSize: 60 }}/>)},
-  {nome: 'Textos', link: '/questoes', cor: colors.blue, icon: 'abc'},
+  {nome: 'Matemática', link: '/quiz/responder', cor: colors.blue, icon: '+-*/'},
+  {nome: 'Seleção', link: '/quiz/responder', cor: colors.green, icon: 'if()'},
+  {nome: 'Sequência', link: '/quiz/responder', cor: colors.red, icon:(<div><TrendingFlatIcon style={{ fontSize: 60 }}/><TrendingFlatIcon style={{ fontSize: 60 }}/></div>)},
+  {nome: 'Repetição', link: '/quiz/responder', cor: colors.yellow, icon: (<LoopIcon style={{ fontSize: 60 }}/>)},
+  {nome: 'Textos', link: '/quiz/responder', cor: colors.blue, icon: 'abc'},
 
 ]
 
@@ -131,7 +131,7 @@ export default function Container() {
       return (
         <Grid item className={classes.cardContainer} md={4} sm={6}  xs={12}
         >
-            <div className={classes.card} onClick={(event) => {history.push(link); history.go(0)}}
+            <div className={classes.card} onClick={(event) => {history.push(link, {assunto:nome}); history.go(0)}}
             style={{backgroundColor: cor, boxShadow: '0 2px 7px ' + cor,}}>
               <div className={classes.cardIcon}>
                 {icon}
