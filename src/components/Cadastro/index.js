@@ -234,7 +234,7 @@ export default function Login(){
                 </Grid>  
                 <Grid item xs={12}>
                     <h4 className={classes.title}>Pratique programação de uma forma divertida!</h4>
-                    <div className={classes.subtitle}>Encontreuestões variadas para você resolver</div>
+                    <div className={classes.subtitle}>Encontre questões variadas para você resolver</div>
 
                 </Grid>
             </Grid>
@@ -313,6 +313,7 @@ export default function Login(){
                             value = {confirmarSenha}
                             onChange = {(event) => changeConfirmarSenha(event)}
                         />
+                        {/*
                         <AddTextField
                             variant="outlined"
                             margin="normal"
@@ -323,7 +324,7 @@ export default function Login(){
                             name="foto"
                             type="file"
                             onChange = {(event) => changeFoto(event)}
-                        />
+                        />*/}
                         <Box mt={2}>
                             <AddButton variant="contained" color="primary" fullWidth margin="dense" onClick={(event) =>submit(event)}> 
                                 Cadastrar

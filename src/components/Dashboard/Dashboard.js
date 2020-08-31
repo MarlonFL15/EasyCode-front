@@ -53,6 +53,7 @@ const useStyles = makeStyles((theme)=>({
 export default props =>{
     const [nome, setNome]=  useState('')
     const [email, setEmail]=  useState('')
+    const [historic, setHistoric]=  useState([])
     const [foto, setFoto]=  useState(null)
 
     const classes = useStyles()
@@ -80,7 +81,41 @@ export default props =>{
 
         })
        
-      });
+        /**Recupera o histórico do usuário */
+        axios.get("/getQuizByUser/"+getToken()).then(response => {
+            let arrayquiz = response.data
+            //console.log("deu tudo certo")
+
+
+            axios.get("/getRespostasByUser/"+getToken()).then(response =>{
+                let arrayquestao = response.data
+                let array = arrayquestao.concat(arrayquiz)
+                
+                // console.log('antes: ')
+                // console.log(array)
+                 array.sort((a1, a2) => {
+                    var date1 = new Date(a1.datacriacao)
+                    var date2 = new Date(a2.datacriacao)
+                    
+                    if(date1.getTime() > date2.getTime())
+                        return -1
+                    else if(date1.getTime() < date2.getTime())
+                        return 1
+                    else
+                        return 0
+                 })
+                 console.log('depois: ')
+                 console.log(array)
+                 setHistoric(array)
+                 
+            }).catch(err => {
+                
+            })
+
+
+        }).catch(err => {
+        })
+      }, []);
 
 
     return(

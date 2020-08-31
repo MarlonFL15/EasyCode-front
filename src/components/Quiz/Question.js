@@ -161,7 +161,7 @@ export default function Container(props) {
         }}).then(response => {
             const perguntas = []
             response.data.forEach(el => {
-                console.log(el)
+                
                 el.alternativas.forEach((alt, index)=>{
                     el.alternativas[index] = alt.alternativa
                 })
@@ -169,8 +169,8 @@ export default function Container(props) {
                     enunciado: el.enunciado,
                     alternativas: el.alternativas,
                     codigo: el.codigo,
-                    idFormPergunta: el.idFormPergunta,
-                    indexCerta: el.alternativas.indexOf(el.resposta)
+                    indexCerta: el.alternativas.indexOf(el.resposta),
+                    id: el.id
                 })
                 setQuestoes(perguntas)
             })
@@ -201,7 +201,7 @@ export default function Container(props) {
 
     const finish = () =>{
         setOpen(true)
-        axios.post('/sendQuiz', {respostas:gabarito}).then(response => {
+        axios.post('/sendQuiz', {respostas:gabarito, idUsuario:getToken(), assunto:assunto}).then(response => {
             
         }).catch(err => {
             
@@ -216,7 +216,8 @@ export default function Container(props) {
             {
                 correto:selected === questoes[questao].indexCerta, 
                 respostaUsuario:questoes[questao].alternativas[selected], 
-                idFormPergunta: questoes[questao].idFormPergunta
+                id: questoes[questao].id,
+                
             }
         ]
         //console.log(newgabarito)
@@ -285,7 +286,7 @@ export default function Container(props) {
                 <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
                         <List>
-                            {questoes.map((item, index) => {
+                            {gabarito.map((item, index) => {
                                 return <ListItem
                                     style={{
                                         height: 20,
@@ -295,12 +296,12 @@ export default function Container(props) {
                                        
                                     }}>
                                     <ListItemIcon>
-                                        {gabarito[index] ?
+                                        {gabarito[index].correto ?
                                             'Certa' :
                                             'Errou'}
                                     </ListItemIcon>
                                     <ListItemText
-                                        primary={item.enunciado}
+                                        primary={questoes[index].enunciado}
                                         style={{
                                             overflow: 'hidden',
                                             textOverflow: 'ellipsis',
