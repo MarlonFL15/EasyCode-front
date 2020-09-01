@@ -23,7 +23,7 @@
 
 import React from 'react';
 import '../Blockly/Blocklys/BlocklyComponent.css'
-
+import Blockly from 'blockly/core';
 import BlocklyComponent, { Block, Value, Field, Shadow } from '../Blockly/Blocklys';
 
 import Languages from '../Blockly/generator/generators'
@@ -45,6 +45,8 @@ class BlockDiv extends React.Component {
     var code = Languages[this.lang].workspaceToCode(
       this.simpleWorkspace.current.workspace
     );
+    console.log(Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(this.simpleWorkspace.current.workspace)))
+    //console.log(this.simpleWorkspace.current.workspace)
     document.getElementById("code").value = code;
    
   }

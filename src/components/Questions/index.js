@@ -26,7 +26,7 @@ import '../Blockly/Blocklys/BlocklyComponent.css'
 
 import BlocklyComponent, { Block, Value, Field, Shadow } from '../Blockly/Blocklys';
 
-import BlocklyJS from 'blockly/javascript';
+import Blockly from 'blockly/core';
 import Languages from '../Blockly/generator/generators'
 import '../Blockly/generator/generator';
 import Question from './Question-Card'
@@ -52,16 +52,27 @@ class BlockDiv extends React.Component {
     question:{},
     correct: false,
     incorrect:false,
+    xml: null,
     idUsuario:getToken()
   }
   componentDidMount = () =>{
 
      const id = this.props.location.state.id
      
-     axios.get("/pergunta/"+id).then(response => {
+    //então ele já precisa iniciar com o código
+    if(this.props.location.state.idResposta){
+
+      axios.get("/getCodigoById/"+this.props.location.state.idResposta).then(response => {
+        this.setState({xml:response.data[0].codigo})
+        console.log('terminou de rodar')
+        
+      }).catch(err => {
+        
+      })
+    }
+    axios.get("/pergunta/"+id).then(response => {
       
       this.setState({question:response.data})
-      
   
     })
   }
@@ -83,10 +94,13 @@ class BlockDiv extends React.Component {
     const code = Languages['Python'].workspaceToCode(
       this.simpleWorkspace.current.workspace
     );
+    const XML = Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(this.simpleWorkspace.current.workspace))
+    
     axios.post('/submit', {
       idUsuario:this.state.idUsuario, 
       code:code, 
-      idQuestao:this.state.question.id
+      idQuestao:this.state.question.id,
+      xml: XML
     }).then(response => {
       if(response.data.result){
         this.setState({incorrect:false, correct:true})
@@ -109,6 +123,9 @@ class BlockDiv extends React.Component {
     this.setState({incorrect:false, correct:false})
   };
   render() {
+    console.log(this.state.xml)
+    if(this.state.xml == null && this.props.location.state.idResposta)
+      return false
     return (
       <div className="blockly-area">
         <div className="sidebar-blockly">
@@ -134,6 +151,7 @@ class BlockDiv extends React.Component {
               drag: true,
               wheel: true
             }}
+            initialXml=  {this.state.xml}
           >
           
           </BlocklyComponent>

@@ -51,6 +51,8 @@ class BlocklyComponent extends React.Component {
     componentDidMount() {
         
         const { initialXml, children, ...rest } = this.props;
+        console.log('pqp hein amigo')
+        console.log(initialXml)
         this.primaryWorkspace = Blockly.inject(
             this.blocklyDiv.current,
             {
@@ -59,7 +61,7 @@ class BlocklyComponent extends React.Component {
             },
         );
         this.primaryWorkspace.addChangeListener(this.onFirstComment);
-        console.log(this.primaryWorkspace)
+        //console.log(this.primaryWorkspace)
         if (initialXml) {
             Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(initialXml), this.primaryWorkspace);
         }
