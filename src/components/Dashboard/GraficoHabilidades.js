@@ -15,12 +15,13 @@ const useStyles = makeStyles((theme)=>({
 
 export default props =>{
     const classes = useStyles()
-    const [data, setData] = useState([])
+    const [dataPratica, setDataPratica] = useState([])
+    const [dataTeorica, setDataTeorica] = useState([])
     useEffect(() => {
-        // Atualiza o titulo do documento usando a API do browser
         axios.get('getPontuacaoByUser/'+getToken()).then(response =>{
             const user = response.data
             const data = {}
+            const data1 = {}
             axios.get('getPontuacaoTotal').then(response =>{
                 const total = response.data
                 Object.keys(total).map(el => {
@@ -29,14 +30,30 @@ export default props =>{
                     else
                         data[el] = 0
                 })
-                setData(data)
+                setDataPratica(data)
+
+
+                axios.get('getPontuacaoQuiz/'+getToken()).then(response => {
+                    const userQuiz = response.data
+                    console.log('valor do userquiz: ')
+                    console.log(userQuiz)
+                    Object.keys(total).map(el => {
+                        if(userQuiz[el])
+                            data1[el] = userQuiz[el]
+                        else
+                            data1[el] = 0
+                    })   
+                    console.log(data1) 
+                    setDataTeorica(data1)
+                }).catch(err => {
+                    console.log('erro')
+                })
+
             })
         })
 
+        
     },[]);
-
-    
-    
 
     return(
         <div>
@@ -44,15 +61,23 @@ export default props =>{
             <Radar
             data={{
                 fill:false,
-                labels: Object.keys(data),
+                labels: Object.keys(dataPratica),
                 
-                datasets: [{
-                    label:'Suas habilidades',
-                    data: Object.values(data),
-                    backgroundColor:'rgba(38, 100, 208, 0.6)',
-                    borderColor: colors.blue
+                datasets: [
+                    {
+                        label:'Habilidades Práticas',
+                        data: Object.values(dataPratica),
+                        backgroundColor:'rgba(38, 100, 208, 0.6)',
+                        borderColor: colors.blue
                     
-                }],
+                    },
+                    {
+                         label:'Habilidades Teóricas',
+                         data: Object.values(dataTeorica),
+                         backgroundColor:'rgba(226, 5, 76, 0.6)',
+                         borderColor: colors.red
+                    }
+                ],
                 
             }}
             options = {{
