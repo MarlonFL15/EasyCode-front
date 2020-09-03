@@ -12,6 +12,7 @@ import GraficoHabilidade from './GraficoHabilidades';
 import GraficoSubmissoes from './GraficoSubmissoes'
 import CheckIcon from '@material-ui/icons/Check';
 import ClearRoundedIcon from '@material-ui/icons/ClearRounded';
+import CloseIcon from '@material-ui/icons/Close';
 
 const Percentual = withStyles({
     root: {
@@ -67,6 +68,7 @@ export default props => {
     const [nome, setNome] = useState('')
     const [email, setEmail] = useState('')
     const [historic, setHistoric] = useState([])
+    const [cards, setCards] = useState([])
     const [foto, setFoto] = useState(null)
 
     const classes = useStyles()
@@ -114,7 +116,10 @@ export default props => {
                 <Text style={{ textAlign: 'center', }}>Submissão</Text>
                 <Divider style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)' }} />
                 <Text variant="h6" style={{ textAlign: 'center', }}>{props.nomeQuestao}</Text>
-                <Text style={{ textAlign: 'center', margin: 'auto' }}><CheckIcon />Resposta correta</Text>
+                {props.correto?
+                    <Text style={{display:'flex', justifyContent: 'center' }}><CheckIcon />Resposta correta</Text>:
+                    <Text style={{display:'flex', justifyContent: 'center' }}><CloseIcon />Resposta incorreta</Text>
+                }
             </div>
         }
         return null
@@ -163,9 +168,9 @@ export default props => {
                     else
                         return 0
                 })
-                console.log('depois: ')
-                console.log(array)
+                
                 setHistoric(array)
+                setCards(array.splice(0,3))
 
             }).catch(err => {
             })
@@ -173,7 +178,7 @@ export default props => {
         })
     }, []);
 
-
+    console.log(cards)
     return (
         <Grid container style={{ padding: 7 }}>
             <Grid item sm={4}>
@@ -204,15 +209,15 @@ export default props => {
                     <Text variant="h6" > veja mais</Text>
                 </Grid>
             </Grid>
-            <Grid item sm={4}>
-                <HistoricBox blocks categoria="Seleção" nomeQuestao="Baldes" />
-            </Grid>
-            <Grid item sm={4}>
-                <HistoricBox questao categoria="Sequência" acertos={5} questoes={7} />
-            </Grid>
-            <Grid item sm={4}>
-                <HistoricBox questao categoria="Repetição" acertos={10} questoes={10} />
-            </Grid>
+            {cards.map(el => {
+                return (
+                    <Grid item sm={4}>
+                        <HistoricBox questao={el.tipo==2?true:false} blocks={el.tipo==1?true:false} 
+                            correto={el.correto} categoria={el.assunto} nomeQuestao={el.titulo} acertos={el.certas} questoes={el.questoes}/>
+                    </Grid> 
+                )
+            })}
+           
             <Grid item sm={6}>
                 <div className={classes.graphic}>
                     <Text variant="h6" style={{ textAlign: 'center' }}><b>Habilidades</b></Text>
