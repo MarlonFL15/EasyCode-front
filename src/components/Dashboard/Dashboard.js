@@ -75,17 +75,49 @@ export default props => {
 
     const PercentualLabel = (props) => {
         return (
-            <Box display="flex" alignItems="center" style={{marginTop: 30}}>
+            <Box display="flex" alignItems="center" style={{ marginTop: 30 }}>
                 <Box width="100%" mr={1}>
                     <Percentual variant="determinate" value={props.percent} />
                 </Box>
                 <Box minWidth={35}>
-                    <Typography variant="body2" style={{color:'#fff', fontFamily: 'Quicksand, sans-serif'}}>{`${Math.round(
+                    <Typography variant="body2" style={{ color: '#fff', fontFamily: 'Quicksand, sans-serif' }}>{`${Math.round(
                         props.percent,
                     )}%`}</Typography>
                 </Box>
             </Box >
         )
+    }
+
+    const HistoricBox = (props) => {
+        var color = ""
+        if (props.categoria === "Matemática" || props.categoria === "Textos")
+            color = colors.blue
+        if (props.categoria === "Repetição")
+            color = colors.yellow
+        if (props.categoria === "Sequência")
+            color = colors.red
+        if (props.categoria === "Seleção")
+            color = colors.green
+
+        if (props.questao){
+            return <div className={classes.bottom} style={{ backgroundColor: color }}>
+                <Text variant="h6" style={{ textAlign: 'center' }}><b>{props.categoria}</b></Text>
+                <Text style={{ textAlign: 'center', }}>Quiz</Text>
+                <PercentualLabel percent={parseFloat(props.acertos / props.questoes) * 100} />
+                <Text style={{ textAlign: 'center' }}>{props.acertos} acertos de {props.questoes} questôes</Text>
+
+            </div>
+        }
+        if (props.blocks){
+            return <div className={classes.bottom} style={{ backgroundColor: color }}>
+                <Text variant="h6" style={{ textAlign: 'center' }}><b>{props.categoria}</b></Text>
+                <Text style={{ textAlign: 'center', }}>Submissão</Text>
+                <Divider style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)' }} />
+                <Text variant="h6" style={{ textAlign: 'center', }}>{props.nomeQuestao}</Text>
+                <Text style={{ textAlign: 'center', margin: 'auto' }}><CheckIcon />Resposta correta</Text>
+            </div>
+        }
+        return null
     }
     useEffect(() => {
         // Atualiza o titulo do documento usando a API do browser
@@ -136,10 +168,7 @@ export default props => {
                 setHistoric(array)
 
             }).catch(err => {
-
             })
-
-
         }).catch(err => {
         })
     }, []);
@@ -176,32 +205,13 @@ export default props => {
                 </Grid>
             </Grid>
             <Grid item sm={4}>
-
-                <div className={classes.bottom} style={{ backgroundColor: colors.green }}>
-                    <Text variant="h6" style={{ textAlign: 'center' }}><b>Seleção</b></Text>
-                    <Text style={{ textAlign: 'center', }}>Submissão</Text>
-                    <Divider style={{backgroundColor: 'rgba(255, 255, 255, 0.5)'}}/>
-                    <Text variant="h6" style={{ textAlign: 'center', }}>Nome da questão</Text>
-                    <Text style={{ textAlign: 'center', margin: 'auto'}}><CheckIcon />Resposta correta</Text>
-                </div>
+                <HistoricBox blocks categoria="Seleção" nomeQuestao="Baldes" />
             </Grid>
             <Grid item sm={4}>
-                <div className={classes.bottom} style={{ backgroundColor: colors.red }}>
-                    <Text variant="h6" style={{ textAlign: 'center' }}><b>Sequência</b></Text>
-                    <Text style={{ textAlign: 'center', }}>Quiz</Text>
-                        <PercentualLabel percent={50}/>
-                    <Text style={{ textAlign: 'center' }}>5 acertos de 7 questôes</Text>
-
-                </div>
+                <HistoricBox questao categoria="Sequência" acertos={5} questoes={7} />
             </Grid>
             <Grid item sm={4}>
-                <div className={classes.bottom} style={{ backgroundColor: colors.yellow }}>
-                    <Text variant="h6" style={{ textAlign: 'center', }}><b> Repetiçaõ</b></Text>
-                    <Text style={{ textAlign: 'center', }}>Quiz</Text>
-
-                    <PercentualLabel percent={100}/>
-                    <Text style={{ textAlign: 'center' }}>10 acertos de 10 questôes</Text>
-                </div>
+                <HistoricBox questao categoria="Repetição" acertos={10} questoes={10} />
             </Grid>
             <Grid item sm={6}>
                 <div className={classes.graphic}>
