@@ -24,11 +24,11 @@
 import React from 'react';
 import '../Blockly/Blocklys/BlocklyComponent.css'
 
-import BlocklyComponent, { Block, Value, Field, Shadow } from '../Blockly/Blocklys';
+import BlocklyComponent from '../Blockly/Blocklys/BlocklyComponent';
 
 import Blockly from 'blockly/core';
 import Languages from '../Blockly/generator/generators'
-import '../Blockly/generator/generator';
+
 import Question from './Question-Card'
 import Code from './Code'
 import axios  from '../../bd/client'

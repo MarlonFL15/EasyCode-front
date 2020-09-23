@@ -27,7 +27,10 @@ import './BlocklyComponent.css';
 import Blockly from 'blockly/core';
 import locale from 'blockly/msg/pt-br';
 import 'blockly/blocks';
-import XML from './ToolBox'
+import { TypedVariableModal } from '@blockly/plugin-typed-variable-modal';
+//import XML from './ToolBox'
+import XML from '../Blocklys/ToolBox'
+import './CustomBlock'
 Blockly.setLocale(locale);
 
 class BlocklyComponent extends React.Component {
@@ -51,8 +54,8 @@ class BlocklyComponent extends React.Component {
     componentDidMount() {
         
         const { initialXml, children, ...rest } = this.props;
-        console.log('pqp hein amigo')
-        console.log(initialXml)
+        //text_prompt_ext
+        
         this.primaryWorkspace = Blockly.inject(
             this.blocklyDiv.current,
             {
@@ -60,6 +63,30 @@ class BlocklyComponent extends React.Component {
                 ...rest
             },
         );
+        const test = function(e){
+                alert("opa")
+        }
+        const typedVarModal = new TypedVariableModal(this.primaryWorkspace, test, [["int", ""], ["char", "char"], ["float", "float"]]);
+        typedVarModal.init();
+        const createFlyout = function(workspace) {
+            
+            let xmlList = [];
+            // Add your button and give it a callback name.
+            const button = document.createElement('button');
+            button.setAttribute('text', 'Criar variável');
+            button.setAttribute('callbackKey', test);
+         
+            xmlList.push(button);
+         
+            // This gets all the variables that the user creates and adds them to the
+            // flyout.
+            const blockList = Blockly.VariablesDynamic.flyoutCategoryBlocks(workspace);
+            xmlList = xmlList.concat(blockList);
+            return xmlList;
+        };
+
+
+        this.primaryWorkspace.registerToolboxCategoryCallback('CREATE_TYPED_VARIABLE', createFlyout);
         this.primaryWorkspace.addChangeListener(this.onFirstComment);
         //console.log(this.primaryWorkspace)
         if (initialXml) {

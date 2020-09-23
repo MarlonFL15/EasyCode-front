@@ -29,7 +29,7 @@ const useStyles = makeStyles({
 
 export default function SimpleCard(props) {
   const classes = useStyles();
-  const [lang, setLang] = useState('Javascript')
+  const [lang, setLang] = useState('C')
   const change = (event) =>{
     setLang(event.target.value)
     props.changeLanguage(event)
@@ -48,6 +48,7 @@ export default function SimpleCard(props) {
           <MenuItem value={'PHP'}>PHP</MenuItem>
           <MenuItem value={'Dart'}>Dart</MenuItem>
           <MenuItem value={'Lua'}>Lua</MenuItem>
+          <MenuItem value={'C'}>C</MenuItem>
         </Select>
       </FormControl>
       <textarea className={classes.code} disabled id="code">

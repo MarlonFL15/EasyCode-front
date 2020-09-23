@@ -27,13 +27,13 @@ import Blockly from 'blockly/core';
 import BlocklyComponent, { Block, Value, Field, Shadow } from '../Blockly/Blocklys';
 
 import Languages from '../Blockly/generator/generators'
-import '../Blockly/generator/generator';
+
 import Code from '../Questions/Code'
 class BlockDiv extends React.Component {
   constructor(props) {
     super(props);
     this.simpleWorkspace = React.createRef();
-    this.lang = 'Javascript'
+    this.lang = 'C'
   }
 
   state = {
@@ -41,7 +41,7 @@ class BlockDiv extends React.Component {
   }
   
   generateCode = () => {
-    
+
     var code = Languages[this.lang].workspaceToCode(
       this.simpleWorkspace.current.workspace
     );
@@ -54,6 +54,8 @@ class BlockDiv extends React.Component {
   changeLanguage = (event) =>{
     this.lang = event.target.value
     console.log('eae')
+    console.log(Languages)
+    alert(this.lang)
     this.generateCode()
   }
   render() {

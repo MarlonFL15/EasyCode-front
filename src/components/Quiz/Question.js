@@ -155,6 +155,7 @@ export default function Container(props) {
 
     useEffect(() => {
         //const assunto = location.state.assunto;
+        console.log('chamou')
         axios.get('quiz', {params:{
             assunto: assunto,
             idUsuario: getToken()
@@ -197,6 +198,9 @@ export default function Container(props) {
         setQuestao(questao + 1)
         setShow(false)
         setSelected(null)
+        if(questao == questoes.length - 1){
+            alert('oppa')
+        }
     }
 
     const finish = () =>{
@@ -230,6 +234,7 @@ export default function Container(props) {
         return (
             <div>Carregando</div>
         )
+
     return (
         <div className={classes.root}>
 
