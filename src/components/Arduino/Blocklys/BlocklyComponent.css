@@ -1,0 +1,43 @@
+#blocklyDiv {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
+.blocklyDiv {
+  height: 100%;
+  width: 70%;
+  position: relative;
+}
+
+.sidebar-blockly{
+  width: 28%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.blockly-area{
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  height: 80%; 
+}
+
+@media only screen and (max-width: 728px) {
+  .blockly-area{
+    flex-direction: column-reverse;
+    justify-content: start;
+    height: 100%;
+  }
+  .sidebar-blockly{
+    height: 100%;
+    width: 100%;
+    margin: 15px 0;
+  }
+  .blocklyDiv{
+    width: 100%;
+  }
+}
+
+

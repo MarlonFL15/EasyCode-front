@@ -22,28 +22,35 @@
  */
 
 import React from 'react';
+import axios from 'axios';
+import Iframe from 'react-iframe'
 import '../Blockly/Blocklys/BlocklyComponent.css'
 import Blockly from 'blockly/core';
-import Iframe from 'react-iframe'
-import BlocklyComponent, { Block, Value, Field, Shadow } from '../Blockly/Blocklys';
+import BlocklyComponent, { Block, Value, Field, Shadow } from '../Arduino/Blocklys/BlocklyComponent';
 
-import Languages from '../Blockly/generator/generators'
 
 import Code from '../Questions/Code'
 class BlockDiv extends React.Component {
   constructor(props) {
     super(props);
     this.simpleWorkspace = React.createRef();
-    this.lang = 'C'
+    
   }
 
   state = {
-    question:{}
+    question:{},
+    code: ''
   }
   
+  componentDidMount = () => {
+      axios.get('https://api.github.com/repos/ileathan/hubot-mubot/contents/src/mubot.coffee').then(e => {
+        console.log(e)
+        this.setState({code: 'data:text/html;base64'+e.data.content})
+      })
+  }
   generateCode = () => {
 
-    var code = Languages[this.lang].workspaceToCode(
+    var code = Blockly.Arduino.workspaceToCode(
       this.simpleWorkspace.current.workspace
     );
     console.log(Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(this.simpleWorkspace.current.workspace)))
@@ -52,41 +59,16 @@ class BlockDiv extends React.Component {
    
   }
 
-  changeLanguage = (event) =>{
-    this.lang = event.target.value
-    console.log('eae')
-    console.log(Languages)
-    alert(this.lang)
-    this.generateCode()
-  }
   render() {
     return (
-      <Iframe url={"https://marlonfl15.github.io/ardublockly/blocklyLanguages.html"}
-      width="100%"
-      height="750px"
-      display="initial"
-      border="0"
-      frameBorder="0"
-      position="relative"/>  
-      // <div className="blockly-area">
-      //   <div className="sidebar-blockly">
-      //     <Code style={{height:'100%'}} changeLanguage = {this.changeLanguage}></Code>
-      //   </div>
-        
-      //   <div className="blocklyDiv">
-      //     <BlocklyComponent ref={this.simpleWorkspace}
-      //       readOnly={false} trashcan={true} media={'../media/'}
-      //       changeCode = {this.generateCode}
-      //       move={{
-      //         scrollbars: false,
-      //         drag: true,
-      //         wheel: true
-      //       }}
-      //     >
-          
-      //     </BlocklyComponent>
-      //   </div>
-      // </div>
+        <Iframe url={"https://marlonfl15.github.io/ardublockly/blocklyArduino.html"}
+        width="100%"
+        height="750px"
+        display="initial"
+        border="0"
+        frameBorder="0"
+        position="relative"/>  
+      
     );
   }
 }

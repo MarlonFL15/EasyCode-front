@@ -1,3 +1,4 @@
+
 import React from "react";
 import './index.css'
 import {
@@ -11,6 +12,7 @@ import Add from './components/Cadastro'
 import Home from './components/Home/Home'
 import BlocklyQuestion from './components/Questions/index'
 import Blockly from './components/Blocos/Blockly'
+import Arduino from './components/Arduino/index.js'
 import Question from './components/Questions/Question-Card'
 import Dashboard from './components/Dashboard/Dashboard'
 
@@ -19,6 +21,8 @@ import Table from './components/Tabela-Questoes/Container'
 import Roullete from './components/Roleta/Roleta.js'
 import Quiz from './components/Quiz/Categories.js'
 import Questions from "./components/Quiz/Question.js";
+
+
 export default function App() {
   return (
     <Router>
@@ -51,6 +55,9 @@ export default function App() {
         <Route path="/" exact>
           <Home/>
         </Route>
+        <PrivateRoute path="/arduino" exact>
+          <Arduino/>
+        </PrivateRoute>
         <Route path="/login">
           <Login />
         </Route>

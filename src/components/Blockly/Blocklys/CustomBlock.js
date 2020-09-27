@@ -7,9 +7,7 @@ Blockly.Blocks['text_prompt_text'] = {
           .appendField("Leia");
       this.setPreviousStatement(true, null);
       this.setNextStatement(true, null);
-      this.setColour(160);
-   this.setTooltip("Leia");
-   this.setHelpUrl("Leia");
+     
    
     }
   };

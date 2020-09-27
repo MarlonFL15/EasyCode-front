@@ -32,6 +32,7 @@ import Languages from '../Blockly/generator/generators'
 import Question from './Question-Card'
 import Code from './Code'
 import axios  from '../../bd/client'
+import Iframe from 'react-iframe'
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import {getToken} from '../auth'
@@ -70,6 +71,8 @@ class BlockDiv extends React.Component {
         
       })
     }
+    
+    
     axios.get("/pergunta/"+id).then(response => {
       
       this.setState({question:response.data})
@@ -90,17 +93,33 @@ class BlockDiv extends React.Component {
     this.generateCode()
   }
 
-  onSubmit = (event) => {
-    const code = Languages['Python'].workspaceToCode(
-      this.simpleWorkspace.current.workspace
-    );
-    const XML = Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(this.simpleWorkspace.current.workspace))
+  onClick = (event) =>{
+    window.addEventListener("message", messageReceived);
+    function messageReceived(e) {
+      const code = e.data
+      this.onSubmit()
+    }
+  }
+  onClick = (event) =>{
+   
+    var obj = this
+    window.addEventListener("message", messageReceived, false);
+    document.getElementById("frame").contentWindow.postMessage({ "json_example": true }, "*");
+    function messageReceived(e) {
+      const code = e.data
+      
+      obj.onSubmit(code)
+      window.removeEventListener("message", messageReceived, false);
+    
+    }
+  }
+  onSubmit = (code) => {
     
     axios.post('/submit', {
       idUsuario:this.state.idUsuario, 
       code:code, 
       idQuestao:this.state.question.id,
-      xml: XML
+      xml: '<oi>'
     }).then(response => {
       if(response.data.result){
         this.setState({incorrect:false, correct:true})
@@ -129,7 +148,7 @@ class BlockDiv extends React.Component {
     return (
       <div className="blockly-area">
         <div className="sidebar-blockly">
-          <Question submit={this.onSubmit} {...this.state.question}></Question>
+          <Question submit={this.onClick} {...this.state.question}></Question>
           <textarea id="code" style={{display:'none'}}></textarea>
         </div>
         <Snackbar open={this.state.correct} autoHideDuration={6000} onClose={this.handleClose}>
@@ -142,7 +161,15 @@ class BlockDiv extends React.Component {
             Solução Incorreta!
           </MuiAlert>
         </Snackbar>
-        <div className="blocklyDiv">
+        <Iframe url={"https://marlonfl15.github.io/ardublockly/blocklyQuestion.html"}
+          width="75%"
+          height="700px"
+          display="initial"
+          border="0"
+          frameBorder="0"
+          id="frame"
+          position="relative"/>
+        {/* <div className="blocklyDiv">
           <BlocklyComponent ref={this.simpleWorkspace}
             readOnly={false} trashcan={true} media={'../media/'}
             changeCode = {this.generateCode}
@@ -155,7 +182,7 @@ class BlockDiv extends React.Component {
           >
           
           </BlocklyComponent>
-        </div>
+        </div> */}
       </div>
     );
   }
