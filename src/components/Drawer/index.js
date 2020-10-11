@@ -273,7 +273,7 @@ function SideBar(){
                 <SideBarItem name="Roleta" link='/roleta' icon={<PieChartIcon/>}/>
                 <SideBarItem name="Blocos" link='/blocos' icon={<ExtensionIcon titleAcess="teste"/>}/>
                 <SideBarItem name="Arduino" link='/arduino' icon={<ExtensionIcon titleAcess="teste"/>}/>
-                
+                <SideBarItem name="Tabelas Verdade" link='/tabelas-verdade' icon={<ExtensionIcon titleAcess="teste"/>}/>
                 <SideBarItem name="Questões" link='/questoes' icon={<CodeIcon/>}/>   
                 <SideBarItem name="Quiz" link='/Quiz' icon={<ViewListIcon/>}/>    
             </div>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="612b80793f13.css" type="text/css">
+    <style>
+        #logicgridapp .ear {
+            display: none;
+        }
+
+        #logicgrid {
+            margin-bottom: 18px;
+        }
+
+        #logicgrid ul {
+            list-style-type: none;
+            margin: 0 0 18px 0;
+        }
+
+        #logicgrid ul li {
+            text-align: center;
+        }
+
+        #logicgrid ul li span {
+            font-weight: bold;
+        }
+
+        #logicgrid ul li ul {
+            list-style-type: none;
+            margin: 0;
+        }
+
+        #logicgrid ul li ul li {
+            height: 20px;
+            margin: 3px 0;
+            padding: 3px 0;
+        }
+
+        #logicgrid select {
+            margin: 0;
+        }
+
+        #rules ul {
+            list-style-type: none;
+            margin: 0 0 18px 0;
+        }
+
+        .casa {
+            border: 1px solid #BBB;
+            background-color: #EEE;
+        }
+
+        ul.casa li select {
+            width: 122px;
+        }
+
+        .casa-amarela {
+            background-color: #EDFF4F;
+        }
+
+        .casa-azul {
+            background-color: #3668B2;
+        }
+
+        .casa-branca {
+            background-color: #FFFFFF;
+        }
+
+        .casa-preta {
+            background-color: #000000;
+        }
+
+        .casa-verde {
+            background-color: #48CF40;
+        }
+
+        .casa-vermelha {
+            background-color: #D44809;
+        }
+
+        .ticked {
+            text-decoration: line-through;
+            color: #aaa;
+        }
+    </style>
+</head>
+
+<body id="logicgridapp">
+    <div id="content-wide" class="container" style="height: auto !important;">
+        <div class="container">
+            <form id="form1" name="form1" method="post"
+                action="https://rachacuca.com.br/logica/problemas/amigas-na-escola/">
+                <div id="logicgrid" class="last push-2 span-22">
+                </div>
+            </form>
+            <div id="rules" class="container">
+                <ul class="column span-12">
+                </ul>
+                <ul class="column span-12 last">
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="jquery-1.8.3.min.js.download"></script>
+    <script type="text/javascript" src="mootools-1.2.4-core-nc.js.download"></script>
+    <script type="text/javascript" src="logic.js.download"></script>    
+    <script type="text/javascript" charset="utf-8">
+
+        if (puzzle.puzzleID) {
+            var generator = new PuzzleGenerator(puzzle, 'pt');
+            puzzle = generator.getPuzzle();
+        }
+
+        jQuery(document).ready(function () {
+            var m = new Manager(puzzle);
+        });
+    </script>
+
+</html>

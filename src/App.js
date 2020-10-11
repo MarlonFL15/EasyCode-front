@@ -15,7 +15,8 @@ import Blockly from './components/Blocos/Blockly'
 import Arduino from './components/Arduino/index.js'
 import Question from './components/Questions/Question-Card'
 import Dashboard from './components/Dashboard/Dashboard'
-
+import TableVerdade from './components/Tabela-Questoes-Verdade/Container'
+import TableVerdadeQuestion from './components/Tabela-verdade/index'
 import Table from './components/Tabela-Questoes/Container'
 
 import Roullete from './components/Roleta/Roleta.js'
@@ -48,10 +49,15 @@ export default function App() {
         <PrivateRoute path="/quiz" exact>
             <Quiz/>
         </PrivateRoute>
+        <PrivateRoute path="/tabelas-verdade" exact>
+            <TableVerdade/>
+        </PrivateRoute>
+        <PrivateRoute path="/tabela-verdade" exact>
+            <TableVerdadeQuestion/>
+        </PrivateRoute>
         <PrivateRoute path="/quiz/responder" exact>
             <Questions/>
         </PrivateRoute>
-    
         <Route path="/" exact>
           <Home/>
         </Route>
