@@ -22,56 +22,60 @@ import Table from './components/Tabela-Questoes/Container'
 import Roullete from './components/Roleta/Roleta.js'
 import Quiz from './components/Quiz/Categories.js'
 import Questions from "./components/Quiz/Question.js";
-
+import Conquista from './components/Conquista'
 
 export default function App() {
   return (
-    <Router>
-      <Switch>
-        <PrivateRoute path="/dashboard" exact>
-            <Dashboard/>
-        </PrivateRoute>
-        <PrivateRoute path="/blocos" exact>
-            <Blockly/>
-        </PrivateRoute>
-        <PrivateRoute path="/questoes" exact>
-            <Table/>
-        </PrivateRoute>
-        <PrivateRoute path="/roleta" exact>
-            <Roullete/>
-        </PrivateRoute>
-        <PrivateRoute path="/roleta2" exact>
-            <Roullete />
-        </PrivateRoute>
-        <PrivateRoute path="/questao">
-            <BlocklyQuestion/>
-        </PrivateRoute>
-        <PrivateRoute path="/quiz" exact>
-            <Quiz/>
-        </PrivateRoute>
-        <PrivateRoute path="/tabelas-verdade" exact>
-            <TableVerdade/>
-        </PrivateRoute>
-        <PrivateRoute path="/tabela-verdade" exact>
-            <TableVerdadeQuestion/>
-        </PrivateRoute>
-        <PrivateRoute path="/quiz/responder" exact>
-            <Questions/>
-        </PrivateRoute>
-        <Route path="/" exact>
-          <Home/>
-        </Route>
-        <PrivateRoute path="/arduino" exact>
-          <Arduino/>
-        </PrivateRoute>
-        <Route path="/login">
-          <Login />
-        </Route>
-        <Route path="/cadastro">
-          <Add />
-        </Route>
-      </Switch>
-    </Router>
+    <>
+      
+      <Router>
+      <Conquista></Conquista>
+        <Switch>
+          <PrivateRoute path="/dashboard" exact>
+              <Dashboard/>
+          </PrivateRoute>
+          <PrivateRoute path="/blocos" exact>
+              <Blockly/>
+          </PrivateRoute>
+          <PrivateRoute path="/questoes" exact>
+              <Table/>
+          </PrivateRoute>
+          <PrivateRoute path="/roleta" exact>
+              <Roullete/>
+          </PrivateRoute>
+          <PrivateRoute path="/roleta2" exact>
+              <Roullete />
+          </PrivateRoute>
+          <PrivateRoute path="/questao">
+              <BlocklyQuestion/>
+          </PrivateRoute>
+          <PrivateRoute path="/quiz" exact>
+              <Quiz/>
+          </PrivateRoute>
+          <PrivateRoute path="/tabelas-verdade" exact>
+              <TableVerdade/>
+          </PrivateRoute>
+          <PrivateRoute path="/tabela-verdade" exact>
+              <TableVerdadeQuestion/>
+          </PrivateRoute>
+          <PrivateRoute path="/quiz/responder" exact>
+              <Questions/>
+          </PrivateRoute>
+          <Route path="/" exact>
+            <Home/>
+          </Route>
+          <PrivateRoute path="/arduino" exact>
+            <Arduino/>
+          </PrivateRoute>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/cadastro">
+            <Add />
+          </Route>
+        </Switch>
+      </Router>
+    </>
   );
 }
 

@@ -10,6 +10,7 @@ import CodeIcon from '@material-ui/icons/Code';
 import { Redirect, useHistory } from "react-router-dom";
 import GraficoHabilidade from './GraficoHabilidades';
 import GraficoSubmissoes from './GraficoSubmissoes'
+import Conquistas from './Conquistas'
 import CheckIcon from '@material-ui/icons/Check';
 import ClearRoundedIcon from '@material-ui/icons/ClearRounded';
 import CloseIcon from '@material-ui/icons/Close';
@@ -31,7 +32,7 @@ const Text = withStyles({
 
 const useStyles = makeStyles((theme) => ({
     top: {
-        height: '50%',
+        height: '100%',
         minHeight: 280,
         backgroundColor: colors.blue,
         borderRadius: 10,
@@ -191,9 +192,8 @@ export default props => {
                 </div>
             </Grid>
             <Grid item sm={8}>
-                <div className={classes.top}>
-                    <Text variant="h6" style={{ textAlign: 'center' }}><b>Conquistas</b></Text>
-                </div>
+                <Conquistas></Conquistas>
+                
             </Grid>
             <Grid container sm={12} spacing={1}
                 style={{ marginTop: 10, padding: '0 5px', marginBottom: 10 }}>

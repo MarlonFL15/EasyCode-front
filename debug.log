@@ -1099,3 +1099,4 @@
 [0730/140844.036:ERROR:process_memory_win.cc(73)] ReadMemory at 0x7ffaa9543d40 of 336 bytes failed: Somente uma parte de um pedido ReadProcessMemory ou WriteProcessMemory foi concluída. (0x12B)
 [0730/140844.036:ERROR:process_memory_win.cc(73)] ReadMemory at 0x7ffaa95453c0 of 64 bytes failed: Somente uma parte de um pedido ReadProcessMemory ou WriteProcessMemory foi concluída. (0x12B)
 [0730/140844.040:ERROR:scoped_process_suspend.cc(40)] NtResumeProcess: Tentou-se acessar um processo de saída. (0xc000010a)
+[1014/200629.591:ERROR:directory_reader_win.cc(43)] FindFirstFile: O sistema não pode encontrar o caminho especificado. (0x3)
