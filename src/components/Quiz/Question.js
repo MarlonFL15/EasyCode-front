@@ -207,6 +207,12 @@ export default function Container(props) {
         setOpen(true)
         axios.post('/sendQuiz', {respostas:gabarito, idUsuario:getToken(), assunto:assunto}).then(response => {
             
+            if(response.data.conquista.length != 0){
+                var event = new CustomEvent('achievement',  {'detail': {
+                    conquista: response.data.conquista
+                }})
+                window.dispatchEvent(event)
+            }
         }).catch(err => {
             
         })

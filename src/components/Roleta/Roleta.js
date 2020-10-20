@@ -3,6 +3,8 @@ import { Grid, Button, Typography } from '@material-ui/core'
 import Left from '../assets/left-roleta.svg'
 import Right from '../assets/right-roleta.svg'
 import colors from '../Colors'
+import axios from '../../bd/client'
+import {getToken} from '../auth'
 import { withStyles, makeStyles } from '@material-ui/core/styles'
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -12,8 +14,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Zoom from '@material-ui/core/Zoom';
 import clsx from "clsx";
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import axios from '../../bd/client'
-import Axios from 'axios'
+
+
 import { Redirect, useHistory } from "react-router-dom";
 
 const randomDeg = ()=>{
@@ -99,6 +101,23 @@ export default function Roleta() {
         
     };
 
+    const funcSpin = () =>{
+        axios.get("checkConquista", {params: {
+            idUsuario: getToken(),
+            idConquista:3
+        }}).then(r => {
+            
+            if(!r.data){
+                var event = new CustomEvent('achievement',  {'detail': {
+                    conquista: [3]
+                }})
+                window.dispatchEvent(event)
+            }
+            
+        })
+        setSpin(true)
+    }
+
     const handleClose = (str) => {
         setOpen(false)
         if(str==='novamente'){
@@ -115,7 +134,8 @@ export default function Roleta() {
                 history.push({
                     pathname: '/questao',
                     state: {
-                        id: response.data[0].id
+                        id: response.data[0].id,
+                        roleta: true
                     }
                 })
                 
@@ -150,7 +170,7 @@ export default function Roleta() {
                 </Grid>
                 <Grid item sm={12} style={{ textAlign: 'center' }}>
                     <SpinButton size="medium" variant="contained"
-                        onClick={() => setSpin(true)}>Girar</SpinButton>
+                        onClick={() => funcSpin()}>Girar</SpinButton>
                 </Grid>
                 <Dialog
                     open={open}

@@ -129,6 +129,13 @@ export default props => {
                 idUsuario: getToken(), 
                 idQuestao: id
             }).then(response => {
+                console.log(response.data)
+                if(response.data.conquista.length != 0){
+                    var event = new CustomEvent('achievement',  {'detail': {
+                        conquista: response.data.conquista
+                    }})
+                    window.dispatchEvent(event)
+                }
                 history.push('/tabelas-verdade')
             })
             

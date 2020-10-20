@@ -75,7 +75,7 @@ class BlockDiv extends React.Component {
     
     axios.get("/pergunta/"+id).then(response => {
       
-      this.setState({question:response.data})
+      this.setState({question:response.data, roleta:this.props.location.state.roleta})
   
     })
   }
@@ -119,12 +119,18 @@ class BlockDiv extends React.Component {
       idUsuario:this.state.idUsuario, 
       code:code, 
       idQuestao:this.state.question.id,
+      roleta: this.state.roleta?true:false,
       xml: '<oi>'
     }).then(response => {
       if(response.data.result){
         this.setState({incorrect:false, correct:true})
-        
-        
+       
+        if(response.data.conquista.length !=0){
+          var event = new CustomEvent('achievement',  {'detail': {
+            conquista: response.data.conquista
+          }})
+          window.dispatchEvent(event)
+        }        
       }
       else{
         this.setState({incorrect:true, correct:false})

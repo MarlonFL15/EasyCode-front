@@ -6,12 +6,7 @@ import colors from '../Colors'
 import UserSVG from './../assets/user.svg'
 import { getToken } from '../auth'
 import axios from '../../bd/client'
-import CodeIcon from '@material-ui/icons/Code';
 import { Redirect, useHistory } from "react-router-dom";
-import Conquistas from './Conquistas'
-import CheckIcon from '@material-ui/icons/Check';
-import ClearRoundedIcon from '@material-ui/icons/ClearRounded';
-import CloseIcon from '@material-ui/icons/Close';
 
 
 const Text = withStyles({
@@ -55,89 +50,38 @@ const useStyles = makeStyles((theme) => ({
 export default props => {
     const classes = useStyles()
     const history = useHistory()
+    const [conquistas, setConquistas] = useState([])
 
 
     useEffect(() => {
         // Atualiza o titulo do documento usando a API do browser
+        axios.get('getConquistas/'+getToken()).then(response => {
+            setConquistas(response.data)
+        }).catch(e => {
+
+        })
     }, []);
 
     const Badge = (props) => {
+        const path = props.id + (props.idUsuario?"":"-disabled")+".svg"
         return(
             <div className={classes.bagde}>
                 
                 {/* <img width="64px" src="/media/Conquistas/6.png"></img> */}
-                <div className={classes.icon} style={{backgroundColor:props.color}}></div>
+                <img src={"media/Conquistas/"+path}></img>
                 <div style={{'flex-wrap': 'wrap'}}>
                     {props.titulo}
                 </div>
+
             </div>
         )
     }
 
-    
-    const array = [
-        {
-            titulo:'Olá mundo',
-            color:'red'
-        },
-        {
-            titulo:'Primeiro quiz',
-            color:'green'
-        },
-        {
-            titulo:'Tentando a sorte',
-            color:'yellow'
-        },
-        {
-            titulo:'Acertando tudo',
-            color:'red'
-        },
-        {
-            titulo:'De tudo um pouco',
-            color:'green'
-        },
-        {
-            titulo:'Ora ora...',
-            color:'white'
-        },
-        {
-            titulo:'Nível Einstein',
-            color:'black'
-        },
-        {
-            titulo:'Programador iniciante',
-            color:'green'
-        },
-        {
-            titulo:'Programador intermediário',
-            color:'yellow'
-        },
-        {
-            titulo:'Programador avançado',
-            color:'red'
-        },
-        {
-            titulo:'Solucionador de problemas',
-            color:'white'
-        },
-        {
-            titulo:'Sherlock Holmes',
-            color:'yellow'
-        },
-        {
-            titulo:'Viciado em quiz',
-            color:'white'
-        },
-        {
-            titulo:'Viciado na sorte',
-            color:'green'
-        },
-    ]
     return (
         <div className={classes.top}>
             <Text variant="h6" style={{ textAlign: 'center' }}><b>Conquistas</b></Text>
             <Grid container className={classes.wraper}>
-                {array.map(el => {
+                {conquistas.map(el => {
                     return <Grid item><Badge {...el}></Badge></Grid>
                 })}
             </Grid>
