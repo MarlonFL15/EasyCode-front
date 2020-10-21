@@ -120,6 +120,7 @@ class BlockDiv extends React.Component {
       code:code, 
       idQuestao:this.state.question.id,
       roleta: this.state.roleta?true:false,
+      pontuacao: this.state.question.pontos,
       xml: '<oi>'
     }).then(response => {
       if(response.data.result){

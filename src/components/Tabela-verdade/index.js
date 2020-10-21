@@ -118,30 +118,34 @@ export default props => {
             setTitulo(response.data[0].nome)
             setUrl(response.data[0].url)
             setDescricao(response.data[0].descricao)
+            const nivel = response.data[0].nivel
+            const messageReceived = (e) => {
+                window.removeEventListener("message", messageReceived, false);
+                alert("Parabéns, você completou tudo")
+                
+                axios.post('tabela-verdade', {
+                    idUsuario: getToken(), 
+                    idQuestao: id,
+                    pontuacao: nivel == 'Muito Fácil'?10:nivel == 'Fácil'?25:nivel == 'Normal'?50:nivel == 'Difícil'?75:100
+                }).then(response => {
+                    console.log(response.data)
+                    if(response.data.conquista.length != 0){
+                        var event = new CustomEvent('achievement',  {'detail': {
+                            conquista: response.data.conquista
+                        }})
+                        window.dispatchEvent(event)
+                    }
+                    history.push('/tabelas-verdade')
+                })
+                
+    
+            }
+            window.addEventListener("message", messageReceived, false)
         }).catch(e => {
 
         })
 
-        const messageReceived = function(e){
-            window.removeEventListener("message", messageReceived, false);
-            alert("Parabéns, você completou tudo")
-            axios.post('tabela-verdade', {
-                idUsuario: getToken(), 
-                idQuestao: id
-            }).then(response => {
-                console.log(response.data)
-                if(response.data.conquista.length != 0){
-                    var event = new CustomEvent('achievement',  {'detail': {
-                        conquista: response.data.conquista
-                    }})
-                    window.dispatchEvent(event)
-                }
-                history.push('/tabelas-verdade')
-            })
-            
 
-        }
-        window.addEventListener("message", messageReceived, false)
 
     }, [0])
     return (
