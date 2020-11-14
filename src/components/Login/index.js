@@ -230,18 +230,18 @@ export default function Login(){
                             onChange = {(event) => changeSenha(event)}                 
                         />
                        
-                        <GoogleLogin 
+                        {/* <GoogleLogin 
                             clientId="424250984029-orr4co5ga13rsn1ho4e3ragp9t6ams6f.apps.googleusercontent.com"
-                            /*render={renderProps => (
-                            <button onClick={renderProps.onClick} disabled={renderProps.disabled}>This is my custom Google button</button>
-                            )}*/
+                            //render={renderProps => (
+                            //<button onClick={renderProps.onClick} disabled={renderProps.disabled}>This is my custom Google button</button>
+                            //)}
                             icon={true}
                             justifyContent="center"
                             buttonText="Login com o google"
                             onSuccess={googleLogin}
                             onFailure={googleLogin}
                             cookiePolicy={'single_host_origin'}
-                        />
+                        /> */}
                         <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
                             label="Mantenha-me conectado"

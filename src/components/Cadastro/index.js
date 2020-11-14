@@ -151,7 +151,7 @@ export default function Login(){
         if(!re.test(data.email))
             errorLocal.email = 'Insira um e-mail válido'
         
-        if(errorLocal.senha || errorLocal.email || errorLocal.nome /*|| errorLocal.confirmarSenha*/){
+        if(errorLocal.senha || errorLocal.email || errorLocal.nome || errorLocal.confirmarSenha){
             setError(errorLocal)
             return false;
         }  

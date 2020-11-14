@@ -10,7 +10,7 @@ if(corrects==problem.regras.length){
     window.parent.postMessage ('ok meu patrão', '*');
 }}else{
     
-    window.parent.postMessage ('ok meu patrão', '*');
+    
     
 }}
 this.changeColors=function(){if(!(problem.items.cor||(typeof problem.meta.colorIndex!="undefined")))return;var state=this.gridCanvas.readState();var canvas=this.gridCanvas;for(var i=0;i<state.length;i++){canvas.setClassCasa(i,"");if(state[i].cor){canvas.setClassCasa(i,"casa-"+state[i].cor);}else if(state[i][problem.meta.colorIndex]){colorIndex=problem.meta.colorIndex;canvas.setClassCasa(i,"casa-"+this.houseColors[state[i][colorIndex]]);}}

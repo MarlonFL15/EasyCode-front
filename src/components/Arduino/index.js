@@ -61,7 +61,7 @@ class BlockDiv extends React.Component {
 
   render() {
     return (
-        <Iframe url={"https://marlonfl15.github.io/ardublockly/blocklyArduino.html"}
+        <Iframe url={"/blockly/ardublockly/blocklyArduino.html"}
         width="100%"
         height="750px"
         display="initial"

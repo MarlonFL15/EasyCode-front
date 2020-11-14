@@ -93,19 +93,14 @@ class BlockDiv extends React.Component {
     this.generateCode()
   }
 
-  onClick = (event) =>{
-    window.addEventListener("message", messageReceived);
-    function messageReceived(e) {
-      const code = e.data
-      this.onSubmit()
-    }
-  }
+
   onClick = (event) =>{
    
     var obj = this
     window.addEventListener("message", messageReceived, false);
     document.getElementById("frame").contentWindow.postMessage({ "json_example": true }, "*");
     function messageReceived(e) {
+
       const code = e.data
       
       obj.onSubmit(code)
@@ -168,7 +163,7 @@ class BlockDiv extends React.Component {
             Solução Incorreta!
           </MuiAlert>
         </Snackbar>
-        <Iframe url={"https://marlonfl15.github.io/ardublockly/blocklyQuestion.html"}
+        <Iframe url={"/blockly/ardublockly/blocklyQuestion.html"}
           width="75%"
           height="700px"
           display="initial"
