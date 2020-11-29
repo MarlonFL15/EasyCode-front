@@ -8,7 +8,7 @@ import {getToken} from '../auth'
 import axios from '../../bd/client'
 import { Redirect, useHistory } from "react-router-dom";
 
-import { Line } from 'react-chartjs-2';
+import { Line, Chart } from 'react-chartjs-2';
   
 const useStyles = makeStyles((theme)=>({
 }))
@@ -86,10 +86,13 @@ export default props =>{
         })
 
     },[]);
-    
+    Chart.defaults.global.defaultFontFamily="Poppins";
+    Chart.defaults.global.defaultFontColor="#000000";
     return(
-        <div>
-            <Line data={{
+        <div >
+            <Line 
+           
+            data={{
                 labels: Object.keys(dataPratica),
                 datasets: [
                   {
@@ -111,15 +114,21 @@ export default props =>{
                 ]
                 
             }}
+         
             options={{
                 scales: {
                     yAxes: [{
                         ticks: {
+                            fontColor: '#666666',
                             suggestedMin: 0,
                             suggestedMax: max+10
                         }
                     }]
-                }
+                },
+                legend: {
+                    position: 'right',
+                    display: false,
+                  },
             }}
             // options = {{
                 

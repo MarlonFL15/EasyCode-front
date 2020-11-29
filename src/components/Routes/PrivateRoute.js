@@ -6,9 +6,10 @@ const PrivateRoute = (props) =>{
     const isLogged = true
     // !!localStorage.getItem('app-token')
     return (isLogged ? 
-        <Drawer>
-            <Route {...props}/>
-        </Drawer>:
+        // <Drawer>
+            <Route {...props} />
+        // </Drawer>
+        :
         <Redirect to="/login"/>)
 }
 

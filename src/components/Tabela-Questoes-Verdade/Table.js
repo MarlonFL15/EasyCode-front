@@ -16,26 +16,41 @@ import {removeAcentos} from '../../functions'
 import { withRouter, useHistory } from "react-router-dom";
 import axios from '../../bd/client'
 import { getToken } from '../auth';
-
+import './index.css'
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: colors.blue,
-    color: theme.palette.common.white,
+    fontFamily: 'Poppins',
+    outline: '#f3f2fa solid 0px',
+    fontWeight: 700,
   },
   body: {
     fontSize: 14,
+    fontFamily: 'Poppins'
   },
 }))(TableCell);
+const StyledTablePagination = withStyles((theme) => ({
+
+  root: {
+    fontSize: 14,
+    fontFamily: 'Poppins'
+  },
+}))(TablePagination);
 
 const StyledTableRow = withStyles((theme) => ({
   root: {
-      cursor:'pointer',
+    outline: '#ffffff solid 2px',
+    cursor:'pointer',
+      marginLeft: 100,    
     '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
+      backgroundColor: "#f3f2fa",
     },
+    '&.MuiTableRow-head': {
+      backgroundColor: "#ffffff",
+    }
   },
   
 }))(TableRow);
+
 
 function createData(id,nome, assunto, nivel, pontos, feito) {
   return { id,nome, assunto, nivel, pontos, feito };
@@ -110,7 +125,7 @@ class CustomTable extends Component {
         rows.map((row, i) => (
           <StyledTableRow key={i} 
             onClick={(event) => this.props.history.push({
-            pathname: '/tabela-verdade',
+            pathname: '/tabela-verdade/',
             state: { id: row.id }})}>
             <StyledTableCell align="left" >{row.nome}</StyledTableCell>
             <StyledTableCell  style={{width:'10%'}} align="center">{<Nivel nivel={row.nivel}/>}</StyledTableCell>
@@ -133,13 +148,13 @@ class CustomTable extends Component {
         <TableContainer>
           <Table className={classes.table}>
             <TableHead>
-              <TableRow>
+              <StyledTableRow>
                 {/*Head da tabela */}
                 <StyledTableCell align="left">Nome</StyledTableCell>
                 <StyledTableCell  style={{width:'10%'}} align="center">Nível</StyledTableCell>
                 <StyledTableCell  style={{width:'20%'}} align="center">Feito</StyledTableCell>
                 <StyledTableCell  style={{width:'20%'}} align="center">Pontuação</StyledTableCell>
-              </TableRow>
+              </StyledTableRow>
             </TableHead>
   
             <TableBody>
@@ -150,7 +165,7 @@ class CustomTable extends Component {
             </TableBody>
             <TableFooter>
               <TableRow style={{ width: '100%' }}>
-                <TablePagination
+                <StyledTablePagination
                   rowsPerPageOptions={[15, 25, 50, { label: 'Todos', value: count }]}
                   labelRowsPerPage='linhas por página: '
                   labelDisplayedRows={({ from, to, count }) => `${from}-${to} de ${count}`}

@@ -1,15 +1,8 @@
 import React from 'react';
 import { withStyles, makeStyles, createStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import InputBase from '@material-ui/core/InputBase';
-import { Grid, Typography } from '@material-ui/core';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import DirectionsIcon from '@material-ui/icons/Directions'
+import { Button, Grid, Typography } from '@material-ui/core';
 import { Redirect, useHistory, Link} from "react-router-dom";
-import colors from './../Colors'
+import colors from '../Colors'
 import LoopIcon from '@material-ui/icons/Loop';
 import TrendingFlatIcon from '@material-ui/icons/TrendingFlat';
 
@@ -22,7 +15,6 @@ const useStyles = makeStyles((theme) => createStyles({
     flexDirection:'column',
     justifyContent:'center',
     alignItems: 'center',
-    padding:25
   },
   search: {
     padding: '2px 4px',
@@ -95,8 +87,14 @@ const useStyles = makeStyles((theme) => createStyles({
     fontFamily: 'Roboto, sans-serif',
   },
   title: {
-    fontFamily: 'Quicksand, sans-serif',
-    fontSize: 40,
+    fontSize: 32,
+    color: '#FFFFFF'
+  },
+  subtitle: {
+    marginTop: 10,
+    fontSize: 18,
+    color: '#FFFFFF',
+    fontWeight: 300
   },
   seeAll: {
     fontFamily: 'Nunito, sans-serif',
@@ -108,11 +106,9 @@ const useStyles = makeStyles((theme) => createStyles({
 
 
 const assuntos = [
-  {nome: 'Matemática', link: '/quiz/responder', cor: colors.blue, icon: '+-*/'},
-  {nome: 'Seleção', link: '/quiz/responder', cor: colors.green, icon: 'if()'},
-  {nome: 'Sequência', link: '/quiz/responder', cor: colors.red, icon:(<div><TrendingFlatIcon style={{ fontSize: 60 }}/><TrendingFlatIcon style={{ fontSize: 60 }}/></div>)},
-  {nome: 'Repetição', link: '/quiz/responder', cor: colors.yellow, icon: (<LoopIcon style={{ fontSize: 60 }}/>)},
-  {nome: 'Textos', link: '/quiz/responder', cor: colors.blue, icon: 'abc'},
+  {nome: 'Sequência', link: '/questoes', cor: colors.red, icon:(<div><TrendingFlatIcon style={{ fontSize: 60 }}/><TrendingFlatIcon style={{ fontSize: 60 }}/></div>)},
+  {nome: 'Seleção', link: '/dashboard', cor: colors.green, icon: 'if()'},
+  {nome: 'Repetição', link: '/questoes', cor: colors.yellow, icon: (<LoopIcon style={{ fontSize: 60 }}/>)},
 
 ]
 
@@ -131,7 +127,7 @@ export default function Container() {
       return (
         <Grid item className={classes.cardContainer} md={4} sm={6}  xs={12}
         >
-            <div className={classes.card} onClick={(event) => {history.push(link, {assunto:nome}); history.go(0)}}
+            <div className={classes.card} onClick={(event) => {history.push(link); history.go(0)}}
             style={{backgroundColor: cor, boxShadow: '0 2px 7px ' + cor,}}>
               <div className={classes.cardIcon}>
                 {icon}
@@ -144,22 +140,24 @@ export default function Container() {
 
     return (
         <div className={classes.root}>
-            <h2 className={classes.title}>Escolha uma categoria para praticar</h2>
-            {/* <h2 className={classes.seeAll}>Visualizar todas as questoes</h2> */}
+            <div className="top" style={{ padding: 7, background: colors.blue, width: '100%', height: 300, paddingTop: 80, paddingBottom: 30, marginBottom: 50}}>
+            <Grid container justify="center">
+              <Grid item sm={5}>
+                <div>Girar roleta</div>
+                <Button color="secondary" variant="contained">GIRAR</Button>
+              </Grid>
+              <Grid item sm={5}>
+                <h2 className={classes.title}>Vamos testar seus conhecimentos de programação?</h2>
+                <h2 className={classes.subtitle}>Você pode rodar a roleta para sortear um tema ou escolher manualmente nos paineis abaixo.</h2>
+
+              </Grid>
+
+            </Grid>
+
+            </div>
+
             
-            {/* <Paper component="form" className={classes.search}>
-            <InputBase
-                className={classes.input}
-                placeholder="Pesquisar"
-                value = {value}
-                onChange={changeValue}
-            />
-            <IconButton type="submit" className={classes.iconButton} aria-label="search">
-                <SearchIcon />
-            </IconButton>
-        </Paper>
-        <Table search={value}/> */}
-        <Grid container justify="center">
+        <Grid container justify="center" style={{maxWidth: 1200}}>
         {assuntos.map(item=>{
               return(
                 <Card card={item}/>

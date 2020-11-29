@@ -5,6 +5,8 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
+  useLocation,
+  Redirect,
 } from "react-router-dom";
 import PrivateRoute from './components/Routes/PrivateRoute'
 import Login from './components/Login'
@@ -18,54 +20,56 @@ import Dashboard from './components/Dashboard/Dashboard'
 import TableVerdade from './components/Tabela-Questoes-Verdade/Container'
 import TableVerdadeQuestion from './components/Tabela-verdade/index'
 import Table from './components/Tabela-Questoes/Container'
-
+import styled from "styled-components";
 import Roullete from './components/Roleta/Roleta.js'
 import Quiz from './components/Quiz/Categories.js'
 import Questions from "./components/Quiz/Question.js";
 import Conquista from './components/Conquista'
+import { TransitionGroup, CSSTransition } from "react-transition-group";
+
 
 export default function App() {
   return (
     <>
-      
       <Router>
-      <Conquista></Conquista>
+        <Conquista></Conquista>
+
         <Switch>
           <PrivateRoute path="/dashboard" exact>
-              <Dashboard/>
+            <Dashboard />
           </PrivateRoute>
           <PrivateRoute path="/blocos" exact>
-              <Blockly/>
+            <Blockly />
           </PrivateRoute>
           <PrivateRoute path="/questoes" exact>
-              <Table/>
+            <Table />
           </PrivateRoute>
           <PrivateRoute path="/roleta" exact>
-              <Roullete/>
+            <Roullete />
           </PrivateRoute>
           <PrivateRoute path="/roleta2" exact>
-              <Roullete />
+            <Roullete />
           </PrivateRoute>
           <PrivateRoute path="/questao">
-              <BlocklyQuestion/>
+            <BlocklyQuestion />
           </PrivateRoute>
           <PrivateRoute path="/quiz" exact>
-              <Quiz/>
+            <Quiz />
           </PrivateRoute>
           <PrivateRoute path="/tabelas-verdade" exact>
-              <TableVerdade/>
+            <TableVerdade />
           </PrivateRoute>
           <PrivateRoute path="/tabela-verdade" exact>
-              <TableVerdadeQuestion/>
+            <TableVerdadeQuestion />
           </PrivateRoute>
           <PrivateRoute path="/quiz/responder" exact>
-              <Questions/>
+            <Questions />
           </PrivateRoute>
           <Route path="/" exact>
-            <Home/>
+            <Home />
           </Route>
           <PrivateRoute path="/arduino" exact>
-            <Arduino/>
+            <Arduino />
           </PrivateRoute>
           <Route path="/login">
             <Login />
@@ -79,3 +83,34 @@ export default function App() {
   );
 }
 
+
+const Wrapper = styled.div`
+  .fade-enter {
+    opacity: 0.01;
+  }
+
+  .fade-enter.fade-enter-active {
+    opacity: 1;
+    transition: opacity 300ms ease-in;
+  }
+
+  .fade-exit {
+    opacity: 1;
+  }
+
+  .fade-exit.fade-exit-active {
+    opacity: 0.01;
+    transition: opacity 300ms ease-in;
+  }
+
+  div.transition-group {
+    position: relative;
+  }
+
+  section.route-section {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+  }
+`;

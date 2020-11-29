@@ -2,7 +2,7 @@ import React from 'react';
 import { withStyles, makeStyles, createStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
-import { Grid, Typography } from '@material-ui/core';
+import { Grid, Typography, Card } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -14,6 +14,7 @@ import colors from '../Colors'
 import LoopIcon from '@material-ui/icons/Loop';
 import TrendingFlatIcon from '@material-ui/icons/TrendingFlat';
 
+
 const useStyles = makeStyles((theme) => createStyles({
   table: {
   },
@@ -23,7 +24,6 @@ const useStyles = makeStyles((theme) => createStyles({
     flexDirection:'column',
     justifyContent:'center',
     alignItems: 'center',
-    padding:25
   },
   search: {
     padding: '2px 4px',
@@ -31,6 +31,9 @@ const useStyles = makeStyles((theme) => createStyles({
     alignItems: 'center',
     width: 350,
     margin:'15px 0',
+    backgroundColor: '#f3f2fa',
+    border: 'none',
+    float: 'right',
     [theme.breakpoints.down('sm')]:{
         width:'100%',
     }
@@ -96,8 +99,13 @@ const useStyles = makeStyles((theme) => createStyles({
     fontFamily: 'Roboto, sans-serif',
   },
   title: {
-    fontFamily: 'Quicksand, sans-serif',
-    fontSize: 40,
+    fontFamily: 'Poppins, sans-serif',
+    fontSize: 24,
+    marginTop: 100,
+    color: '#FFFFFf',
+    width: 'calc(100% - 100px)',
+    marginBottom: 30,
+    minWidth: 200,
   },
   seeAll: {
     fontFamily: 'Nunito, sans-serif',
@@ -126,27 +134,16 @@ export default function Container() {
         console.log('tá mudando')
         setValue(event.target.value)
     }
-    const Card = (props) => {
-      const classes = useStyles();
-      const { nome, icon, link, cor } = props.card;
-      return (
-        <Grid item className={classes.cardContainer} md={4} sm={6}  xs={12}
-        >
-            <div className={classes.card} onClick={(event) => {history.push(link); history.go(0)}}
-            style={{backgroundColor: cor, boxShadow: '0 2px 7px ' + cor,}}>
-              <div className={classes.cardIcon}>
-                {icon}
-              </div>
-              <h5>{nome}</h5>
-            </div>
-        </Grid>
-      )
-    }
 
     return (
         <div className={classes.root}>
+            <div className="top" style={{ padding: 7, background: colors.blue, width: '100%', position: 'absolute', top: 0, left: 0, zIndex: -1}}/>
+          
            <h2 className={classes.title}>Escolha uma questão para praticar</h2>
-            <Paper component="form" className={classes.search}>
+
+           <Card variant="outlined" style={{padding: 10, width: 'calc(100% - 100px)', border: 'none', minWidth: 300, marginBottom: 30}}>
+           
+            <Paper component="form" variant="outlined" className={classes.search}>
             <InputBase
                 className={classes.input}
                 placeholder="Pesquisar"
@@ -158,7 +155,8 @@ export default function Container() {
             </IconButton>
         </Paper>
         <Table search={value}/> 
-        
+          
+        </Card>
         
     </div>
   );

@@ -1,0 +1,153 @@
+.grid-container {
+    display: grid;
+    grid-template-areas:  'perfil texts cards cards cards' 'perfil charts charts play play';
+    column-gap: 20px;
+    row-gap: 10px;
+    grid-template-columns: 1.5fr 1.3fr 2fr 1fr 1fr;
+
+    width: 85%;
+    margin: 0 auto;
+    max-width: 2000px;
+    margin-top: -100px;
+}
+
+.habilidades {
+    height: 300px;
+    margin-left: -10%;
+    width: 120%;
+    padding-left: -50px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.perfil {
+    grid-area: perfil;
+}
+.text{
+    margin-top: 105px;
+    font-size: 24px;
+    grid-area: texts;
+    font-weight: 700;
+    height: auto;
+    font-family: 'Poppins';
+}
+
+.text span {
+    color: blue
+}
+
+.text div {
+    font-weight: 400;
+    font-size: 14px;
+    color: #1c1b1a
+}
+
+.charts {
+    display: flex;
+    grid-area: charts;
+}
+
+.charts>*{
+    width: 50%;
+}
+
+.play {
+    grid-area: play;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 2%;
+    grid-area: cards;
+    height: 1000;
+}
+
+.top {
+    height: 200px;
+}
+
+@media only screen and (max-width: 1200px){
+    .grid-container{
+        display: grid;
+        height: fit-content;
+        grid-template-areas: 'texts cards cards cards' 'charts charts play play' 'perfil perfil perfil perfil';
+    }
+    .charts{
+        display: block;
+        justify-content: center;
+        padding: 0 auto;
+        align-content: center;
+    }
+    .charts>*{
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 800px){
+    .container {
+        overflow-x: hidden;
+        justify-content: center;
+        align-items: center;
+        justify-items: center;
+    }
+    .top {
+        height: 300px;
+    }
+    .grid-container{
+        margin-top: -200px;
+        display: grid;
+        height: fit-content;
+
+        justify-content: center;
+
+        grid-template-areas: 'texts' 'play' 'cards' 'charts' 'perfil';
+        grid-template-columns: 550px;
+        grid-template-rows: 100px 200px auto auto auto;
+
+    }
+
+    .text{
+        margin-top: 0px;
+        color: #FFFFFF !important;
+    }
+    
+    .text span {
+        color:yellow
+    }
+
+  
+
+    .cards {
+        overflow-x: scroll;
+        overflow-y: hidden;
+        align-content: center;
+        justify-content: center;
+        padding-top: 30px;
+    }
+    
+}
+
+@media only screen and (max-width: 700px){
+    .grid-container{
+        grid-template-columns: 450px;
+    } 
+}
+
+@media only screen and (max-width: 600px){
+    .grid-container{
+        grid-template-columns: 400px;
+    } 
+}
+
+@media only screen and (max-width: 500px){
+    .grid-container{
+        grid-template-columns: 300px;
+    } 
+}
+
+@media only screen and (max-width: 300px){
+    .grid-container{
+        grid-template-columns: 250px;
+    } 
+}

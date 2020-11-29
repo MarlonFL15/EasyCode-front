@@ -196,15 +196,6 @@ export default function Roleta() {
                     </DialogActions>
                 </Dialog>
             </Grid>
-            <Grid item sm={12} md={4}
-                style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'flex-end',
-                    float: 'right'
-                }}>
-                <img src={Left} />
-            </Grid>
         </Grid>
     )
 }

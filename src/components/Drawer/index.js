@@ -220,6 +220,7 @@ function TopBar(){
                 <StyledMenuItem onClick={handleClose}>My account</StyledMenuItem>
                 <StyledMenuItem onClick={handleClose}>Logout</StyledMenuItem>
             </StyledMenu>
+            
             <div className={classes.perfil}>
                 <div className={classes.icon}>
                 </div>

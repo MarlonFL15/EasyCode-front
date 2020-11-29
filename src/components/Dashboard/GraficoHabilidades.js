@@ -8,7 +8,7 @@ import {getToken} from '../auth'
 import axios from '../../bd/client'
 import { Redirect, useHistory } from "react-router-dom";
 import {getLogin} from '../auth'
-import { Radar } from 'react-chartjs-2';
+import { Radar, Chart } from 'react-chartjs-2';
   
 const useStyles = makeStyles((theme)=>({
 }))
@@ -55,10 +55,14 @@ export default props =>{
         
     },[]);
 
+    Chart.defaults.global.defaultFontFamily="Poppins";
+    Chart.defaults.global.defaultFontColor="#000000";
+
     return(
         <div>
-            
             <Radar
+            style={{
+            }}
             data={{
                 fill:false,
                 labels: Object.keys(dataPratica),
@@ -82,16 +86,30 @@ export default props =>{
             }}
             options = {{
                 legend: {
-                    position: 'top'
+                    position: 'right',
+                    display: false,
+                    labels: {
+                        fontFamily: "Poppins",
+                        fontColor: '#1b1c1a',
+                        fontWeight: 'bold'
+                    }
                   },
-                scale: {
-                    
+                scale: { 
+                    width: 1000, 
                     ticks: {
                         suggestedMax: 100
                     }
+                },
+                layout: {
+                    
+                    padding: {
+                        left: 0,
+                        right: 0,
+                        top: 0,
+                        bottom: 10
+                    }
                 }
             }}
-            backgroundColor={'white'}
                 
                 
                 >

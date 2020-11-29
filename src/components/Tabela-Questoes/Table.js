@@ -9,28 +9,47 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import { InputBase } from '@material-ui/core';
 import Nivel from './Icons'
 import colors from '../Colors'
 import {removeAcentos} from '../../functions'
 import { withRouter, useHistory } from "react-router-dom";
 import axios from '../../bd/client'
+import { Card } from '@material-ui/core';
+import './index.css'
+import IconButton from '@material-ui/core/IconButton';
+import SearchIcon from '@material-ui/icons/Search';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: colors.blue,
-    color: theme.palette.common.white,
+    fontFamily: 'Poppins',
+    outline: '#f3f2fa solid 0px',
+    fontWeight: 700,
   },
   body: {
     fontSize: 14,
+    fontFamily: 'Poppins'
   },
 }))(TableCell);
+const StyledTablePagination = withStyles((theme) => ({
+
+  root: {
+    fontSize: 14,
+    fontFamily: 'Poppins'
+  },
+}))(TablePagination);
 
 const StyledTableRow = withStyles((theme) => ({
   root: {
-      cursor:'pointer',
+    outline: '#ffffff solid 2px',
+    cursor:'pointer',
+      marginLeft: 100,    
     '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
+      backgroundColor: "#f3f2fa",
     },
+    '&.MuiTableRow-head': {
+      backgroundColor: "#ffffff",
+    }
   },
   
 }))(TableRow);
@@ -41,6 +60,7 @@ function createData(id,nome, assunto, nivel, pontos, feito) {
 
 const useStyles = makeStyles((theme) => createStyles({
   table: {
+    background: 'transparent',
   },
   root:{
     width:'100%',
@@ -65,7 +85,24 @@ const useStyles = makeStyles((theme) => createStyles({
   niveldificil:{ 
     padding:2,
     backgroundColor: '#F44335'   
-  }
+  },
+  search: {
+    padding: '2px 4px',
+    display: 'flex',
+    alignItems: 'center',
+    width: 350,
+    margin:'15px 0',
+    [theme.breakpoints.down('sm')]:{
+        width:'100%',
+    }
+  },
+  input: {
+    marginLeft: 8,
+    flex: 1,
+  },
+  iconButton: {
+    padding: 10,
+  },
 }));
 
 class CustomTable extends Component {
@@ -73,7 +110,8 @@ class CustomTable extends Component {
     rows:[],
     rowsfilter:[],
     page:0,
-    rowsPerPage:10
+    rowsPerPage:10,
+    value: ''
   }
   handleChangePage = (event, newPage) => {
     this.setState({page:newPage})
@@ -95,16 +133,17 @@ class CustomTable extends Component {
     const {classes} = this.props;
     const rowsfilter = this.state.rows.filter(element => removeAcentos(element.titulo).toUpperCase().includes(removeAcentos(this.props.search).toUpperCase()))
     return (
-        <TableContainer component={Paper}>
+        
+        <TableContainer>
         <Table className={classes.table} aria-label="customized table">
             <TableHead>
-            <TableRow>
+            <StyledTableRow>
                 <StyledTableCell>Nome</StyledTableCell>
                 <StyledTableCell align="center">Assunto</StyledTableCell>
                 <StyledTableCell style={{width:'5%'}} align="center">Nível</StyledTableCell>
                 <StyledTableCell align="center">Pontuação</StyledTableCell>
                 <StyledTableCell style={{width:'5%'}} align="center">Feito</StyledTableCell>
-            </TableRow>
+            </StyledTableRow>
             </TableHead>
             <TableBody>
             {rowsfilter.slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage).map((row) => (
@@ -126,7 +165,7 @@ class CustomTable extends Component {
             
             </TableFooter>
         </Table>
-        <TablePagination
+        <StyledTablePagination
               rowsPerPageOptions={[10, 25, 100]}
               component="div"
               labelRowsPerPage = 'linhas por página: '
@@ -138,7 +177,7 @@ class CustomTable extends Component {
               onChangeRowsPerPage={this.state.handleChangeRowsPerPage}
             />
         </TableContainer>
-       
+
     )
   }
 }
