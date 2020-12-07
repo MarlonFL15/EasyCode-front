@@ -23,7 +23,7 @@ import SearchIcon from '@material-ui/icons/Search';
 const StyledTableCell = withStyles((theme) => ({
   head: {
     fontFamily: 'Poppins',
-    outline: '#f3f2fa solid 0px',
+    outline: colors.background+' solid 0px',
     fontWeight: 700,
   },
   body: {
@@ -45,7 +45,7 @@ const StyledTableRow = withStyles((theme) => ({
     cursor:'pointer',
       marginLeft: 100,    
     '&:nth-of-type(odd)': {
-      backgroundColor: "#f3f2fa",
+      backgroundColor: colors.background,
     },
     '&.MuiTableRow-head': {
       backgroundColor: "#ffffff",

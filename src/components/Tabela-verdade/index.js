@@ -2,62 +2,18 @@ import React, { useEffect, useState } from 'react'
 import axios from '../../bd/client'
 import { useHistory, useLocation, BrowserRouter } from "react-router-dom";
 import { withStyles, makeStyles, createStyles } from '@material-ui/core/styles';
-import {getToken} from '../auth'
+import { getToken } from '../auth'
 import Iframe from 'react-iframe'
+import { Card } from '@material-ui/core';
+import colors from '../Colors';
 
 const useStyles = makeStyles((theme) => createStyles({
-    table: {
-    },
     root: {
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 25
-    },
-    search: {
-        padding: '2px 4px',
-        display: 'flex',
-        alignItems: 'center',
-        width: 350,
-        margin: '15px 0',
-        [theme.breakpoints.down('sm')]: {
-            width: '100%',
-        }
-    },
-    input: {
-        marginLeft: 8,
-        flex: 1,
-    },
-    iconButton: {
-        padding: 10,
-    },
-    divider: {
-        height: 28,
-        margin: 4,
-    },
-    nivel: {
-        color: 'white',
-        fontWeight: 'bold',
-    },
-    nivelfacil: {
-        padding: 2,
-        backgroundColor: '#4CAF50'
-    },
-    nivelmedio: {
-        padding: 2,
-        backgroundColor: '#ff9800'
-    },
-    niveldificil: {
-        padding: 2,
-        backgroundColor: '#F44335'
-    },
-    cardContainer: {
-        color: '#FFF',
-        height: 290,
-        textAlign: 'center',
-        fontFamily: 'Quicksand, sans-serif'
     },
     card: {
         width: '95%',
@@ -87,12 +43,17 @@ const useStyles = makeStyles((theme) => createStyles({
         fontFamily: 'Roboto, sans-serif',
     },
     title: {
-        fontFamily: 'Quicksand, sans-serif',
-        fontSize: 40,
+        fontFamily: 'Poppins, sans-serif',
+        fontSize: 24,
+        marginTop: 100,
+        color: '#FFFFFf',
+        width: 'calc(100% - 100px)',
+        marginBottom: 30,
+        minWidth: 200,
     },
     subtitle: {
         fontFamily: 'Quicksand, sans-serif',
-        fontSize: 28, 
+        fontSize: 20,
     },
     descricao: {
         marginBottom: 15
@@ -110,7 +71,7 @@ export default props => {
     let id1 = location.state.id
     const [id, setId] = useState(id1)
     //alert(id1)
-    
+
     useEffect(() => {
         axios.get('tabela-verdade/' + id).then(response => {
             console.log(response)
@@ -122,23 +83,25 @@ export default props => {
             const messageReceived = (e) => {
                 window.removeEventListener("message", messageReceived, false);
                 alert("Parabéns, você completou tudo")
-                
+
                 axios.post('tabela-verdade', {
-                    idUsuario: getToken(), 
+                    idUsuario: getToken(),
                     idQuestao: id,
-                    pontuacao: nivel == 'Muito Fácil'?10:nivel == 'Fácil'?25:nivel == 'Normal'?50:nivel == 'Difícil'?75:100
+                    pontuacao: nivel == 'Muito Fácil' ? 10 : nivel == 'Fácil' ? 25 : nivel == 'Normal' ? 50 : nivel == 'Difícil' ? 75 : 100
                 }).then(response => {
                     console.log(response.data)
-                    if(response.data.conquista.length != 0){
-                        var event = new CustomEvent('achievement',  {'detail': {
-                            conquista: response.data.conquista
-                        }})
+                    if (response.data.conquista.length != 0) {
+                        var event = new CustomEvent('achievement', {
+                            'detail': {
+                                conquista: response.data.conquista
+                            }
+                        })
                         window.dispatchEvent(event)
                     }
                     history.push('/tabelas-verdade')
                 })
-                
-    
+
+
             }
             window.addEventListener("message", messageReceived, false)
         }).catch(e => {
@@ -149,20 +112,31 @@ export default props => {
 
     }, [0])
     return (
-        <div>
-            <div className={classes.title}>{titulo} - <span className={classes.subtitle}>{nivel}</span></div>
-            <div className={classes.descricao}>{descricao}</div>
-            <Iframe
-                src={"/Tabela-Verdade/questions/" + url + ".html"}
-                width="100%"
-                height="650px"
-                display="initial"
-                border="0"
-                frameBorder="0"
-                position="relative"
-                overflow="hidden"
+        <div className={classes.root} >
+            <div className="top"
+                style={
+                    { padding: 7, background: colors.blue, width: '100%', position: 'absolute', top: 0, left: 0, zIndex: -1 }
+                }
             />
-        </div>
+
+            <h2 className={classes.title} > {titulo} - < span className={classes.subtitle} > {nivel} </span></h2 >
+
+            <Card variant="outlined"
+                style={
+                    { padding: '20px 30px', width: 'calc(100% - 100px)', border: 'none', minWidth: 300, marginBottom: 30 }
+                } >
+                <div className={classes.descricao} > {descricao} </div>
+                <Iframe src={"/Tabela-Verdade/questions/" + url + ".html"}
+                    width="100%"
+                    height="650px"
+                    display="initial"
+                    border="0"
+                    frameBorder="0"
+                    position="relative"
+                    overflow="hidden"
+                />
+            </Card> </div >
+
 
     )
 }

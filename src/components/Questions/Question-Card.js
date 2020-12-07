@@ -10,7 +10,7 @@ import nivel from '../Tabela-Questoes/Icons'
 const useStyles = makeStyles({
   root: {
     display: 'flex',
-     
+    border: 'none'
   },
   title: {
     fontSize: 18,
@@ -58,8 +58,9 @@ export default function SimpleCard(props) {
   const classes = useStyles();
   const classNivel = props.nivel=='Fácil'?classes.nivelfacil:props.nivel=='Médio'?classes.nivelmedio:classes.niveldificil;
   console.log(props)
+  
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} variant='outlined'>
       <CardContent>
         <Typography className={classes.title} color="textSecondary">
           {props.titulo}

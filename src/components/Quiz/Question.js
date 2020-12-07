@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { withStyles, makeStyles, createStyles } from '@material-ui/core/styles';
-import { Grid, Typography, Button, FormGroup, FormControlLabel, Checkbox, Box, FormControl, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import { Grid, Typography, Button, Checkbox, Box, List, ListItem, ListItemIcon, ListItemText, Divider } from '@material-ui/core';
 import colors from '../Colors'
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Dialog from '@material-ui/core/Dialog';
@@ -13,133 +13,9 @@ import { useHistory, useLocation, BrowserRouter } from "react-router-dom";
 import axios from '../../bd/client'
 import { getToken } from '../auth';
 
-
-function LinearProgressWithLabel(props) {
-    return (
-        <Box display="flex" alignItems="center">
-            <Box width="100%" mr={1}>
-                <LinearProgress variant="determinate" {...props} />
-            </Box>
-            <Box minWidth={35}>
-                <Typography variant="body2" color="textSecondary">{`${Math.round(
-                    props.value,
-                )}%`}</Typography>
-            </Box>
-        </Box>
-    );
-}
-
-const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
+const TIME_FOR_NEXT_QUESTION = 2
 
 
-const useStyles = makeStyles((theme) => createStyles({
-    root: {
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 25
-    },
-
-    iconButton: {
-        padding: 10,
-    },
-    divider: {
-        height: 28,
-        margin: 4,
-    },
-    nivel: {
-        color: 'white',
-        fontWeight: 'bold',
-    },
-    nivelfacil: {
-        padding: 2,
-        backgroundColor: '#4CAF50'
-    },
-    nivelmedio: {
-        padding: 2,
-        backgroundColor: '#ff9800'
-    },
-    niveldificil: {
-        padding: 2,
-        backgroundColor: '#F44335'
-    },
-    cardContainer: {
-        color: '#FFF',
-        height: 290,
-        textAlign: 'center',
-        fontFamily: 'Quicksand, sans-serif'
-    },
-    card: {
-        width: '95%',
-        minWidth: 220,
-        height: '90%',
-        fontFamily: 'Nunito, sans-serif',
-        fontSize: 25,
-        margin: '10px auto',
-        borderRadius: 10,
-        padding: 15,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between'
-    },
-    cardIcon: {
-        backgroundColor: 'rgba(255, 255, 255, 0.35)',
-        width: 150,
-        height: 150,
-        margin: 'auto',
-        borderRadius: 100,
-        alignItems: 'center',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        fontSize: 50,
-        fontWeight: 700,
-        fontFamily: 'Roboto, sans-serif',
-    },
-    title: {
-        fontFamily: 'Quicksand, sans-serif',
-        fontSize: 40,
-    },
-    box: {
-        fontFamily: 'Nunito, sans-serif',
-        backgroundColor: '#cce6ed',
-        display: 'block',
-        border: '2px solid ' + colors.blue,
-        borderRadius: 5,
-        margin: 5,
-        padding: 15,
-
-    }
-}));
-
-
-/*const questoes = [
-    {
-        enunciado: 'Enunciado 1',
-        alternativas: [{alternativa:'Resposta 1'}, {alternativa:'Resposta 2'}, {alternativa:'Resposta 3'}, {alternativa:'Resposta 4'}],
-        indexCerta: 2
-    },
-    {
-        enunciado: 'Enunciado 2',
-        alternativas: ['Resposta 1', 'Resposta 2', 'Resposta 3'],
-        indexCerta: 2
-    },
-    {
-        enunciado: 'Enunciado 3',
-        alternativas: ['Resposta 1', 'Resposta 2', 'Resposta 3'],
-        indexCerta: 2
-    },
-    {
-        enunciado: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-        alternativas: ['Resposta 1', 'Resposta 2', 'Resposta 3', 'Resposta 4'],
-        indexCerta: 2
-    },
-]
-*/
 export default function Container(props) {
     const [open, setOpen] = React.useState(false);
     const [selected, setSelected] = React.useState(null)
@@ -147,23 +23,152 @@ export default function Container(props) {
     const [questao, setQuestao] = React.useState(0)
     const [gabarito, setGabarito] = React.useState([])
     const [percent, setPercent] = React.useState(0)
-    
+    const [proximo, setProximo] = React.useState(false)
     const [questoes, setQuestoes] = React.useState([])
+    const [acertos, setAcertos] = useState(0)
     let location = useLocation();
-    const [assunto, setAssunto] = React.useState(location.state.assunto)
-    const classes = useStyles();
+    let history = useHistory()
+    const assunto = location.state.assunto
+    const headerColor = assunto === 'Seleção' ? colors.yellow : assunto === 'Sequência' ? colors.red : assunto === 'Repetição' ? colors.green : colors.blue
+    const [didMount, setDidMount] = React.useState(false);
+
+
+
+    const useStyles = makeStyles((theme) => createStyles({
+        root: {
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+        },
+        topRow: {
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            padding: 7,
+            background: headerColor,
+            opacity: 0.5,
+            width: '100%',
+            zIndex: -1000,
+            height: 180
+        },
+        topBar: {
+            padding: 7,
+            background: headerColor,
+            width: percent + '%',
+            height: 180
+        },
+        cardContainer: {
+            color: '#FFF',
+            height: 290,
+            textAlign: 'center',
+            fontFamily: 'Quicksand, sans-serif'
+        },
+        cardIcon: {
+            backgroundColor: 'rgba(255, 255, 255, 0.35)',
+            width: 150,
+            height: 150,
+            margin: 'auto',
+            borderRadius: 100,
+            alignItems: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            fontSize: 50,
+            fontWeight: 700,
+            fontFamily: 'Roboto, sans-serif',
+        },
+        title: {
+            fontFamily: 'Quicksand, sans-serif',
+            fontSize: 25,
+            textAlign: 'center',
+            color: headerColor,
+            paddingBottom: 15
+        },
+        box: {
+            fontFamily: 'Nunito, sans-serif',
+
+            display: 'block',
+
+            borderRadius: 5,
+            margin: 5,
+            padding: 15,
+
+        },
+        card: {
+            backgroundColor: '#ffffff',
+            fontFamily: 'Nunito, sans-serif',
+            display: 'block',
+            borderRadius: 5,
+            margin: 5,
+            padding: 25,
+            textAlign: 'center'
+
+        },
+        nextContainer: {
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            // background: 'red',
+            display: 'flex',
+            width: '100%',
+            minHeight: 600,
+            height: '100%',
+            padding: '20px 30px'
+        },
+        nextBox: {
+            marginTop: 'auto',
+            marginLeft: 'auto',
+        },
+        nextButton: {
+            backgroundColor: selected !== null ? colors.blue : 'gray',
+            padding: '10px 40px',
+            color: 'white',
+            fontSize: 16,
+            fontWeight: 500,
+            letterSpacing: 1.3
+        },
+        respostaContainer: {
+            display: 'flex',
+            position: 'relative',
+            backgroundColor: colors.background,
+            flexDirection: 'column',
+            justifyContent: 'center',
+            textAlign: 'center',
+            height: '100%',
+            width: '100%',
+            zIndex: 10,
+
+        }
+    }));
+
+    const classes = useStyles()
 
     useEffect(() => {
+        console.log(gabarito)
+        gabarito.map((item) => {
+            if (item.correto)
+                setAcertos(acertos + 1)
+        })
+        const quiz = {
+            questoes: questoes.length,
+            acertos: acertos
+        }
+    })
+    useEffect(() => {
+
         //const assunto = location.state.assunto;
         console.log('chamou')
-        axios.get('quiz', {params:{
-            assunto: assunto,
-            idUsuario: getToken()
-        }}).then(response => {
+        axios.get('quiz', {
+            params: {
+                assunto: assunto,
+                idUsuario: getToken()
+            }
+        }).then(response => {
             const perguntas = []
             response.data.forEach(el => {
-                
-                el.alternativas.forEach((alt, index)=>{
+
+                el.alternativas.forEach((alt, index) => {
                     el.alternativas[index] = alt.alternativa
                 })
                 perguntas.push({
@@ -175,164 +180,201 @@ export default function Container(props) {
                 })
                 setQuestoes(perguntas)
             })
-             /**Criar o formulario no banco */
-             //console.log({assunto:assunto, idUsuario:getToken()})
-             //axios.post('createForm', {assunto:assunto, idUsuario:getToken()})
+            /**Criar o formulario no banco */
+            //console.log({assunto:assunto, idUsuario:getToken()})
+            //axios.post('createForm', {assunto:assunto, idUsuario:getToken()})
         }).catch(error => {
             console.log(error)
         })
-        
-    },[]);
-    const GreenCheckbox = withStyles({
+
+        console.log(selected)
+
+        console.log()
+
+    }, []);
+
+
+    const StyledCheckbox = withStyles({
         root: {
-            color: colors.blue,
+            color: headerColor,
 
             '&$checked': {
-                color: show ? selected === questoes[questao].indexCerta ? colors.green : colors.red : colors.green,
+                color: headerColor,
             },
         },
         checked: {},
     })((props) => <Checkbox color="default" {...props} />);
 
     const changeQuestion = () => {
-        setQuestao(questao + 1)
-        setShow(false)
-        setSelected(null)
-        if(questao == questoes.length - 1){
-            alert('oppa')
+
+        if (questao == questoes.length - 1) {
+            getAcertos()
+            const quiz = {
+                questoes: questoes.length,
+                acertos: acertos
+            }
+            console.log(quiz)
+            history.push('/quiz/resultado', { quiz })
+        } else {
+            setQuestao(questao + 1)
+            setShow(false)
+            setSelected(null)
         }
+
+
     }
 
-    const finish = () =>{
-        setOpen(true)
-        axios.post('/sendQuiz', {respostas:gabarito, idUsuario:getToken(), assunto:assunto}).then(response => {
-            
-            if(response.data.conquista.length != 0){
-                var event = new CustomEvent('achievement',  {'detail': {
-                    conquista: response.data.conquista
-                }})
+    const finish = () => {
+        axios.post('/sendQuiz', { respostas: gabarito, idUsuario: getToken(), assunto: assunto }).then(response => {
+
+            if (response.data.conquista.length != 0) {
+                var event = new CustomEvent('achievement', {
+                    'detail': {
+                        conquista: response.data.conquista
+                    }
+                })
                 window.dispatchEvent(event)
             }
         }).catch(err => {
-            
+
         })
         /**Criar o registro do formulário */
         /**Criar o registro das perguntas no formulário */
         /**Criar o registro das respostas */
     }
-    const showAnswer = () => {
-        setShow(true)
-        let newgabarito = [...gabarito, 
-            {
-                correto:selected === questoes[questao].indexCerta, 
-                respostaUsuario:questoes[questao].alternativas[selected], 
-                id: questoes[questao].id,
-                
+
+    const SetProximoTrue = () => {
+        setProximo(true)
+
+        return new Promise(r => {
+            setTimeout(r, TIME_FOR_NEXT_QUESTION * 1000)
+        })
+    }
+
+    const Resultado = async () => {
+        await SetProximoTrue().then(
+            () => {
+                showAnswer()
+                changeQuestion()
+                setProximo(false)
             }
+        )
+
+
+    }
+
+    const showAnswer = () => {
+        let newgabarito = [...gabarito,
+        {
+            correto: selected === questoes[questao].indexCerta,
+            respostaUsuario: questoes[questao].alternativas[selected],
+            id: questoes[questao].id,
+
+        }
         ]
-        //console.log(newgabarito)
+
         setGabarito(newgabarito)
-        
+        console.log(gabarito)
         setPercent(percent + parseFloat(1 / questoes.length * 100))
     }
 
-    if(questoes.length == 0)
+    const IsQuestionRight = () => {
+        return selected === questoes[questao].indexCerta
+    }
+
+    const getGabarito = () => {
+        return new Promise(r => {
+            r(gabarito)
+        })
+    }
+
+    const getAcertos = async () => {
+        var result = 0
+        await getGabarito().then(r => {
+            result = r
+            console.log(result)
+
+        })
+    }
+    const TelaResposta = () => {
+
+        return (
+            <div
+                className={classes.respostaContainer}>
+
+                <img style={{
+                    height: 90,
+                    margin: '0 auto',
+                }}
+                    src={require(IsQuestionRight() ? './VoceAcertou.svg' : './VoceErrou.svg')} />
+                <div
+                    style={{
+                        fontSize: 25,
+                        fontWeight: 600,
+                        color: IsQuestionRight() ? colors.green : colors.red
+                    }}>
+                    {IsQuestionRight() ?
+                        'Você acertou' : 'Voce errou'}</div>
+                <div>{IsQuestionRight() ?
+                    'Continue assim!' : 'Não desista e continue tentando!'}
+                </div>
+            </div>
+        )
+    }
+
+    if (questoes.length == 0)
         return (
             <div>Carregando</div>
         )
 
+    if (proximo) {
+        return (<TelaResposta />)
+    }
+
     return (
         <div className={classes.root}>
 
-            <h2 className={classes.title}>Quiz sobre {assunto}</h2>
+            <div className={classes.topRow} />
+            <div className={classes.topBar} />
 
-            <Grid container>
+            <Grid container style={{ padding: 25, marginTop: -100 }}>
                 <Grid item sm={12}>
-                    <LinearProgressWithLabel
-                        value={percent} />
+
                 </Grid>
-                <Grid item sm={12} className={classes.box}>
+                <Grid item sm={12} className={classes.card}>
+                    <h3 className={classes.title}>{assunto}</h3>
                     {questoes[questao].enunciado}
-                    <br/>
+                    <br />
                     {questoes[questao].codigo}
                 </Grid>
 
                 {questoes[questao].alternativas.map((item, index) => {
                     const lengthAlt = questoes[questao].alternativas.length
                     return (
-                        <Grid item sm={12} md={lengthAlt%2==1 && index=== lengthAlt-1?12:6}>
+                        <Grid item sm={12} md={lengthAlt % 2 == 1 && index === lengthAlt - 1 ? 12 : 6}>
 
-                            <div className={classes.box}
-
-
-                                style={{
-                                    backgroundColor: show ? questoes[questao].indexCerta === index ? '#d2edcc' : index === selected ? '#ffadad' : '' : '',
-                                    padding: 5,
-                                    fontFamily: 'Nunito, sans-serif',
-                                }}
-                            >
-                                <GreenCheckbox name="checkedH" checked={selected === index} onChange={(e) => !show ? setSelected(index) : null} />
+                            <div className={classes.box}>
+                                <StyledCheckbox name="checkedH" checked={selected === index} onChange={(e) => !show ? setSelected(index) : null} />
                                 <span>{item}</span>
                             </div>
                         </Grid>
-                        // <Grid item sm={12}>{item}</Grid>
                     )
                 })}
-
-                <Grid item sm={12} justify="space-between" style={{ display: 'flex' }}>
-                    <Button variant="contained" disabled={show} color="primary" onClick={(e) => showAnswer()}>Responder</Button>
-                    <Button variant="contained" color="primary" onClick={(e) => changeQuestion()} style={{ display: show ? questao < questoes.length - 1 ? 'inherit' : 'none' : 'none' }}>Próximo</Button>
-                    <Button variant="contained" color="primary" style={{ display: show ? questao === questoes.length - 1 ? 'inherit' : 'none' : 'none' }} onClick={() => finish()}>Ver gabarito</Button>
-                </Grid>
+                <div
+                    className={classes.nextContainer}>
+                    <div className={classes.nextBox}>
+                        <Button variant="contained"
+                            disabled={selected === null}
+                            className={classes.nextButton}
+                            onClick={(e) => {
+                                localStorage.setItem('headerWhite', true)
+                                Resultado()
+                            }}>PRÓXIMO</Button>
+                    </div>
+                </div>
             </Grid>
-            <Dialog
-                open={open}
-                TransitionComponent={Transition}
-                keepMounted
-                onClose={() => setOpen(false)}
-                aria-labelledby="alert-dialog-slide-title"
-                aria-describedby="alert-dialog-slide-description"
-            >
-                <DialogTitle id="alert-dialog-slide-title">Gabarito</DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-slide-description">
-                        <List>
-                            {gabarito.map((item, index) => {
-                                return <ListItem
-                                    style={{
-                                        height: 20,
-                                        textOverflow: 'ellipsis',
-                                            
-                                            whiteSpace: 'nowrap',
-                                       
-                                    }}>
-                                    <ListItemIcon>
-                                        {gabarito[index].correto ?
-                                            'Certa' :
-                                            'Errou'}
-                                    </ListItemIcon>
-                                    <ListItemText
-                                        primary={questoes[index].enunciado}
-                                        style={{
-                                            overflow: 'hidden',
-                                            textOverflow: 'ellipsis',
-                                            
-                                        }}
-                                    />
-                                </ListItem>
-                            })}
-                        </List>
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => setOpen(false)} color="primary">
-                        Disagree
-          </Button>
-                    <Button onClick={() => setOpen(false)} color="primary">
-                        Agree
-          </Button>
-                </DialogActions>
-            </Dialog>
+
+
         </div>
     );
 }

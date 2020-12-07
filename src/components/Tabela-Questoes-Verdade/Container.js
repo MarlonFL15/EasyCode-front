@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => createStyles({
     alignItems: 'center',
     width: 350,
     margin:'15px 0',
-    backgroundColor: '#f3f2fa',
+    backgroundColor: colors.background,
     border: 'none',
     float: 'right',
     [theme.breakpoints.down('sm')]:{

@@ -26,9 +26,13 @@ import Quiz from './components/Quiz/Categories.js'
 import Questions from "./components/Quiz/Question.js";
 import Conquista from './components/Conquista'
 import { TransitionGroup, CSSTransition } from "react-transition-group";
-
+import QuizResult from "./components/Quiz/QuizResult";
+import Main from "./components/Jornada/Main";
+import ContentView from "./components/Jornada/ContentView";
+import ConquistasTable from "./components/Conquista/ConquistasTable";
 
 export default function App() {
+ 
   return (
     <>
       <Router>
@@ -62,8 +66,11 @@ export default function App() {
           <PrivateRoute path="/tabela-verdade" exact>
             <TableVerdadeQuestion />
           </PrivateRoute>
-          <PrivateRoute path="/quiz/responder" exact>
+          <PrivateRoute path="/quiz/responder" exact noHeader>
             <Questions />
+          </PrivateRoute>
+          <PrivateRoute path="/quiz/resultado" exact>
+            <QuizResult />
           </PrivateRoute>
           <Route path="/" exact>
             <Home />
@@ -71,9 +78,19 @@ export default function App() {
           <PrivateRoute path="/arduino" exact>
             <Arduino />
           </PrivateRoute>
+          <PrivateRoute path="/jornada" exact>
+            <Main />
+          </PrivateRoute>
+          <PrivateRoute path="/jornada/:tema" exact>
+            <ContentView/>
+          </PrivateRoute>
+          <PrivateRoute path="/conquistas" exact>
+            <ConquistasTable/>
+          </PrivateRoute>
           <Route path="/login">
             <Login />
           </Route>
+
           <Route path="/cadastro">
             <Add />
           </Route>

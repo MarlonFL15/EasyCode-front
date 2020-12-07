@@ -4,15 +4,14 @@
     column-gap: 20px;
     row-gap: 10px;
     grid-template-columns: 1.5fr 1.3fr 2fr 1fr 1fr;
-
-    width: 85%;
+    width: 95%;
     margin: 0 auto;
     max-width: 2000px;
     margin-top: -100px;
 }
 
 .habilidades {
-    height: 300px;
+    height: 400px;
     margin-left: -10%;
     width: 120%;
     padding-left: -50px;

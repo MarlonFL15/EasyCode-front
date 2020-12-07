@@ -30,23 +30,28 @@ import BlocklyComponent, { Block, Value, Field, Shadow } from '../Arduino/Blockl
 
 
 import Code from '../Questions/Code'
+import colors from '../Colors';
+import { Card } from '@material-ui/core';
 class BlockDiv extends React.Component {
   constructor(props) {
     super(props);
     this.simpleWorkspace = React.createRef();
-    
+
   }
 
   state = {
-    question:{},
-    code: ''
+    question: {},
+    code: '',
+    iframeHeight: '750px'
   }
-  
+
   componentDidMount = () => {
-      axios.get('https://api.github.com/repos/ileathan/hubot-mubot/contents/src/mubot.coffee').then(e => {
-        console.log(e)
-        this.setState({code: 'data:text/html;base64'+e.data.content})
-      })
+
+    axios.get('https://api.github.com/repos/ileathan/hubot-mubot/contents/src/mubot.coffee').then(e => {
+      console.log(e)
+      this.setState({ code: 'data:text/html;base64' + e.data.content })
+    })
+
   }
   generateCode = () => {
 
@@ -56,19 +61,43 @@ class BlockDiv extends React.Component {
     console.log(Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(this.simpleWorkspace.current.workspace)))
     //console.log(this.simpleWorkspace.current.workspace)
     document.getElementById("code").value = code;
-   
+
   }
 
+
   render() {
+    // document.body.getElementById('content_blocks')[0].style
+    window.addEventListener('resize', (e) => {
+      if (document.getElementsByClassName('root')[0].clientWidth < 992 && this.state.iframeHeight === '750px')
+        this.setState({ iframeHeight: '1200px' })
+      if (document.getElementsByClassName('root')[0].clientWidth >= 992 && this.state.iframeHeight === '1200px')
+        this.setState({ iframeHeight: '750px' })
+    })
     return (
+
+      <div className="root" style={{
+        height: '100%',
+        width: '100%',
+        padding: 20,
+        paddingTop: 100,
+        display: 'absolute'
+      }}>
+        <div style={{ padding: 7, background: colors.blue, width: '100%', position: 'absolute', top: 0, height: 300, left: 0, zIndex: -1 }} />
+
         <Iframe url={"/blockly/ardublockly/blocklyArduino.html"}
-        width="100%"
-        height="750px"
-        display="initial"
-        border="0"
-        frameBorder="0"
-        position="relative"/>  
-      
+          width="100%"
+          height='100%'
+          display="initial"
+          padding='10px'
+          border="0"
+          frameBorder="0"
+          position="relative"
+          overflow='visible'
+        />
+
+
+      </div>
+
     );
   }
 }

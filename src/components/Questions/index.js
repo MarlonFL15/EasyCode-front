@@ -31,52 +31,56 @@ import Languages from '../Blockly/generator/generators'
 
 import Question from './Question-Card'
 import Code from './Code'
-import axios  from '../../bd/client'
+import axios from '../../bd/client'
 import Iframe from 'react-iframe'
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-import {getToken} from '../auth'
+import { getToken } from '../auth'
 import {
   BrowserRouter as Router,
   Switch,
   withRouter,
   Link
 } from "react-router-dom";
+import { Grid, makeStyles } from '@material-ui/core';
+import colors from '../Colors';
+
 class BlockDiv extends React.Component {
   constructor(props) {
     super(props);
+
     this.simpleWorkspace = React.createRef();
     this.lang = 'Python'
   }
 
   state = {
-    question:{},
+    question: {},
     correct: false,
-    incorrect:false,
+    incorrect: false,
     xml: null,
-    idUsuario:getToken()
+    idUsuario: getToken()
   }
-  componentDidMount = () =>{
+  componentDidMount = () => {
 
-     const id = this.props.location.state.id
-     
+    const id = this.props.location.state.id
+
     //então ele já precisa iniciar com o código
-    if(this.props.location.state.idResposta){
+    if (this.props.location.state.idResposta) {
 
-      axios.get("/getCodigoById/"+this.props.location.state.idResposta).then(response => {
-        this.setState({xml:response.data[0].codigo})
+      axios.get("/getCodigoById/" + this.props.location.state.idResposta).then(response => {
+        this.setState({ xml: response.data[0].codigo })
         console.log('terminou de rodar')
-        
+
       }).catch(err => {
-        
+
       })
     }
-    
-    
-    axios.get("/pergunta/"+id).then(response => {
-      
-      this.setState({question:response.data, roleta:this.props.location.state.roleta})
-  
+
+
+    axios.get("/pergunta/" + id).then(response => {
+
+      this.setState({ question: response.data, roleta: this.props.location.state.roleta })
+
     })
   }
   generateCode = () => {
@@ -84,56 +88,58 @@ class BlockDiv extends React.Component {
       this.simpleWorkspace.current.workspace
     );
     document.getElementById("code").value = code;
-   
+
   }
 
-  changeLanguage = (event) =>{
+  changeLanguage = (event) => {
     this.lang = event.target.value
-    
+
     this.generateCode()
   }
 
 
-  onClick = (event) =>{
-   
+  onClick = (event) => {
+
     var obj = this
     window.addEventListener("message", messageReceived, false);
     document.getElementById("frame").contentWindow.postMessage({ "json_example": true }, "*");
     function messageReceived(e) {
 
       const code = e.data
-      
+
       obj.onSubmit(code)
       window.removeEventListener("message", messageReceived, false);
-    
+
     }
   }
   onSubmit = (code) => {
-    
+
     axios.post('/submit', {
-      idUsuario:this.state.idUsuario, 
-      code:code, 
-      idQuestao:this.state.question.id,
-      roleta: this.state.roleta?true:false,
+      idUsuario: this.state.idUsuario,
+      code: code,
+      idQuestao: this.state.question.id,
+      roleta: this.state.roleta ? true : false,
       pontuacao: this.state.question.pontos,
       xml: '<oi>'
     }).then(response => {
-      if(response.data.result){
-        this.setState({incorrect:false, correct:true})
-       
-        if(response.data.conquista.length !=0){
-          var event = new CustomEvent('achievement',  {'detail': {
-            conquista: response.data.conquista
-          }})
+      if (response.data.result) {
+        this.setState({ incorrect: false, correct: true })
+
+        if (response.data.conquista.length != 0) {
+          var event = new CustomEvent('achievement', {
+            'detail': {
+              conquista: response.data.conquista
+            }
+          })
           window.dispatchEvent(event)
-        }        
+        }
       }
-      else{
-        this.setState({incorrect:true, correct:false})
+      else {
+        this.setState({ incorrect: true, correct: false })
       }
     }).catch(error => {
       console.log(error)
-      
+
     })
   }
   handleClose = (event, reason) => {
@@ -141,18 +147,39 @@ class BlockDiv extends React.Component {
       return;
     }
 
-    this.setState({incorrect:false, correct:false})
+    this.setState({ incorrect: false, correct: false })
   };
+
   render() {
+
     console.log(this.state.xml)
-    if(this.state.xml == null && this.props.location.state.idResposta)
+    if (this.state.xml == null && this.props.location.state.idResposta)
       return false
     return (
-      <div className="blockly-area">
-        <div className="sidebar-blockly">
+      <Grid container style={{
+        height: '100%',
+        width: '100%',
+        padding: 30,
+        
+        paddingTop: 100,
+
+      }}>
+      <div className="top" style={{ padding: 7, background: colors.blue, width: '100%', position: 'absolute', top: 0, left: 0, zIndex: -1 }} />
+
+        <Grid item xs={12} md={7} style={{display:'flex',justifyContent:'flex-end', width:'auto'}}>
+          <Iframe url={"/blockly/ardublockly/blocklyQuestion.html"}
+            width="100%"
+            height="600px"
+            display="initial"
+            border="0"
+            frameBorder="0"
+            id="frame"
+            position="relative" />
+        </Grid>
+        <Grid item xs={12}md={5} style={{ width:'auto', padding: 5, paddingTop: 0}}>
           <Question submit={this.onClick} {...this.state.question}></Question>
-          <textarea id="code" style={{display:'none'}}></textarea>
-        </div>
+          <textarea id="code" style={{ display: 'none' }}></textarea>
+        </Grid>
         <Snackbar open={this.state.correct} autoHideDuration={6000} onClose={this.handleClose}>
           <MuiAlert elevation={6} variant="filled" onClose={this.handleClose} severity="success">
             Solução aceita!
@@ -163,29 +190,8 @@ class BlockDiv extends React.Component {
             Solução Incorreta!
           </MuiAlert>
         </Snackbar>
-        <Iframe url={"/blockly/ardublockly/blocklyQuestion.html"}
-          width="75%"
-          height="700px"
-          display="initial"
-          border="0"
-          frameBorder="0"
-          id="frame"
-          position="relative"/>
-        {/* <div className="blocklyDiv">
-          <BlocklyComponent ref={this.simpleWorkspace}
-            readOnly={false} trashcan={true} media={'../media/'}
-            changeCode = {this.generateCode}
-            move={{
-              scrollbars: false,
-              drag: true,
-              wheel: true
-            }}
-            initialXml=  {this.state.xml}
-          >
-          
-          </BlocklyComponent>
-        </div> */}
-      </div>
+
+      </Grid>
     );
   }
 }

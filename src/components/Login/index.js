@@ -6,9 +6,9 @@ import Alert from '@material-ui/lab/Alert';
 import Typography from '@material-ui/core/Typography';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
+
 import axios from  '../../bd/client';
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import colors from '../Colors'
 import SignInSVG from '../assets/easyblock-signin.svg'
 import { GoogleLogin } from 'react-google-login';
@@ -66,25 +66,26 @@ const LoginButton = withStyles({
 const useStyles = makeStyles((theme)=>({
     left: {
         backgroundColor: "#FFF",
-        borderRadius: '0 20px 20px 0',
-        [theme.breakpoints.down('xs')]: {
-            borderRadius: 0,
-        },
         padding: 25,
         flexDirection: 'column',
         justifyContent: 'center'
     },
     right: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent:' center',
         [theme.breakpoints.down('xs')]: {
             display: 'none'
-        }
+        },
     },
     loginContent: {
         fontFamily: 'Nunito, sans-serif',
         height: '100%',
+        margin: '0 auto',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
+        position: 'relative'
     },
     link: {
         fontFamily: "Nunito, sans-serif",
@@ -92,6 +93,24 @@ const useStyles = makeStyles((theme)=>({
         fontSize: 15,
         fontWeight: 600,
         display: 'block'
+    },
+    imgLeft:  {
+        margin: '0 auto',
+        width: 200,
+         
+        [theme.breakpoints.up('sm')]: {
+            display: 'none'
+        }
+    },
+    imgRight:  {
+        marginLeft: '-40%',
+        zIndex: 1000,
+        width: 310,
+        [theme.breakpoints.down('sm')]: {
+            marginLeft: '-30%',
+            width: 'calc(110%)',
+            maxWidth: 310,
+        }
     }
 }))
 export default function Login(){
@@ -105,6 +124,13 @@ export default function Login(){
     const changeSenha = (event) =>{
         setSenha(event.target.value)
     }
+
+    window.addEventListener('keydown', (event)=>{
+        if(event.keyCode === 13){
+            submit(event)
+        }
+        
+    })
 
     const valida = (data) => {
         const errorLocal = {email:'', nome:'', senha:''}
@@ -181,13 +207,11 @@ export default function Login(){
             backgroundColor: colors.yellow
         }}
         >
-            <Grid item xs={12} sm={6} md={4}
+            <Grid item xs={12} sm={8} md={9}
             className={classes.left}>
-                <div className={classes.loginContent}>
-                    <img src={SignInSVG}
-                        style={{textAlign: 'center', }}/>
-                        
-
+                <Grid item xs={12} sm={9} md={6} className={classes.loginContent}>
+                    
+                    <img src={require('../assets/SignInRight.svg')} className={classes.imgLeft}/>
                     <Typography variant="h6" style={{textAlign: 'center', fontFamily: 'Quicksand, sans-serif', margin: '15px 0'}}>
                         Entrar em <b style={{color: colors.blue}}>EasyCode</b>
                     </Typography>
@@ -255,15 +279,40 @@ export default function Login(){
                     </form>
                     <Grid container>
                         <Grid item xs>
-                            <Link href="#" variant="body2" className={classes.link}>Esqueceu sua senha?</Link>
+                            <Link style={{
+                            color: colors.blue,
+                            textDecoration:'none'
+                        }} className={classes.link}>Esqueceu sua senha?</Link>
                         </Grid>           
                     </Grid>
-                </div>
+                    <div
+                        style={{
+                            position: 'absolute',
+                            bottom: 0,
+                            display: 'flex',
+                            width: '100%',
+                            justifyContent:'center'
+                        }}>
+                        <div style={{marginRight: 5}}>
+                            Não tem uma conta?
+                        </div>
+                        <Link to='/cadastro'
+                        style={{
+                            color: colors.blue,
+                            textDecoration:'none'
+                        }}>
+                            Clique aqui
+                        </Link>
+                    </div>
+
+                </Grid>
             </Grid>
             <Grid 
-            item xs={12} sm={6} md={8}
+            item xs={12} sm={4} md={3}
             item className={classes.right}>
-                
+                <img 
+                src={require('../assets/SignInRight.svg')}
+                className={classes.imgRight}/>
             </Grid>
             
         </Grid>

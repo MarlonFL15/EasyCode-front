@@ -15,6 +15,7 @@ import CheckIcon from '@material-ui/icons/Check';
 import ClearRoundedIcon from '@material-ui/icons/ClearRounded';
 import CloseIcon from '@material-ui/icons/Close';
 import './grid.css'
+import Avatar from '../Avatar'
 
 const Percentual = withStyles({
     root: {
@@ -224,7 +225,7 @@ export default props => {
                     }
                 }>
                 Vamos para a<br/>jornada?
-                <IconButton color="#FFFFF" onClick={()=>history.push('/questoes')}
+                <IconButton color="#FFFFF" onClick={()=>history.push('/jornada')}
                 style={{
                     float: 'right',
                     top: 120
@@ -243,7 +244,7 @@ export default props => {
                 <Card variant="outlined" className="perfil"  style={{padding: 20, border: 'none', fontSize: 14, overflow: 'visible'}}>
                     <div style={{textAlign: 'center'}}>
                     <div className={classes.image}>
-                        <img src={require('./puzzle-piece-apple.png')}></img>
+                        <Avatar/>
                     </div>
                         Meu Painel
                     </div>

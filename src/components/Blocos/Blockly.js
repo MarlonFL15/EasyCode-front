@@ -30,6 +30,7 @@ import BlocklyComponent, { Block, Value, Field, Shadow } from '../Blockly/Blockl
 import Languages from '../Blockly/generator/generators'
 
 import Code from '../Questions/Code'
+import colors from '../Colors';
 class BlockDiv extends React.Component {
   constructor(props) {
     super(props);
@@ -38,9 +39,9 @@ class BlockDiv extends React.Component {
   }
 
   state = {
-    question:{}
+    question: {}
   }
-  
+
   generateCode = () => {
 
     var code = Languages[this.lang].workspaceToCode(
@@ -49,10 +50,10 @@ class BlockDiv extends React.Component {
     console.log(Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(this.simpleWorkspace.current.workspace)))
     //console.log(this.simpleWorkspace.current.workspace)
     document.getElementById("code").value = code;
-   
+
   }
 
-  changeLanguage = (event) =>{
+  changeLanguage = (event) => {
     this.lang = event.target.value
     console.log('eae')
     console.log(Languages)
@@ -61,18 +62,27 @@ class BlockDiv extends React.Component {
   }
   render() {
     return (
-      <Iframe url={"/blockly/ardublockly/blocklyLanguages.html"}
-      width="100%"
-      height="750px"
-      display="initial"
-      border="0"
-      frameBorder="0"
-      position="relative"/>  
+      <div className="root" style={{
+        height: '100%',
+        width: '100%',
+        padding: 20,
+        paddingTop: 100,
+        display: 'absolute'
+      }}>
+        <div style={{ padding: 7, background: colors.blue, width: '100%', position: 'absolute', top: 0, height: 300, left: 0, zIndex: -1 }} />
+        <Iframe url={"/blockly/ardublockly/blocklyLanguages.html"}
+          width="100%"
+          height="750px"
+          display="initial"
+          border="0"
+          frameBorder="0"
+          position="relative" />
+      </div>
       // <div className="blockly-area">
       //   <div className="sidebar-blockly">
       //     <Code style={{height:'100%'}} changeLanguage = {this.changeLanguage}></Code>
       //   </div>
-        
+
       //   <div className="blocklyDiv">
       //     <BlocklyComponent ref={this.simpleWorkspace}
       //       readOnly={false} trashcan={true} media={'../media/'}
@@ -83,7 +93,7 @@ class BlockDiv extends React.Component {
       //         wheel: true
       //       }}
       //     >
-          
+
       //     </BlocklyComponent>
       //   </div>
       // </div>
