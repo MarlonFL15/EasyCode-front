@@ -60,8 +60,10 @@ class BlockDiv extends React.Component {
 
      const id = this.props.location.state.id
      
-    //então ele já precisa iniciar com o código
-    if(this.props.location.state.idResposta){
+    
+     //então ele já precisa iniciar com o código
+    /*
+     if(this.props.location.state.idResposta){
 
       axios.get("/getCodigoById/"+this.props.location.state.idResposta).then(response => {
         this.setState({xml:response.data[0].codigo})
@@ -71,7 +73,7 @@ class BlockDiv extends React.Component {
         
       })
     }
-    
+    */
     
     axios.get("/pergunta/"+id).then(response => {
       
@@ -96,17 +98,19 @@ class BlockDiv extends React.Component {
 
   onClick = (event) =>{
    
-    var obj = this
-    window.addEventListener("message", messageReceived, false);
+    window.addEventListener("message", this.messageReceived, false);
     document.getElementById("frame").contentWindow.postMessage({ "json_example": true }, "*");
-    function messageReceived(e) {
+  }
 
-      const code = e.data
-      
-      obj.onSubmit(code)
-      window.removeEventListener("message", messageReceived, false);
+  messageReceived = (e) => {
     
-    }
+    let code = e.data
+    code = code.replaceAll('&lt;', '<')
+    code = code.replaceAll('&gt;', '>')
+    
+    this.onSubmit(code)
+    window.removeEventListener("message", this.messageReceived, false);
+  
   }
   onSubmit = (code) => {
     

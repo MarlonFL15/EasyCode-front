@@ -153,6 +153,7 @@ Blockly.Variables.generateUniqueName = function(workspace) {
     var letters = 'ijkmnopqrstuvwxyzabcdefgh';  // No 'l'.
     var letterIndex = 0;
     var potName = letters.charAt(letterIndex);
+    
     while (!newName) {
       var inUse = false;
       for (var i = 0; i < variableList.length; i++) {
