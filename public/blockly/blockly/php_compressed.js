@@ -75,14 +75,20 @@ Blockly.PHP.text_getSubstring=function(a){var b=Blockly.PHP.valueToCode(a,"STRIN
 "      $at2--;","    } else if ($where2 == 'FROM_END') {","      $at2 = $at2 - $at1;","    } else if ($where2 == 'FIRST') {","      $at2 = 0;","    } else if ($where2 == 'LAST') {","      $at2 = strlen($text);","    } else { $at2 = 0; }","    if ($where1 == 'FROM_START') {","      $at1--;","    } else if ($where1 == 'FROM_END') {","      $at1 = strlen($text) - $at1;","    } else if ($where1 == 'FIRST') {","      $at1 = 0;","    } else if ($where1 == 'LAST') {","      $at1 = strlen($text) - 1;","    } else { $at1 = 0; }",
 "  return substr($text, $at1, $at2);","}"])+"("+b+", '"+c+"', "+e+", '"+d+"', "+a+")",Blockly.PHP.ORDER_FUNCTION_CALL]};
 Blockly.PHP.text_changeCase=function(a){var b;"UPPERCASE"==a.getFieldValue("CASE")?(a=Blockly.PHP.valueToCode(a,"TEXT",Blockly.PHP.ORDER_FUNCTION_CALL)||"''",b="strtoupper("+a+")"):"LOWERCASE"==a.getFieldValue("CASE")?(a=Blockly.PHP.valueToCode(a,"TEXT",Blockly.PHP.ORDER_FUNCTION_CALL)||"''",b="strtolower("+a+")"):"TITLECASE"==a.getFieldValue("CASE")&&(a=Blockly.PHP.valueToCode(a,"TEXT",Blockly.PHP.ORDER_FUNCTION_CALL)||"''",b="ucwords(strtolower("+a+"))");return[b,Blockly.PHP.ORDER_FUNCTION_CALL]};
-Blockly.PHP.text_trim=function(a){var b={LEFT:"ltrim",RIGHT:"rtrim",BOTH:"trim"}[a.getFieldValue("MODE")];a=Blockly.PHP.valueToCode(a,"TEXT",Blockly.PHP.ORDER_NONE)||"''";return[b+"("+a+")",Blockly.PHP.ORDER_FUNCTION_CALL]};Blockly.PHP.text_print=function(a){return"print("+(Blockly.PHP.valueToCode(a,"TEXT",Blockly.PHP.ORDER_NONE)||"''")+");\n"};
+Blockly.PHP.text_trim=function(a){var b={LEFT:"ltrim",RIGHT:"rtrim",BOTH:"trim"}[a.getFieldValue("MODE")];a=Blockly.PHP.valueToCode(a,"TEXT",Blockly.PHP.ORDER_NONE)||"''";return[b+"("+a+")",Blockly.PHP.ORDER_FUNCTION_CALL]};
+Blockly.PHP.text_print=function(a){return"print('"+a.getFieldValue('TEXT')+"');\n"};
+Blockly.PHP.text_print_as = function(a){return "print("+Blockly.PHP.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE)+");\n"}
 Blockly.PHP.text_prompt_ext=function(a){
-    var g = Blockly.PHP.valueToCode(a,"VALUE",Blockly.PHP.ORDER_NONE)
+    var g=Blockly.PHP.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE)
     
     var b="readline("+(a.getField("TEXT")?Blockly.PHP.quote_(a.getFieldValue("TEXT")):Blockly.PHP.valueToCode(a,"TEXT",Blockly.PHP.ORDER_NONE)||"''")+")";
     "NUMBER"==a.getFieldValue("TYPE")&&(b="floatval("+b+")");
-    return[g+" = "+b+'\n',Blockly.PHP.ORDER_FUNCTION_CALL]};Blockly.PHP.text_prompt=Blockly.PHP.text_prompt_ext;Blockly.PHP.variables={};Blockly.PHP.variables_get=function(a){return[Blockly.PHP.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE),Blockly.PHP.ORDER_ATOMIC]};Blockly.PHP.variables_set=function(a){var b=Blockly.PHP.valueToCode(a,"VALUE",Blockly.PHP.ORDER_ASSIGNMENT)||"0";return Blockly.PHP.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE)+" = "+b+";\n"};
+    return g+" = "+b+'\n'
+};
+Blockly.PHP.text_prompt=Blockly.PHP.text_prompt_ext;Blockly.PHP.variables={};Blockly.PHP.variables_get=function(a){return[Blockly.PHP.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE),Blockly.PHP.ORDER_ATOMIC]};Blockly.PHP.variables_set=function(a){var b=Blockly.PHP.valueToCode(a,"VALUE",Blockly.PHP.ORDER_ASSIGNMENT)||"0";return Blockly.PHP.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE)+" = "+b+";\n"};
 
     Blockly.PHP.variables_set_type = function(a){
-        return ''
+        var b=Blockly.PHP.valueToCode(a,"VARIABLE_SETTYPE_INPUT",Blockly.PHP.ORDER_ASSIGNMENT)||"0";   
+        return[b,Blockly.PHP.ORDER_ATOMIC]
+    
     }

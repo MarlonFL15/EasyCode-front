@@ -36,17 +36,17 @@ goog.require('Blockly.Msg');
  * Ardublockly Types
  */
 /// Arduino Types - Character C type char
-Blockly.Msg.ARD_TYPE_CHAR = 'Character';
+Blockly.Msg.ARD_TYPE_CHAR = 'Caracter';
 /// Arduino Types - Text C type String
-Blockly.Msg.ARD_TYPE_TEXT = 'Text';
+Blockly.Msg.ARD_TYPE_TEXT = 'Texto';
 /// Arduino Types - Boolean type
-Blockly.Msg.ARD_TYPE_BOOL = 'Boolean';
+Blockly.Msg.ARD_TYPE_BOOL = 'Booleano';
 /// Arduino Types - Short number C type char
-Blockly.Msg.ARD_TYPE_SHORT = 'Short Number';
+Blockly.Msg.ARD_TYPE_SHORT = 'Inteiro curto';
 /// Arduino Types - Number C type integer
-Blockly.Msg.ARD_TYPE_NUMBER = 'Number';
+Blockly.Msg.ARD_TYPE_NUMBER = 'Inteiro';
 /// Arduino Types - Large number C type long integer
-Blockly.Msg.ARD_TYPE_LONG = 'Large Number';
+Blockly.Msg.ARD_TYPE_LONG = 'Inteiro longo';
 /// Arduino Types - Decimal number C type floating point
 Blockly.Msg.ARD_TYPE_DECIMAL = 'Decimal';
 /// Arduino Types - Array
@@ -54,7 +54,7 @@ Blockly.Msg.ARD_TYPE_ARRAY = 'Array';
 /// Arduino Types - Null C type void
 Blockly.Msg.ARD_TYPE_NULL = 'Null';
 /// Arduino Types - Undefined type
-Blockly.Msg.ARD_TYPE_UNDEF = 'Undefined';
+Blockly.Msg.ARD_TYPE_UNDEF = 'Indefinido';
 /// Arduino Types - Place holder value, indicates block with type not connected
 Blockly.Msg.ARD_TYPE_CHILDBLOCKMISSING = 'ChildBlockMissing';
 

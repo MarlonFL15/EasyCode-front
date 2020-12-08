@@ -63,7 +63,7 @@ class BlockDiv extends React.Component {
   componentDidMount = () => {
 
     const id = this.props.location.state.id
-    console.log(id)
+    // console.log(id)
     //então ele já precisa iniciar com o código
     if (this.props.location.state.idResposta) {
 
@@ -74,14 +74,15 @@ class BlockDiv extends React.Component {
       }).catch(err => {
 
       })
+
+
+      axios.get("/pergunta/" + id).then(response => {
+
+        this.setState({ question: response.data, roleta: this.props.location.state.roleta })
+
+
+      })
     }
-
-
-    axios.get("/pergunta/" + id).then(response => {
-
-      this.setState({ question: response.data, roleta: this.props.location.state.roleta })
-
-    })
   }
   generateCode = () => {
     var code = Languages[this.lang].workspaceToCode(
@@ -98,19 +99,22 @@ class BlockDiv extends React.Component {
   }
 
 
+
   onClick = (event) => {
 
-    var obj = this
-    window.addEventListener("message", messageReceived, false);
+    window.addEventListener("message", this.messageReceived, false);
     document.getElementById("frame").contentWindow.postMessage({ "json_example": true }, "*");
-    function messageReceived(e) {
+  }
+  messageReceived = (e) => {
 
-      const code = e.data
+    let code = e.data
+    code = code.replaceAll('&lt;', '<')
+    code = code.replaceAll('&gt;', '>')
 
-      obj.onSubmit(code)
-      window.removeEventListener("message", messageReceived, false);
+    this.onSubmit(code)
+    window.removeEventListener("message", this.messageReceived, false);
 
-    }
+
   }
   onSubmit = (code) => {
 
@@ -160,13 +164,13 @@ class BlockDiv extends React.Component {
         height: '100%',
         width: '100%',
         padding: 30,
-        
+
         paddingTop: 100,
 
       }}>
-      <div className="top" style={{ padding: 7, background: colors.blue, width: '100%', position: 'absolute', top: 0, left: 0, zIndex: -1 }} />
+        <div className="top" style={{ padding: 7, background: colors.blue, width: '100%', position: 'absolute', top: 0, left: 0, zIndex: -1 }} />
 
-        <Grid item xs={12} md={7} style={{display:'flex',justifyContent:'flex-end', width:'auto'}}>
+        <Grid item xs={12} md={7} style={{ display: 'flex', justifyContent: 'flex-end', width: 'auto' }}>
           <Iframe url={"/blockly/ardublockly/blocklyQuestion.html"}
             width="100%"
             height="600px"
@@ -176,7 +180,7 @@ class BlockDiv extends React.Component {
             id="frame"
             position="relative" />
         </Grid>
-        <Grid item xs={12}md={5} style={{ width:'auto', padding: 5, paddingTop: 0}}>
+        <Grid item xs={12} md={5} style={{ width: 'auto', padding: 5, paddingTop: 0 }}>
           <Question submit={this.onClick} {...this.state.question}></Question>
           <textarea id="code" style={{ display: 'none' }}></textarea>
         </Grid>

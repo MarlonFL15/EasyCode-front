@@ -18,8 +18,39 @@ Blockly.C.addFunction=function(a,b){if(void 0===Blockly.C.codeFunctions_[a]){var
 Blockly.C.reservePin=function(a,b,c,d){void 0!==Blockly.C.pins_[b]?Blockly.C.pins_[b]!=c?a.setWarningText(Blockly.Msg.ARD_PIN_WARN1.replace("%1",b).replace("%2",d).replace("%3",c).replace("%4",Blockly.C.pins_[b]),d):a.setWarningText(null,d):(Blockly.C.pins_[b]=c,a.setWarningText(null,d))};Blockly.C.scrubNakedValue=function(a){return a+";\n"};
 Blockly.C.quote_=function(a){a=a.replace(/\\/g,"\\\\").replace(/\n/g,"\\\n").replace(/\$/g,"\\$").replace(/'/g,"\\'");return'"'+a+'"'};
 Blockly.C.scrub_=function(a,b){if(null===b)return"";var c="";if(!a.outputConnection||!a.outputConnection.targetConnection){var d=a.getCommentText();d&&(c+=this.prefixLines(d,"// ")+"\n");for(var e=0;e<a.inputList.length;e++)a.inputList[e].type==Blockly.INPUT_VALUE&&(d=a.inputList[e].connection.targetBlock())&&(d=this.allNestedComments(d))&&(c+=this.prefixLines(d,"// "))}e=a.nextConnection&&a.nextConnection.targetBlock();e=this.blockToCode(e);return c+b+e};
-Blockly.C.getArduinoType_=function(a){switch(a.typeId){case Blockly.Types.SHORT_NUMBER.typeId:return"char";case Blockly.Types.NUMBER.typeId:return"int";case Blockly.Types.LARGE_NUMBER.typeId:return"long";case Blockly.Types.DECIMAL.typeId:return"float";case Blockly.Types.TEXT.typeId:return"String";case Blockly.Types.CHARACTER.typeId:return"char";case Blockly.Types.BOOLEAN.typeId:return"boolean";case Blockly.Types.NULL.typeId:return"void";case Blockly.Types.UNDEF.typeId:return"undefined";case Blockly.Types.CHILD_BLOCK_MISSING.typeId:return"int";
-default:return"Invalid Blockly Type"}};Blockly.C.noGeneratorCodeInline=function(){return["",Blockly.C.ORDER_ATOMIC]};Blockly.C.noGeneratorCodeLine=function(){return""};Blockly.C.Boards={};Blockly.C.Boards.generateDigitalIo=function(a,b){for(var c=[],d=a;d<b+1;d++)c.push([d.toString(),d.toString()]);return c};Blockly.C.Boards.generateAnalogIo=function(a,b){for(var c=[],d=a;d<b+1;d++)c.push(["A"+d.toString(),"A"+d.toString()]);return c};
+Blockly.C.getArduinoType_=function(a){
+    switch(a.typeId){
+        case Blockly.Types.SHORT_NUMBER.typeId:return"short int";
+        case Blockly.Types.NUMBER.typeId:return"int";
+        case Blockly.Types.LARGE_NUMBER.typeId:return"long";
+        case Blockly.Types.DECIMAL.typeId:return"float";
+        case Blockly.Types.TEXT.typeId:return"char";
+        case Blockly.Types.CHARACTER.typeId:return"char";
+        case Blockly.Types.BOOLEAN.typeId:return"boolean";
+        case Blockly.Types.NULL.typeId:return"void";
+        case Blockly.Types.UNDEF.typeId:return"";
+        case Blockly.Types.CHILD_BLOCK_MISSING.typeId:return"int";
+        default:return"Invalid Blockly Type"
+    }
+};
+
+Blockly.C.getArduinoTypeMask_=function(a){
+    switch(a.typeId){
+        case Blockly.Types.SHORT_NUMBER.typeId:return"%hd";
+        case Blockly.Types.NUMBER.typeId:return"%d";
+        case Blockly.Types.LARGE_NUMBER.typeId:return"%ld";
+        case Blockly.Types.DECIMAL.typeId:return"%f";
+        case Blockly.Types.TEXT.typeId:return"%c";
+        case Blockly.Types.CHARACTER.typeId:return"%c";
+        case Blockly.Types.BOOLEAN.typeId:return"%d";
+        case Blockly.Types.NULL.typeId:return"%";
+        case Blockly.Types.UNDEF.typeId:return"%";
+        case Blockly.Types.CHILD_BLOCK_MISSING.typeId:return"%";
+        default:return"Invalid Blockly Type"
+    }
+};
+
+Blockly.C.noGeneratorCodeInline=function(){return["",Blockly.C.ORDER_ATOMIC]};Blockly.C.noGeneratorCodeLine=function(){return""};Blockly.C.Boards={};Blockly.C.Boards.generateDigitalIo=function(a,b){for(var c=[],d=a;d<b+1;d++)c.push([d.toString(),d.toString()]);return c};Blockly.C.Boards.generateAnalogIo=function(a,b){for(var c=[],d=a;d<b+1;d++)c.push(["A"+d.toString(),"A"+d.toString()]);return c};
 Blockly.C.Boards.duplicateBoardProfile=function(a,b,c,d){return{name:b,description:c||a.description,compilerFlag:d||a.compilerFlag,analogPins:a.analogPins,digitalPins:a.digitalPins,pwmPins:a.pwmPins,serial:a.serial,serialPins:a.serialPins,serialSpeed:a.serialSpeed,spi:a.spi,spiPins:a.spiPins,spiClockDivide:a.spiClockDivide,i2c:a.i2c,i2cPins:a.i2cPins,i2cSpeed:a.i2cSpeed,builtinLed:a.builtinLed,interrupt:a.interrupt}};Blockly.C.Boards.profiles={};
 Blockly.C.Boards.profiles.uno={name:"Arduino Uno",description:"Arduino Uno standard compatible board",compilerFlag:"arduino:avr:uno",analogPins:Blockly.C.Boards.generateAnalogIo(0,5),digitalPins:Blockly.C.Boards.generateDigitalIo(0,13).concat(Blockly.C.Boards.generateAnalogIo(0,5)),pwmPins:[["3","3"],["5","5"],["6","6"],["9","9"],["10","10"],["11","11"]],serial:[["serial","Serial"]],serialPins:{Serial:[["RX","0"],["TX","1"]]},serialSpeed:[["300","300"],["600","600"],["1200",
 "1200"],["2400","2400"],["4800","4800"],["9600","9600"],["14400","14400"],["19200","19200"],["28800","28800"],["31250","31250"],["38400","38400"],["57600","57600"],["115200","115200"]],spi:[["SPI","SPI"]],spiPins:{SPI:[["MOSI","11"],["MISO","12"],["SCK","13"]]},spiClockDivide:[["2 (8MHz)","SPI_CLOCK_DIV2"],["4 (4MHz)","SPI_CLOCK_DIV4"],["8 (2MHz)","SPI_CLOCK_DIV8"],["16 (1MHz)","SPI_CLOCK_DIV16"],["32 (500KHz)","SPI_CLOCK_DIV32"],["64 (250KHz)","SPI_CLOCK_DIV64"],["128 (125KHz)","SPI_CLOCK_DIV128"]],
@@ -90,22 +121,38 @@ Blockly.C.spi_transfer_return=function(a){var b=a.getFieldValue("SPI_ID"),c=a.ge
 "()",Blockly.C.ORDER_UNARY_POSTFIX]};Blockly.C.stepper={};
 Blockly.C.stepper_config=function(a){var b=Blockly.C.PinTypes.STEPPER,c=a.getFieldValue("STEPPER_NAME"),d=a.getFieldValue("STEPPER_NUMBER_OF_PINS"),e=Blockly.C.valueToCode(a,"STEPPER_STEPS",Blockly.C.ORDER_ATOMIC)||"360",f=Blockly.C.valueToCode(a,"STEPPER_SPEED",Blockly.C.ORDER_ATOMIC)||"90",g=[a.getFieldValue("STEPPER_PIN1"),a.getFieldValue("STEPPER_PIN2")];"FOUR"===d&&(g.push(a.getFieldValue("STEPPER_PIN3")),g.push(a.getFieldValue("STEPPER_PIN4")));for(var d=
 "int "+c+"["+g.length+"] = {",e="Stepper stepper_"+c+"("+e+", ",h=0;h<g.length;h++)Blockly.C.reservePin(a,g[h],b,"Stepper"),d+=g[h]+", ",e+=g[h]+", ";d=d.slice(0,-2)+"};";e=e.slice(0,-2)+");";Blockly.C.addVariable(c,d,!0);c="stepper_"+c;Blockly.C.addInclude("stepper","#include <Stepper.h>");Blockly.C.addDeclaration(c,e);Blockly.C.addSetup(c,c+".setSpeed("+f+");",!0);return""};
-Blockly.C.stepper_step=function(a){var b="stepper_"+a.getFieldValue("STEPPER_NAME");a=Blockly.C.valueToCode(a,"STEPPER_STEPS",Blockly.C.ORDER_ATOMIC)||"0";return b+".step("+a+");\n"};Blockly.C.text={};Blockly.C.text=function(a){return[Blockly.C.quote_(a.getFieldValue("TEXT")),Blockly.C.ORDER_ATOMIC]};
+Blockly.C.stepper_step=function(a){var b="stepper_"+a.getFieldValue("STEPPER_NAME");a=Blockly.C.valueToCode(a,"STEPPER_STEPS",Blockly.C.ORDER_ATOMIC)||"0";return b+".step("+a+");\n"};Blockly.C.text={};
+Blockly.C.text=function(a){
+    
+    var b = [Blockly.C.quote_(a.getFieldValue("TEXT")),Blockly.C.ORDER_ATOMIC]
+    console.log('valor de b: ')
+    console.log(b)
+    if(b[0] != ""){
+        b[0] = b[0].replaceAll('"', "'")
+    }
+    return b
+};
 Blockly.C.text_join=function(a){var b;if(0==a.itemCount_)return['""',Blockly.C.ORDER_ATOMIC];if(1==a.itemCount_)return["String("+(Blockly.C.valueToCode(a,"ADD0",Blockly.C.ORDER_UNARY_POSTFIX)||'""')+")",Blockly.C.ORDER_UNARY_POSTFIX];var c;b=[];for(var d=0;d<a.itemCount_;d++)c=Blockly.C.valueToCode(a,"ADD"+d,Blockly.C.ORDER_NONE),b[d]=""==c?'""':"String("+c+")";b=b.join(" + ");return[b,Blockly.C.ORDER_UNARY_POSTFIX]};
 Blockly.C.text_append=function(a){var b=Blockly.C.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE);a=Blockly.C.valueToCode(a,"TEXT",Blockly.C.ORDER_UNARY_POSTFIX);return b+" += "+(""==a?'""':"String("+a+")")+";\n"};Blockly.C.text_length=function(a){return["String("+(Blockly.C.valueToCode(a,"VALUE",Blockly.C.ORDER_UNARY_POSTFIX)||'""')+").length()",Blockly.C.ORDER_UNARY_POSTFIX]};
 Blockly.C.text_isEmpty=function(a){var b=[];b.push("boolean "+Blockly.C.DEF_FUNC_NAME+"(String msg) {");b.push("  if (msg.length() == 0) {");b.push("    return true;");b.push("  } else {");b.push("    return false;");b.push("  }");b.push("}");b=Blockly.C.addFunction("isStringEmpty",b.join("\n"));a=Blockly.C.valueToCode(a,"VALUE",Blockly.C.ORDER_UNARY_POSTFIX);return[b+"("+(""==a?'""':"String("+a+")")+")",Blockly.C.ORDER_UNARY_POSTFIX]};
 Blockly.C.text_trim=function(a){Blockly.C.text_trim.OPERATORS={LEFT:".trim()",RIGHT:".trim()",BOTH:".trim()"};var b=a.getFieldValue("MODE"),b=Blockly.C.text_trim.OPERATORS[b];a=Blockly.C.valueToCode(a,"TEXT",Blockly.C.ORDER_UNARY_POSTFIX);return[(""==a?'""':"String("+a+")")+b,Blockly.C.ORDER_UNARY_POSTFIX]};
 Blockly.C.text_print=function(a){
-    var b=Blockly.C.Boards.selected.serial[0][1];
-    Blockly.C.addSetup("serial_"+b,b+".begin(9600);",!1);
-    a=Blockly.C.valueToCode(a,"TEXT",Blockly.C.ORDER_NONE);
-    return "cout << "+a+" << endl;\n"};
+    return 'printf("'+a.getFieldValue('TEXT')+'");\n'
+};
+Blockly.C.text_print_as = function(a){
+    var e=Blockly.C.getArduinoTypeMask_(Blockly.Types[a.getFieldValue("VARIABLE_SETTYPE_TYPE")])
+    var g=Blockly.C.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE)
+    return 'printf("'+e+'", '+g+');\n'
+}
 Blockly.C.text_endString=function(a){return["",Blockly.C.ORDER_UNARY_POSTFIX]};Blockly.C.text_indexOf=function(a){return["",Blockly.C.ORDER_UNARY_POSTFIX]};Blockly.C.text_charAt=function(a){return["",Blockly.C.ORDER_UNARY_POSTFIX]};
 Blockly.C.text_getSubstring=function(a){return["",Blockly.C.ORDER_UNARY_POSTFIX]};Blockly.C.text_changeCase=function(a){return["",Blockly.C.ORDER_UNARY_POSTFIX]};
 Blockly.C.text_prompt_ext=function(a){
-    a=Blockly.C.valueToCode(a,"VALUE",Blockly.C.ORDER_NONE);
-    return "cin >> "+a+";\n"};
+    var e=Blockly.C.getArduinoTypeMask_(Blockly.Types[a.getFieldValue("VARIABLE_SETTYPE_TYPE")])
+    var g=Blockly.C.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE)
+    return 'scanf("'+e+'", &'+g+');\n'
+
+};
 Blockly.C.time={};Blockly.C.time_delay=function(a){return"delay("+(Blockly.C.valueToCode(a,"DELAY_TIME_MILI",Blockly.C.ORDER_ATOMIC)||"0")+");\n"};Blockly.C.time_delaymicros=function(a){return"delayMicroseconds("+(Blockly.C.valueToCode(a,"DELAY_TIME_MICRO",Blockly.C.ORDER_ATOMIC)||"0")+");\n"};Blockly.C.time_millis=function(a){return["millis()",Blockly.C.ORDER_ATOMIC]};Blockly.C.time_micros=function(a){return["micros()",Blockly.C.ORDER_ATOMIC]};
 Blockly.C.infinite_loop=function(a){return"while(true);\n"};Blockly.C.tone={};Blockly.C.io_tone=function(a){var b=a.getFieldValue("TONEPIN"),c=Blockly.C.valueToCode(a,"FREQUENCY",Blockly.C.ORDER_ATOMIC);Blockly.C.reservePin(a,b,Blockly.C.PinTypes.OUTPUT,"Tone Pin");Blockly.C.addSetup("io_"+b,"pinMode("+b+", OUTPUT);\n",!1);return"tone("+b+","+c+");\n"};
 Blockly.C.io_notone=function(a){var b=a.getFieldValue("TONEPIN");Blockly.C.reservePin(a,b,Blockly.C.PinTypes.OUTPUT,"Tone Pin");Blockly.C.addSetup("io_"+b,"pinMode("+b+", OUTPUT);\n",!1);return"noTone("+b+");\n"};Blockly.C.variables={};Blockly.C.variables_get=function(a){return[Blockly.C.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE),Blockly.C.ORDER_ATOMIC]};Blockly.C.variables_set=function(a){var b=Blockly.C.valueToCode(a,"VALUE",Blockly.C.ORDER_ASSIGNMENT)||"0";return Blockly.C.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE)+" = "+b+";\n"};
-Blockly.C.variables_set_type=function(a){var b=Blockly.C.valueToCode(a,"VARIABLE_SETTYPE_INPUT",Blockly.C.ORDER_ASSIGNMENT)||"0";return["("+Blockly.C.getArduinoType_(Blockly.Types[a.getFieldValue("VARIABLE_SETTYPE_TYPE")])+")("+b+")",Blockly.C.ORDER_ATOMIC]};
+Blockly.C.variables_set_type=function(a){var b=Blockly.C.valueToCode(a,"VARIABLE_SETTYPE_INPUT",Blockly.C.ORDER_ASSIGNMENT)||"0";return["("+Blockly.C.getArduinoType_(Blockly.Types[a.getFieldValue("VARIABLE_SETTYPE_TYPE")])+")"+b+"",Blockly.C.ORDER_ATOMIC]};

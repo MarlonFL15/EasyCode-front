@@ -7,7 +7,8 @@ var Manager = function (problem) {
     this.problem = problem;
     this.gridCanvas = new Grid(problem);
     this.gridCanvas.fillGrid(jQuery("#logicgrid"));
-    this.gridCanvas.fillRegras(jQuery("#rules")); this.lastState = undefined; this.houseColors = ['amarela', 'azul', 'branca', 'verde', 'vermelha', 'preta']; this.checkRules = function () { console.log('hehe'); var problem = this.problem; var gridCanvas = this.gridCanvas; var state = this.gridCanvas.readState(); var logic = new Logica(state); var corrects = 0; jQuery.each(problem.regras, function (index, item) { if (item.regra(problem, logic)) { gridCanvas.tickRegra(index, true); corrects += 1; } else { gridCanvas.tickRegra(index, false); } }); if (corrects == problem.regras.length) { if (problem.objetivo.solution) { if (logic.equals(problem.objetivo.solution)) { alert(problem.objetivo.texto); jQuery("#to-do-next").show(); jQuery(".ear").show(); track_end && track_end(); } } else if (problem.objetivo.regra(problem, logic)) { alert(problem.objetivo.texto); jQuery("#to-do-next").show(); jQuery(".ear").show(); track_end && track_end(); } } }
+    this.gridCanvas.fillRegras(jQuery("#rules")); 
+    this.lastState = undefined; this.houseColors = ['amarela', 'azul', 'branca', 'verde', 'vermelha', 'preta']; this.checkRules = function () { console.log('hehe'); var problem = this.problem; var gridCanvas = this.gridCanvas; var state = this.gridCanvas.readState(); var logic = new Logica(state); var corrects = 0; jQuery.each(problem.regras, function (index, item) { if (item.regra(problem, logic)) { gridCanvas.tickRegra(index, true); corrects += 1; } else { gridCanvas.tickRegra(index, false); } }); if (corrects == problem.regras.length) { if (problem.objetivo.solution) { if (logic.equals(problem.objetivo.solution)) { alert(problem.objetivo.texto); jQuery("#to-do-next").show(); jQuery(".ear").show(); track_end && track_end(); } } else if (problem.objetivo.regra(problem, logic)) { alert(problem.objetivo.texto); jQuery("#to-do-next").show(); jQuery(".ear").show(); track_end && track_end(); } } }
     this.changeColors = function () {
         console.log('chamou')
         console.log(this.gridCanvas)
@@ -16,10 +17,6 @@ var Manager = function (problem) {
             return;
         var state = this.gridCanvas.readState();
         var canvas = this.gridCanvas;
-        console.log('valor do state: ')
-        console.log(state)
-        console.log('valor do canvas: ')
-        console.log(canvas)
         for (var i = 0; i < state.length; i++) {
             
             canvas.setClassCasa(i, "");
@@ -65,7 +62,10 @@ var Grid = function (problem) {
         var li = jQuery("<li></li>").addClass("column span-3"); jQuery("<span></span>").appendTo(li).text(nome); li.append(ul)
         return li;
     }
-    this.tickRegra = function (id, bool) { jQuery("#rule" + id).toggleClass("tick ticked", bool); }
+    this.tickRegra = function (id, bool) { 
+        alert('opa')
+        jQuery("#rule" + id).toggleClass("tick ticked", bool); 
+    }
     this.setClassCasa = function (id, klass) { var casa = jQuery("#casa" + id); casa.attr("class", "").addClass("casa").addClass(klass); }
     this.fillRegras = function (divRegras) { total = this.problem.regras.length; regras1 = this.problem.regras.slice(0, total / 2 + 1); regras2 = this.problem.regras.slice(total / 2 + 1); listas = jQuery(divRegras).find("ul"); this.fillRegrasList(listas.eq(0), regras1, 0); this.fillRegrasList(listas.eq(1), regras2, Math.floor(total / 2) + 1); }
     this.fillRegrasList = function (lista, regras, offset) { jQuery.each(regras, function (index, item) { item = jQuery("<span></span>").text(item.texto).attr("id", "rule" + (offset + index)).addClass("icones-noblock"); item = jQuery("<li></li>").append(item); item.appendTo(lista).find("span") }); }

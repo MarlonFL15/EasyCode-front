@@ -116,7 +116,7 @@ updateShape_:Blockly.Blocks.procedures_callnoreturn.updateShape_,mutationToDom:B
 Blockly.Blocks.procedures_ifreturn={init:function(){this.appendValueInput("CONDITION").setCheck(Blockly.Types.BOOLEAN.checkList).appendField(Blockly.Msg.CONTROLS_IF_MSG_IF);this.appendValueInput("VALUE").appendField(Blockly.Msg.PROCEDURES_DEFRETURN_RETURN);this.setInputsInline(!0);this.setPreviousStatement(!0);this.setNextStatement(!0);this.setColour(Blockly.Blocks.procedures.HUE);this.setTooltip(Blockly.Msg.PROCEDURES_IFRETURN_TOOLTIP);this.setHelpUrl(Blockly.Msg.PROCEDURES_IFRETURN_HELPURL);this.hasReturnValue_=
 !0},mutationToDom:function(){var a=document.createElement("mutation");a.setAttribute("value",Number(this.hasReturnValue_));return a},domToMutation:function(a){this.hasReturnValue_=1==a.getAttribute("value");this.hasReturnValue_||(this.removeInput("VALUE"),this.appendDummyInput("VALUE").appendField(Blockly.Msg.PROCEDURES_DEFRETURN_RETURN))},onchange:function(a){a=!1;var b=this;do{if(-1!=this.FUNCTION_TYPES.indexOf(b.type)){a=!0;break}b=b.getSurroundParent()}while(b);a?("procedures_defnoreturn"==b.type&&
 this.hasReturnValue_?(this.removeInput("VALUE"),this.appendDummyInput("VALUE").appendField(Blockly.Msg.PROCEDURES_DEFRETURN_RETURN),this.hasReturnValue_=!1):"procedures_defreturn"!=b.type||this.hasReturnValue_||(this.removeInput("VALUE"),this.appendValueInput("VALUE").appendField(Blockly.Msg.PROCEDURES_DEFRETURN_RETURN),this.hasReturnValue_=!0),this.setWarningText(null)):this.setWarningText(Blockly.Msg.PROCEDURES_IFRETURN_WARNING)},FUNCTION_TYPES:["procedures_defnoreturn","procedures_defreturn"]};Blockly.Blocks.texts={};Blockly.Blocks.texts.HUE=160;
-Blockly.Blocks.text={init:function(){this.setHelpUrl(Blockly.Msg.TEXT_TEXT_HELPURL);this.setColour(Blockly.Blocks.texts.HUE);this.appendDummyInput().appendField(this.newQuote_(!0)).appendField(new Blockly.FieldTextInput(""),"TEXT").appendField(this.newQuote_(!1));this.setOutput(!0,Blockly.Types.TEXT.output);var a=this;this.setTooltip(function(){var b=a.getParent();return b&&b.getInputsInline()&&b.tooltip||Blockly.Msg.TEXT_TEXT_TOOLTIP})},newQuote_:function(a){return new Blockly.FieldImage(a==this.RTL?
+Blockly.Blocks.text={init:function(){this.setHelpUrl(Blockly.Msg.TEXT_TEXT_HELPURL);this.setColour(Blockly.Blocks.texts.HUE);this.appendDummyInput().appendField(this.newQuote_(!0)).appendField(new Blockly.FieldTextInput("", function(newValue) {return newValue[0]}, {maxDisplayLength:1}),"TEXT").appendField(this.newQuote_(!1));this.setOutput(!0,Blockly.Types.TEXT.output);var a=this;this.setTooltip(function(){var b=a.getParent();return b&&b.getInputsInline()&&b.tooltip||Blockly.Msg.TEXT_TEXT_TOOLTIP})},newQuote_:function(a){return new Blockly.FieldImage(a==this.RTL?
 "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAQAAAAqJXdxAAAAqUlEQVQI1z3KvUpCcRiA8ef9E4JNHhI0aFEacm1o0BsI0Slx8wa8gLauoDnoBhq7DcfWhggONDmJJgqCPA7neJ7p934EOOKOnM8Q7PDElo/4x4lFb2DmuUjcUzS3URnGib9qaPNbuXvBO3sGPHJDRG6fGVdMSeWDP2q99FQdFrz26Gu5Tq7dFMzUvbXy8KXeAj57cOklgA+u1B5AoslLtGIHQMaCVnwDnADZIFIrXsoXrgAAAABJRU5ErkJggg==":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAQAAAAqJXdxAAAAn0lEQVQI1z3OMa5BURSF4f/cQhAKjUQhuQmFNwGJEUi0RKN5rU7FHKhpjEH3TEMtkdBSCY1EIv8r7nFX9e29V7EBAOvu7RPjwmWGH/VuF8CyN9/OAdvqIXYLvtRaNjx9mMTDyo+NjAN1HNcl9ZQ5oQMM3dgDUqDo1l8DzvwmtZN7mnD+PkmLa+4mhrxVA9fRowBWmVBhFy5gYEjKMfz9AylsaRRgGzvZAAAAAElFTkSuQmCC",
 12,12,'"')},getBlockType:function(){return Blockly.Types.TEXT}};
 Blockly.Blocks.text_join={init:function(){this.setHelpUrl(Blockly.Msg.TEXT_JOIN_HELPURL);this.setColour(Blockly.Blocks.texts.HUE);this.itemCount_=2;this.updateShape_();this.setOutput(!0,Blockly.Types.TEXT.output);this.setMutator(new Blockly.Mutator(["text_create_join_item"]));this.setTooltip(Blockly.Msg.TEXT_JOIN_TOOLTIP)},mutationToDom:function(){var a=document.createElement("mutation");a.setAttribute("items",this.itemCount_);return a},domToMutation:function(a){this.itemCount_=parseInt(a.getAttribute("items"),
@@ -210,5 +210,47 @@ Blockly.Blocks.infinite_loop={init:function(){this.setHelpUrl("");this.setColour
 Blockly.Blocks.io_tone={init:function(){this.appendDummyInput().appendField(Blockly.Msg.ARD_SETTONE).appendField(new Blockly.FieldDropdown(Blockly.Arduino.Boards.selected.digitalPins),"TONEPIN");this.appendValueInput("FREQUENCY").setCheck(Blockly.Types.NUMBER.checkList).appendField(Blockly.Msg.ARD_TONEFREQ);this.setInputsInline(!0);this.setPreviousStatement(!0);this.setNextStatement(!0);this.setColour(Blockly.Blocks.tone.HUE);this.setTooltip(Blockly.Msg.ARD_TONE_TIP);this.setHelpUrl("https://www.arduino.cc/en/Reference/tone")},
 onchange:function(){var a=Blockly.Arduino.valueToCode(this,"FREQUENCY",Blockly.Arduino.ORDER_ATOMIC);31>a||65535<a?this.setWarningText(Blockly.Msg.ARD_TONE_WARNING,"io_tone"):this.setWarningText(null,"io_tone")},getBlockType:function(){return Blockly.Types.NUMBER}};
 Blockly.Blocks.io_notone={init:function(){this.appendDummyInput().appendField(Blockly.Msg.ARD_NOTONE).appendField(new Blockly.FieldDropdown(Blockly.Arduino.Boards.selected.digitalPins),"TONEPIN");this.setPreviousStatement(!0);this.setNextStatement(!0);this.setColour(Blockly.Blocks.tone.HUE);this.setTooltip(Blockly.Msg.ARD_NOTONE_TIP);this.setHelpUrl("https://www.arduino.cc/en/Reference/noTone")},getBlockType:function(){return Blockly.Types.NUMBER}};Blockly.Blocks.variables.HUE=330;
-Blockly.Blocks.variables_set_type={init:function(){this.setHelpUrl("http://arduino.cc/en/Reference/HomePage");this.setColour(Blockly.Blocks.variables.HUE);this.appendValueInput("VARIABLE_SETTYPE_INPUT");this.appendDummyInput().appendField(Blockly.Msg.ARD_VAR_AS).appendField(new Blockly.FieldDropdown(Blockly.Types.getValidTypeArray()),"VARIABLE_SETTYPE_TYPE");this.setInputsInline(!0);this.setOutput(!0);this.setTooltip(Blockly.Msg.ARD_VAR_AS_TIP)},getBlockType:function(){var a=this.getFieldValue("VARIABLE_SETTYPE_TYPE");
+Blockly.Blocks.variables_set_type={init:function(){this.setHelpUrl("http://arduino.cc/en/Reference/HomePage");this.setColour(60);this.appendValueInput("VARIABLE_SETTYPE_INPUT");this.appendDummyInput().appendField(Blockly.Msg.ARD_VAR_AS).appendField(new Blockly.FieldDropdown(Blockly.Types.getValidTypeArray()),"VARIABLE_SETTYPE_TYPE");this.setInputsInline(!0);this.setOutput(!0);this.setTooltip(Blockly.Msg.ARD_VAR_AS_TIP)},getBlockType:function(){var a=this.getFieldValue("VARIABLE_SETTYPE_TYPE");
 return Blockly.Types[a]}};
+
+Blockly.Blocks['text_prompt_ext'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("leia ")
+        .appendField(new Blockly.FieldVariable("item"), "VAR")
+        .appendField("como um")
+        .appendField(new Blockly.FieldDropdown(Blockly.Types.getValidTypeArray()),"VARIABLE_SETTYPE_TYPE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(160);
+  this.setTooltip("");
+  this.setHelpUrl("");
+  }
+};
+Blockly.Blocks['text_print_as'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("imprima ")
+        .appendField(new Blockly.FieldVariable("item"), "VAR")
+        .appendField("como um")
+        .appendField(new Blockly.FieldDropdown(Blockly.Types.getValidTypeArray()),"VARIABLE_SETTYPE_TYPE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(160);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+Blockly.Blocks['text_print'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("imprima")
+        .appendField(new Blockly.FieldTextInput(""), "TEXT");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(160);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+  

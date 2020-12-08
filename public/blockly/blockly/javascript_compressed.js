@@ -80,13 +80,33 @@ Blockly.JavaScript.text_getSubstring=function(a){var b=Blockly.JavaScript.valueT
 d+"', "+a+")",Blockly.JavaScript.ORDER_FUNCTION_CALL]};
 Blockly.JavaScript.text_changeCase=function(a){var b={UPPERCASE:".toUpperCase()",LOWERCASE:".toLowerCase()",TITLECASE:null}[a.getFieldValue("CASE")];b?(a=Blockly.JavaScript.valueToCode(a,"TEXT",Blockly.JavaScript.ORDER_MEMBER)||"''",a+=b):(b=Blockly.JavaScript.provideFunction_("text_toTitleCase",["function "+Blockly.JavaScript.FUNCTION_NAME_PLACEHOLDER_+"(str) {","  return str.replace(/\\S+/g,","      function(txt) {return txt[0].toUpperCase() + txt.substring(1).toLowerCase();});","}"]),a=Blockly.JavaScript.valueToCode(a,
 "TEXT",Blockly.JavaScript.ORDER_NONE)||"''",a=b+"("+a+")");return[a,Blockly.JavaScript.ORDER_FUNCTION_CALL]};Blockly.JavaScript.text_trim=function(a){var b={LEFT:".replace(/^[\\s\\xa0]+/, '')",RIGHT:".replace(/[\\s\\xa0]+$/, '')",BOTH:".trim()"}[a.getFieldValue("MODE")];return[(Blockly.JavaScript.valueToCode(a,"TEXT",Blockly.JavaScript.ORDER_MEMBER)||"''")+b,Blockly.JavaScript.ORDER_FUNCTION_CALL]};
-Blockly.JavaScript.text_print=function(a){return"window.alert("+(Blockly.JavaScript.valueToCode(a,"TEXT",Blockly.JavaScript.ORDER_NONE)||"''")+");\n"};
+Blockly.JavaScript.text_print=function(a){return"window.alert('"+a.getFieldValue('TEXT')+"');\n"};
+Blockly.JavaScript.text_print_as = function(a){return "window.alert("+Blockly.JavaScript.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE)+");\n"}
+
 Blockly.JavaScript.text_prompt_ext=function(a){
-    var c = Blockly.JavaScript.valueToCode(a,"VALUE",Blockly.JavaScript.ORDER_NONE)
+    var c=Blockly.JavaScript.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE)
     var b="window.prompt()\n";"NUMBER"==a.getFieldValue("TYPE")&&(b="parseFloat("+b+")");
     
-    return[c+" = "+b,Blockly.JavaScript.ORDER_FUNCTION_CALL]};
-    Blockly.JavaScript.variables_set_type = function(a){
-        return ''
+    return c+" = "+b
+};
+Blockly.JavaScript.variables_set_type = function(a){
+    var b=Blockly.JavaScript.valueToCode(a,"VARIABLE_SETTYPE_INPUT",Blockly.JavaScript.ORDER_ASSIGNMENT)||"0";   
+    return[Blockly.JavaScript.getArduinoType_(Blockly.Types[a.getFieldValue("VARIABLE_SETTYPE_TYPE")])+"("+b+")",Blockly.JavaScript.ORDER_ATOMIC]
+
+}
+Blockly.JavaScript.getArduinoType_=function(a){
+    switch(a.typeId){
+        case Blockly.Types.SHORT_NUMBER.typeId:return"Number";
+        case Blockly.Types.NUMBER.typeId:return"Number";
+        case Blockly.Types.LARGE_NUMBER.typeId:return"Number";
+        case Blockly.Types.DECIMAL.typeId:return"Number";
+        case Blockly.Types.TEXT.typeId:return"String";
+        case Blockly.Types.CHARACTER.typeId:return"String";
+        case Blockly.Types.BOOLEAN.typeId:return"Boolean";
+        case Blockly.Types.NULL.typeId:return"null";
+        case Blockly.Types.UNDEF.typeId:return"undefined";
+        case Blockly.Types.CHILD_BLOCK_MISSING.typeId:return"Number";
+        default:return"Invalid Blockly Type"
     }
+};
 Blockly.JavaScript.text_prompt=Blockly.JavaScript.text_prompt_ext;Blockly.JavaScript.variables={};Blockly.JavaScript.variables_get=function(a){return[Blockly.JavaScript.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE),Blockly.JavaScript.ORDER_ATOMIC]};Blockly.JavaScript.variables_set=function(a){var b=Blockly.JavaScript.valueToCode(a,"VALUE",Blockly.JavaScript.ORDER_ASSIGNMENT)||"0";return Blockly.JavaScript.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE)+" = "+b+";\n"};

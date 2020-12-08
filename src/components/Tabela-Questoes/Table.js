@@ -110,7 +110,7 @@ class CustomTable extends Component {
     rows:[],
     rowsfilter:[],
     page:0,
-    rowsPerPage:10,
+    rowsPerPage:50,
     value: ''
   }
   handleChangePage = (event, newPage) => {
