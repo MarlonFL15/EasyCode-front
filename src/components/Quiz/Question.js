@@ -29,6 +29,8 @@ export default function Container(props) {
     let location = useLocation();
     let history = useHistory()
     const assunto = location.state.assunto
+    console.log(location.state)
+    
     const headerColor = assunto === 'Seleção' ? colors.yellow : assunto === 'Sequência' ? colors.red : assunto === 'Repetição' ? colors.green : colors.blue
     const [didMount, setDidMount] = React.useState(false);
 
@@ -145,17 +147,6 @@ export default function Container(props) {
     const classes = useStyles()
 
     useEffect(() => {
-        console.log(gabarito)
-        gabarito.map((item) => {
-            if (item.correto)
-                setAcertos(acertos + 1)
-        })
-        const quiz = {
-            questoes: questoes.length,
-            acertos: acertos
-        }
-    })
-    useEffect(() => {
 
         //const assunto = location.state.assunto;
         console.log('chamou')
@@ -208,16 +199,38 @@ export default function Container(props) {
     const changeQuestion = () => {
 
         if (questao == questoes.length - 1) {
-            getAcertos()
+            //alert(getAcertos())
+            
             const quiz = {
                 questoes: questoes.length,
-                acertos: acertos
+                acertos: acertos,
+                assunto: assunto
             }
             console.log(quiz)
             if (location.state.jornada) {
-                history.push('/jornada/' + assunto, { quiz })
+                finish('oi')
+                history.push({
+                    pathname: '/jornada/' + assunto ,
+                    state: {
+                        quiz:{
+                            questoes: questoes.length,
+                            acertos: selected === questoes[questao].indexCerta?acertos+1:acertos,
+                            assunto: assunto
+                        }
+                    },
+                });
             } else {
-                history.push('/quiz/resultado', { quiz })
+                finish('oi')
+                history.push({
+                    pathname: '/quiz/resultado', 
+                    state: {
+                        quiz:{
+                            questoes: questoes.length,
+                            acertos: selected === questoes[questao].indexCerta?acertos+1:acertos,
+                            assunto: assunto
+                        }
+                    },
+                });
             }
         } else {
             setQuestao(questao + 1)
@@ -228,8 +241,10 @@ export default function Container(props) {
 
     }
 
-    const finish = () => {
-        axios.post('/sendQuiz', { respostas: gabarito, idUsuario: getToken(), assunto: assunto }).then(response => {
+    const finish = (e) => {
+        const qacertos = selected === questoes[questao].indexCerta?acertos+1:acertos
+        const percentual = qacertos/questoes.length * 100
+        axios.post('/sendQuiz', { respostas: gabarito, idUsuario: getToken(), assunto: assunto, percentual: percentual }).then(response => {
 
             if (response.data.conquista.length != 0) {
                 var event = new CustomEvent('achievement', {
@@ -269,17 +284,24 @@ export default function Container(props) {
 
     const showAnswer = () => {
         let newgabarito = [...gabarito,
-        {
-            correto: selected === questoes[questao].indexCerta,
-            respostaUsuario: questoes[questao].alternativas[selected],
-            id: questoes[questao].id,
+            {
+                correto: selected === questoes[questao].indexCerta,
+                respostaUsuario: questoes[questao].alternativas[selected],
+                id: questoes[questao].id,
 
-        }
+            }
         ]
 
-        setGabarito(newgabarito)
-        console.log(gabarito)
+        
+        let resp = 0
+        newgabarito.forEach(e => {
+            if(e.correto)
+                resp += 1
+        })
+      
         setPercent(percent + parseFloat(1 / questoes.length * 100))
+        setGabarito(newgabarito)
+        setAcertos(resp)
     }
 
     const IsQuestionRight = () => {
@@ -292,13 +314,14 @@ export default function Container(props) {
         })
     }
 
-    const getAcertos = async () => {
-        var result = 0
-        await getGabarito().then(r => {
-            result = r
-            console.log(result)
-
+    const getAcertos = () => {
+        let resp = 0
+        console.log(gabarito)
+        gabarito.map((item) => {
+            if (item.correto)
+                resp += 1
         })
+        return resp
     }
     const TelaResposta = () => {
 

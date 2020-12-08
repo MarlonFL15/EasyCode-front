@@ -1,6 +1,6 @@
 import { Button, Card, Grid, makeStyles } from '@material-ui/core'
 import React from 'react'
-import { useLocation } from 'react-router-dom'
+import { Link, useLocation, useHistory } from 'react-router-dom'
 import colors from '../Colors'
 import GraficoSubmissoes from '../Dashboard/GraficoSubmissoes'
 
@@ -27,7 +27,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function QuizResult(props) {
     const location = useLocation()
+    const history = useHistory()
     const { quiz } = location.state
+    console.log("no quiz result: ")
+    console.log(location.state)
+    const assunto = location.state.quiz.assunto
+    console.log("anaálise")
+    console.log(assunto)
     const qtdQuestoes = quiz.questoes
     const acertos = quiz.acertos
     const resultado = acertos/ qtdQuestoes * 100
@@ -113,6 +119,12 @@ export default function QuizResult(props) {
                     <Grid container item xs={12} className={classes.buttonRow} style={{ marginTop: 'auto' }}>
                         <Grid item xs={12} md={2}>
                             <Button variant="contained"
+                                onClick={(e) => history.push({
+                                    pathname: '/quiz/responder',
+                                    state: {
+                                        assunto: assunto
+                                    }
+                                })}
                                 style={{
                                     border: '3px solid ' + colors.blue,
                                     padding: '10px 40px',
@@ -127,17 +139,20 @@ export default function QuizResult(props) {
 
                         <Grid container item xs={12} md={10} className={classes.buttonRowRight}>
                             <Grid item xs={12} md={6} >
-                                <Button
-                                    style={{
-                                        padding: '10px 40px',
-                                        background: 'transparent',
-                                        color: colors.blue,
-                                        fontSize: 16,
-                                        fontWeight: 600,
-                                        letterSpacing: 1.3,
-                                    }}>Voltar para o menu</Button>
+                                
+                                    <Button
+                                        onClick={(e) => history.push('/dashboard')}
+                                        style={{
+                                            padding: '10px 40px',
+                                            background: 'transparent',
+                                            color: colors.blue,
+                                            fontSize: 16,
+                                            fontWeight: 600,
+                                            letterSpacing: 1.3,
+                                        }}>Voltar para o menu</Button>
+                                    
                             </Grid>
-                            <Grid item style={{ textAlign: 'end' }}>
+                            {/* <Grid item style={{ textAlign: 'end' }}>
 
                                 <Button variant="contained"
                                     style={{
@@ -149,7 +164,7 @@ export default function QuizResult(props) {
                                         fontWeight: 500,
                                         letterSpacing: 1.3
                                     }}>PRÓXIMO</Button>
-                            </Grid>
+                            </Grid> */}
 
                         </Grid>
 
