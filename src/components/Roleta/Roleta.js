@@ -92,6 +92,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function Roleta() {
     const [deg, changeDeg] = useState(360 * Math.random())
     const [spin, toggleSpin] = useState(false)
+    const history = useHistory()
     const [i, setI] = useState(0)
     // const history = useHistory()
 
@@ -297,11 +298,6 @@ export default function Roleta() {
                                             fontSize: 27,
                                             fontWeight: 800,
                                             color: colors.black
-                                        }}>If e else</div>
-                                        <div style={{
-                                            fontSize: 18,
-                                            // fontWeight: 600,
-                                            color: colors.black
                                         }}>{assunto}</div>
                                         <div style={{
                                             fontSize: 14,
@@ -311,10 +307,11 @@ export default function Roleta() {
                                     </Grid>
                                     <Grid item sm={6}>
                                         <GraficoSubmissoes />
-                                        <div>Seu desempenho em <b>If e else</b></div>
+                                        <div>Seu desempenho em <b>{assunto}</b></div>
                                     </Grid>
                                     <Grid item sm={12} style={{ textAlign: "center" }}>
                                         <Button variant="contained"
+                                            onClick={(e) => {history.push('/quiz/responder', { assunto: assunto })}}
                                             style={{
                                                 backgroundColor: colors.blue,
                                                 padding: '10px 40px',

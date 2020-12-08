@@ -17,6 +17,7 @@ import { withRouter, useHistory } from "react-router-dom";
 import axios from '../../bd/client'
 import { Card } from '@material-ui/core';
 import './index.css'
+import { getToken } from '../auth';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 
@@ -118,9 +119,11 @@ class CustomTable extends Component {
   };
 
   componentDidMount = () =>{
-    axios.get("/perguntas").then(response => {
+    axios.get("/perguntas/"+getToken()).then(response => {
       this.setState({rows:response.data})
   
+    }).catch(err => {
+      alert(err)
     })
   }
   handleChangeRowsPerPage = (event) => {
@@ -131,6 +134,7 @@ class CustomTable extends Component {
   render(){
     const {classes} = this.props;
     const rowsfilter = this.state.rows.filter(element => removeAcentos(element.titulo).toUpperCase().includes(removeAcentos(this.props.search).toUpperCase()))
+    const count = rowsfilter.length
     return (
         
         <TableContainer>
@@ -155,26 +159,31 @@ class CustomTable extends Component {
                 <StyledTableCell align="center">{row.assunto}</StyledTableCell>
                 <StyledTableCell  style={{width:'5%'}} align="center">{<Nivel nivel={row.nivel}/>}</StyledTableCell>
                 <StyledTableCell align="center">{row.pontos}</StyledTableCell>
-            <StyledTableCell style={{width:'5%'}} align="center">{}</StyledTableCell>
+                <StyledTableCell style={{width:'5%'}} align="center">{row.feito?'Ok':''}</StyledTableCell>
                 </StyledTableRow>
             ))}
             </TableBody>
             <TableFooter>
-
+            <TableRow style={{ width: '100%' }}>
+                <StyledTablePagination
+                  rowsPerPageOptions={[15, 25, 50, { label: 'Todos', value: count }]}
+                  labelRowsPerPage='linhas por página: '
+                  labelDisplayedRows={({ from, to, count }) => `${from}-${to} de ${count}`}
+                  count={count}
+                  rowsPerPage={this.state.rowsPerPage}
+                  page={this.state.page}
+                  SelectProps={{
+                    inputProps: { 'aria-label': 'linhas por página' },
+                    native: true,
+                  }}
+                  onChangePage={this.handleChangePage}
+                  onChangeRowsPerPage={this.handleChangeRowsPerPage}
+  
+                />
+              </TableRow>
             
             </TableFooter>
         </Table>
-        <StyledTablePagination
-              rowsPerPageOptions={[10, 25, 100]}
-              component="div"
-              labelRowsPerPage = 'linhas por página: '
-              labelDisplayedRows={({ from, to, count }) => `${from}-${to} de ${count}`}
-              count={this.state.rowsfilter.length}
-              rowsPerPage={this.state.rowsPerPage}
-              page={this.state.page}
-              onChangePage={this.state.handleChangePage}
-              onChangeRowsPerPage={this.state.handleChangeRowsPerPage}
-            />
         </TableContainer>
 
     )
