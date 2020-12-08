@@ -101,6 +101,9 @@ export default props => {
     const [historic, setHistoric] = useState([])
     const [cards, setCards] = useState([])
     const [foto, setFoto] = useState(null)
+    const [lastQuiz, setLastQuiz] = useState(null)
+    const [lastBloco, setLastBloco] = useState(null)
+    const [lastTable, setLastTable] = useState(null)
 
     const classes = useStyles()
     const history = useHistory()
@@ -172,28 +175,36 @@ export default props => {
         /**Recupera o histórico do usuário */
         axios.get("/getQuizByUser/" + getToken()).then(response => {
             let arrayquiz = response.data
+            setLastQuiz(response.data[0])
             //console.log("deu tudo certo")
             axios.get("/getRespostasByUser/" + getToken()).then(response => {
-                let arrayquestao = response.data
-                let array = arrayquestao.concat(arrayquiz)
+                setLastBloco(response.data[0])
+                axios.get('getTabelasByUser/'+getToken()).then(response1 => {
+                    setLastTable(response1.data[0])
+                    let arrayquestao = response.data
+                    let arraytabelas = response1.data
+                    let array = arrayquestao.concat(arrayquiz).concat(arraytabelas)
+                    array.sort((a1, a2) => {
+                        var date1 = new Date(a1.datacriacao)
+                        var date2 = new Date(a2.datacriacao)
+    
+                        if (date1.getTime() > date2.getTime())
+                            return -1
+                        else if (date1.getTime() < date2.getTime())
+                            return 1
+                        else
+                            return 0
+                    })
+                    setHistoric(array)
+                    setCards(array)
+    
+                })
+                
+                
 
                 // console.log('antes: ')
                 // console.log(array)
-                array.sort((a1, a2) => {
-                    var date1 = new Date(a1.datacriacao)
-                    var date2 = new Date(a2.datacriacao)
-
-                    if (date1.getTime() > date2.getTime())
-                        return -1
-                    else if (date1.getTime() < date2.getTime())
-                        return 1
-                    else
-                        return 0
-                })
-
-                setHistoric(array)
-                setCards(array.splice(0, 3))
-
+                
             }).catch(err => {
             })
         }).catch(err => {
@@ -226,6 +237,7 @@ export default props => {
 
         )
     }
+    
     return (
         <Grid container style={{ minWidth: 400 }} className="container">
             <div className="top" style={{ padding: 7, background: colors.blue, width: '100%' }} />
@@ -262,6 +274,7 @@ export default props => {
                         </div>
                         <Grid container>
                             {cards.map((el, i) => {
+                                {console.log(el)}
                                 return (
                                     <Grid item xs={12}>
                                         <HistoricBox index={i} questao={el.tipo == 2 ? true : false} blocks={el.tipo == 1 ? true : false}
@@ -282,21 +295,26 @@ export default props => {
                             <img src={require('./memo_1f4dd.png')}></img>
                         </div>
                         <div className={classes.title}>Quiz</div>
-                        <div className={classes.description}>Ultimo resolvido:<br />Comando If e Else 75%</div>
+                        {lastQuiz ? 
+                        <div className={classes.description}>Ultimo resolvido:<br />{lastQuiz.assunto} {lastQuiz.percentual}%</div>:false}
                     </Card>
                     <Card variant="outlined" className={classes.card} onClick={() => history.push('/questoes')}>
                         <div className={classes.image}>
                             <img src={require('./puzzle-piece-apple.png')}></img>
                         </div>
                         <div className={classes.title}>Blocos</div>
-                        <div className={classes.description}>Ultimo resolvido:<br />Comando If e Else 75%</div></Card>
+                        {lastBloco ?
+                        <div className={classes.description}>Ultimo resolvido:<br />{lastBloco.titulo} - {lastBloco.assunto}</div>:false}
+                    </Card>
                     <Card variant="outlined" className={classes.card} onClick={() => history.push('/tabelas-verdade')}>
                         <div className={classes.image}>
                             <img src={require('./clipboard-apple.png')}></img>
 
                         </div>
                         <div className={classes.title}>Tabela-verdade</div>
-                        <div className={classes.description}>Ultimo resolvido:<br /><span>Vizinhança</span> em 5m</div></Card>
+                        {lastTable ? 
+                        <div className={classes.description}>Ultimo resolvido:<br /><span>{lastTable.nome}</span> - {lastTable.nivel}</div>:false}
+                    </Card>
                 </div>
                 <Card variant="outlined" className="charts" style={{ padding: 20, border: 'none' }}>
                     <div className={classes.graphic}>
