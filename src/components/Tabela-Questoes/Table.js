@@ -119,7 +119,6 @@ class CustomTable extends Component {
 
   componentDidMount = () =>{
     axios.get("/perguntas").then(response => {
-      console.log('entrou aqui')
       this.setState({rows:response.data})
   
     })

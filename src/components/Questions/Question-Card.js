@@ -57,7 +57,6 @@ const useStyles = makeStyles({
 export default function SimpleCard(props) {
   const classes = useStyles();
   const classNivel = props.nivel=='Fácil'?classes.nivelfacil:props.nivel=='Médio'?classes.nivelmedio:classes.niveldificil;
-  console.log(props)
   
   return (
     <Card className={classes.root} variant='outlined'>
@@ -81,12 +80,13 @@ export default function SimpleCard(props) {
             <div className={classes.border}>
               Entrada:
               <br></br>
-              {props.exemplos? props.exemplos[0].entrada:false}
+              {console.log(props.exemplos)}
+              {props.exemplos? props.exemplos.entrada:false} 
             </div>
             <div className={classes.border} style={{borderLeft:0}}>
               Saída:
               <br></br>
-              {props.exemplos? props.exemplos[0].saida:false}
+              {props.exemplos? props.exemplos.saida:false}
             </div>
           </Typography>
 

@@ -38,8 +38,7 @@ export default props => {
     useEffect(() => {
         
         window.addEventListener('achievement', function(e){
-            console.log("VALOR DE e: ")
-            console.log(e.detail)
+            
             console.log(isNumber(e.detail.conquista))
 
             if(isNumber(e.detail.conquista))

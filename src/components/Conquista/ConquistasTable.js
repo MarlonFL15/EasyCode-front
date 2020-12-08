@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { withStyles, makeStyles, createStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
@@ -12,8 +12,9 @@ import { Redirect, useHistory, Link } from "react-router-dom";
 import colors from '../Colors'
 import LoopIcon from '@material-ui/icons/Loop';
 import TrendingFlatIcon from '@material-ui/icons/TrendingFlat';
-
-
+import Axios from 'axios';
+import { getToken } from '../auth'
+import axios from '../../bd/client'
 const useStyles = makeStyles((theme) => createStyles({
     table: {
     },
@@ -126,6 +127,7 @@ const assuntos = [
 
 export default function ConquistasTable() {
     const [value, setValue] = React.useState('')
+    const [conquistas, setConquistas] = React.useState([])
     const classes = useStyles();
     const history = useHistory()
 
@@ -134,6 +136,13 @@ export default function ConquistasTable() {
         setValue(event.target.value)
     }
 
+    useEffect(() => {
+        axios.get('getConquistas/'+getToken()).then(response => {
+            setConquistas(response.data)
+        }).catch(e => {
+
+        })
+    })
     return (
         <div className={classes.root}>
             <div className="top" style={{ padding: 7, background: colors.blue, width: '100%', position: 'absolute', top: 0, left: 0, zIndex: -1 }} />
@@ -153,45 +162,40 @@ export default function ConquistasTable() {
                     </IconButton>
                 </Paper>
                 <Grid container spacing={2}>
-                    {['Um', 'Dois', 'Três', 'Quatro', 'Cinco', 'Seis', 'Sete', 'Oito', 'Nove', 'Dez', 'Onze'].map((item) => {
-                        if (item.toLocaleLowerCase().includes(value.toLocaleLowerCase()))
-                            return (
-                                <Grid item xs={6} sm={3}>
+                    {conquistas.map((item) => {
+                        return (
+                            <Grid item xs={6} sm={3}>
+                                <div style={{
+                                    borderRadius: 5,
+                                    backgroundColor: colors.background,
+                                    padding: 10,
+                                    textAlign: 'center'
+                                }} xs={6} sm={3}>
+                                    <img width={70} height={70} src={'media/Conquistas/'+item.id + (item.idUsuario?"":"-disabled")+".svg"} >
+                                    </img>
                                     <div style={{
-                                        borderRadius: 5,
-                                        backgroundColor: colors.background,
-                                        padding: 10,
-                                        textAlign: 'center'
-                                    }} xs={6} sm={3}>
-
-                                        <div style={{
-                                            width: 70,
-                                            height: 70,
-                                            margin: '0 auto',
-                                            backgroundColor: colors.red,
-                                            borderRadius: '100%'
-                                        }} />
-                                        <div style={{
-                                            fontSize: 18,
-                                            fontWeight: 600,
-                                        }}>
-                                            {item}
-                                    </div>
-                                        <div style={{
-                                            fontSize: 14,
-                                        }}>
-                                            Descrição
-                                    </div>
-                                        <div style={{
-                                            fontSize: 14,
-                                        }}>
-                                            +250pts
-                                    </div>
-                                    </div>
-                                </Grid>
+                                        fontSize: 18,
+                                        fontWeight: 600,
+                                    }}>
+                                        {item.titulo}
+                                </div>
+                                    <div style={{
+                                        fontSize: 14,
+                                    }}>
+                                        {item.descricao}
+                                </div>
+                                    <div style={{
+                                        fontSize: 14,
+                                    }}>
+                                        +{item.pontuacao}pts
+                                </div>
+                                </div>
+                            </Grid>
                             )
-                        return null
-                    })}
+                        }
+
+                    )}
+                    
 
                 </Grid>
 

@@ -97,6 +97,7 @@ const useStyles = makeStyles((theme) => ({
 export default props => {
     const [nome, setNome] = useState('')
     const [email, setEmail] = useState('')
+    const [conquistas, setConquistas] = useState([])
     const [historic, setHistoric] = useState([])
     const [cards, setCards] = useState([])
     const [foto, setFoto] = useState(null)
@@ -163,12 +164,15 @@ export default props => {
 
         })
 
+        axios.get('getConquistas/'+getToken()).then(response => {
+            setConquistas(response.data)
+        }).catch(e => {
+
+        })
         /**Recupera o histórico do usuário */
         axios.get("/getQuizByUser/" + getToken()).then(response => {
             let arrayquiz = response.data
             //console.log("deu tudo certo")
-
-
             axios.get("/getRespostasByUser/" + getToken()).then(response => {
                 let arrayquestao = response.data
                 let array = arrayquestao.concat(arrayquiz)
@@ -222,7 +226,6 @@ export default props => {
 
         )
     }
-    console.log(cards)
     return (
         <Grid container style={{ minWidth: 400 }} className="container">
             <div className="top" style={{ padding: 7, background: colors.blue, width: '100%' }} />
@@ -236,19 +239,14 @@ export default props => {
                         <Link to="/conquistas" style={{ textDecoration: 'none', color: colors.blue }}>Ver tudo</Link>
                     </div>
                     <Grid container spacing={1} style={{maxHeight: 112, overflow:'hidden'}}>
-                        {[1, 2, 3, 4, 5].map(i => {
-                            return <Grid item>
-
-                                <div style={{
-                                    display: 'block',
-                                    width: 45,
-                                    height: 45,
-                                    margin:'2px 0',
-                                    backgroundColor: colors.purple,
-                                    borderRadius: '100%'
-                                }} />
-                            </Grid>
-
+                        {conquistas.map(item => {
+                            return (
+                                <Grid item>
+                                    <img width={45} height={45} src={'media/Conquistas/'+item.id + (item.idUsuario?"":"-disabled")+".svg"} >
+                                    </img>
+                                    
+                                </Grid> 
+                            )
                         })}
 
                     </Grid>

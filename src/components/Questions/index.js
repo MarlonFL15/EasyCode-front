@@ -63,26 +63,16 @@ class BlockDiv extends React.Component {
   componentDidMount = () => {
 
     const id = this.props.location.state.id
-    // console.log(id)
-    //então ele já precisa iniciar com o código
-    if (this.props.location.state.idResposta) {
-
-      axios.get("/getCodigoById/" + this.props.location.state.idResposta).then(response => {
-        this.setState({ xml: response.data[0].codigo })
-        console.log('terminou de rodar')
-
-      }).catch(err => {
-
-      })
-
-
+ 
       axios.get("/pergunta/" + id).then(response => {
 
-        this.setState({ question: response.data, roleta: this.props.location.state.roleta })
+        this.setState({ question: response.data })
 
 
+      }).catch(err => {
+        alert(err)
       })
-    }
+    
   }
   generateCode = () => {
     var code = Languages[this.lang].workspaceToCode(
@@ -156,9 +146,9 @@ class BlockDiv extends React.Component {
 
   render() {
 
-    console.log(this.state.xml)
-    if (this.state.xml == null && this.props.location.state.idResposta)
-      return false
+    if(!this.state.question){
+      return <div>false</div>
+    }
     return (
       <Grid container style={{
         height: '100%',
@@ -180,6 +170,10 @@ class BlockDiv extends React.Component {
             id="frame"
             position="relative" />
         </Grid>
+
+        {console.log("BBBBBBBBBBBBBBBBB")}
+        {console.log(this.state.question)}
+        
         <Grid item xs={12} md={5} style={{ width: 'auto', padding: 5, paddingTop: 0 }}>
           <Question submit={this.onClick} {...this.state.question}></Question>
           <textarea id="code" style={{ display: 'none' }}></textarea>
