@@ -70,15 +70,37 @@ Blockly.Lua.text_getSubstring=function(a){var b=Blockly.Lua.valueToCode(a,"STRIN
 return["string.sub("+b+", "+c+", "+a+")",Blockly.Lua.ORDER_HIGH]};
 Blockly.Lua.text_changeCase=function(a){var b=a.getFieldValue("CASE");a=Blockly.Lua.valueToCode(a,"TEXT",Blockly.Lua.ORDER_NONE)||"''";if("UPPERCASE"==b)var c="string.upper";else"LOWERCASE"==b?c="string.lower":"TITLECASE"==b&&(c=Blockly.Lua.provideFunction_("text_titlecase",["function "+Blockly.Lua.FUNCTION_NAME_PLACEHOLDER_+"(str)","  local buf = {}","  local inWord = false","  for i = 1, #str do","    local c = string.sub(str, i, i)","    if inWord then","      table.insert(buf, string.lower(c))",
 '      if string.find(c, "%s") then',"        inWord = false","      end","    else","      table.insert(buf, string.upper(c))","      inWord = true","    end","  end","  return table.concat(buf)","end"]));return[c+"("+a+")",Blockly.Lua.ORDER_HIGH]};Blockly.Lua.text_trim=function(a){var b={LEFT:"^%s*(,-)",RIGHT:"(.-)%s*$",BOTH:"^%s*(.-)%s*$"}[a.getFieldValue("MODE")];return["string.gsub("+(Blockly.Lua.valueToCode(a,"TEXT",Blockly.Lua.ORDER_NONE)||"''")+', "'+b+'", "%1")',Blockly.Lua.ORDER_HIGH]};
-Blockly.Lua.text_print=function(a){return"print("+(Blockly.Lua.valueToCode(a,"TEXT",Blockly.Lua.ORDER_NONE)||"''")+")\n"};
+Blockly.Lua.text_print=function(a){return"print('"+a.getFieldValue('TEXT')+"')\n"};
+Blockly.Lua.text_print_as = function(a){return "print("+Blockly.Lua.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE)+");\n"}
+
 Blockly.Lua.text_prompt_ext=function(a){
-    var g = Blockly.Lua.valueToCode(a,"VALUE",Blockly.Lua.ORDER_NONE)
-    
+    var g=Blockly.Lua.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE)
+     
     var b=a.getField("TEXT")?Blockly.Lua.quote_(a.getFieldValue("TEXT")):Blockly.Lua.valueToCode(a,"TEXT",Blockly.Lua.ORDER_NONE)||"''"
     b=Blockly.Lua.provideFunction_("text_prompt",["function "+Blockly.Lua.FUNCTION_NAME_PLACEHOLDER_+"(msg)","  io.write(msg)","  io.flush()","  return io.read()","end"])+"("+b+")";
     "NUMBER"==a.getFieldValue("TYPE")&&(b="tonumber("+b+", 10)");
     
-    return[g+" = "+b+'\n',Blockly.Lua.ORDER_HIGH]};Blockly.Lua.text_prompt=Blockly.Lua.text_prompt_ext;Blockly.Lua.variables={};Blockly.Lua.variables_get=function(a){return[Blockly.Lua.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE),Blockly.Lua.ORDER_ATOMIC]};Blockly.Lua.variables_set=function(a){var b=Blockly.Lua.valueToCode(a,"VALUE",Blockly.Lua.ORDER_NONE)||"0";return Blockly.Lua.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE)+" = "+b+"\n"};
-    Blockly.Lua.variables_set_type = function(a){
-        return ''
+    return g+" = "+b+'\n'
+};
+Blockly.Lua.text_prompt=Blockly.Lua.text_prompt_ext;Blockly.Lua.variables={};Blockly.Lua.variables_get=function(a){return[Blockly.Lua.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE),Blockly.Lua.ORDER_ATOMIC]};Blockly.Lua.variables_set=function(a){var b=Blockly.Lua.valueToCode(a,"VALUE",Blockly.Lua.ORDER_NONE)||"0";return Blockly.Lua.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE)+" = "+b+"\n"};
+
+Blockly.Lua.variables_set_type = function(a){
+    var b=Blockly.Lua.valueToCode(a,"VARIABLE_SETTYPE_INPUT",Blockly.Lua.ORDER_ASSIGNMENT)||"0";   
+    return[Blockly.Lua.getArduinoType_(Blockly.Types[a.getFieldValue("VARIABLE_SETTYPE_TYPE")])+"("+b+")",Blockly.Lua.ORDER_ATOMIC]
+
+}
+Blockly.Lua.getArduinoType_=function(a){
+    switch(a.typeId){
+        case Blockly.Types.SHORT_NUMBER.typeId:return"tonumber";
+        case Blockly.Types.NUMBER.typeId:return"tonumber";
+        case Blockly.Types.LARGE_NUMBER.typeId:return"tonumber";
+        case Blockly.Types.DECIMAL.typeId:return"tonumber";
+        case Blockly.Types.TEXT.typeId:return"tostring";
+        case Blockly.Types.CHARACTER.typeId:return"tostring";
+        case Blockly.Types.BOOLEAN.typeId:return"tonumber";
+        case Blockly.Types.NULL.typeId:return"nil";
+        case Blockly.Types.UNDEF.typeId:return"nil";
+        case Blockly.Types.CHILD_BLOCK_MISSING.typeId:return"tostring";
+        default:return"Invalid Blockly Type"
     }
+};

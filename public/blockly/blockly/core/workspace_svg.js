@@ -1124,3 +1124,110 @@ Blockly.WorkspaceSvg.prototype.updateGridPattern_ = function() {
 // Export symbols that would otherwise be renamed by Closure compiler.
 Blockly.WorkspaceSvg.prototype['setVisible'] =
     Blockly.WorkspaceSvg.prototype.setVisible;
+/**
+ * Register a callback function associated with a given key, for clicks on
+ * buttons and labels in the flyout.
+ * For instance, a button specified by the XML
+ * <button text="create variable" callbackKey="CREATE_VARIABLE"></button>
+ * should be matched by a call to
+ * registerButtonCallback("CREATE_VARIABLE", yourCallbackFunction).
+ * @param {string} key The name to use to look up this function.
+ * @param {function(!Blockly.FlyoutButton)} func The function to call when the
+ *     given button is clicked.
+ */
+Blockly.WorkspaceSvg.prototype.registerButtonCallback = function(key, func) {
+  if (typeof func != 'function') {
+    throw TypeError('Button callbacks must be functions.');
+  }
+  this.flyoutButtonCallbacks_[key] = func;
+};
+
+/**
+ * Get the callback function associated with a given key, for clicks on buttons
+ * and labels in the flyout.
+ * @param {string} key The name to use to look up the function.
+ * @return {?function(!Blockly.FlyoutButton)} The function corresponding to the
+ *     given key for this workspace; null if no callback is registered.
+ */
+Blockly.WorkspaceSvg.prototype.getButtonCallback = function(key) {
+  var result = this.flyoutButtonCallbacks_[key];
+  return result ? result : null;
+};
+
+/**
+ * Remove a callback for a click on a button in the flyout.
+ * @param {string} key The name associated with the callback function.
+ */
+Blockly.WorkspaceSvg.prototype.removeButtonCallback = function(key) {
+  this.flyoutButtonCallbacks_[key] = null;
+};
+
+/**
+ * Register a callback function associated with a given key, for populating
+ * custom toolbox categories in this workspace.  See the variable and procedure
+ * categories as an example.
+ * @param {string} key The name to use to look up this function.
+ * @param {function(!Blockly.Workspace):!Array.<!Element>} func The function to
+ *     call when the given toolbox category is opened.
+ */
+Blockly.WorkspaceSvg.prototype.registerToolboxCategoryCallback = function(key,
+    func) {
+  if (typeof func != 'function') {
+    throw TypeError('Toolbox category callbacks must be functions.');
+  }
+  this.toolboxCategoryCallbacks_[key] = func;
+};
+
+/**
+ * Get the callback function associated with a given key, for populating
+ * custom toolbox categories in this workspace.
+ * @param {string} key The name to use to look up the function.
+ * @return {?function(!Blockly.Workspace):!Array.<!Element>} The function
+ *     corresponding to the given key for this workspace, or null if no function
+ *     is registered.
+ */
+Blockly.WorkspaceSvg.prototype.getToolboxCategoryCallback = function(key) {
+  return this.toolboxCategoryCallbacks_[key] || null;
+};
+
+/**
+ * Remove a callback for a click on a custom category's name in the toolbox.
+ * @param {string} key The name associated with the callback function.
+ */
+Blockly.WorkspaceSvg.prototype.removeToolboxCategoryCallback = function(key) {
+  this.toolboxCategoryCallbacks_[key] = null;
+};
+
+/**
+ * Look up the gesture that is tracking this touch stream on this workspace.
+ * May create a new gesture.
+ * @param {!Event} e Mouse event or touch event.
+ * @return {Blockly.TouchGesture} The gesture that is tracking this touch
+ *     stream, or null if no valid gesture exists.
+ * @package
+ */
+Blockly.WorkspaceSvg.prototype.getGesture = function(e) {
+  var isStart = (e.type == 'mousedown' || e.type == 'touchstart' ||
+      e.type == 'pointerdown');
+
+  var gesture = this.currentGesture_;
+  if (gesture) {
+    if (isStart && gesture.hasStarted()) {
+      console.warn('Tried to start the same gesture twice.');
+      // That's funny.  We must have missed a mouse up.
+      // Cancel it, rather than try to retrieve all of the state we need.
+      gesture.cancel();
+      return null;
+    }
+    return gesture;
+  }
+
+  // No gesture existed on this workspace, but this looks like the start of a
+  // new gesture.
+  if (isStart) {
+    this.currentGesture_ = new Blockly.TouchGesture(e, this);
+    return this.currentGesture_;
+  }
+  // No gesture existed and this event couldn't be the start of a new gesture.
+  return null;
+};

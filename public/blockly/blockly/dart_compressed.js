@@ -80,15 +80,33 @@ Blockly.Dart.text_getSubstring=function(a){var b=Blockly.Dart.valueToCode(a,"STR
 "      at--;","    } else if (where == 'FROM_END') {","      at = text.length - at;","    } else if (where == 'FIRST') {","      at = 0;","    } else if (where == 'LAST') {","      at = text.length - 1;","    } else {","      throw 'Unhandled option (text_getSubstring).';","    }","    return at;","  }","  at1 = getAt(where1, at1);","  at2 = getAt(where2, at2) + 1;","  return text.substring(at1, at2);","}"])+"("+b+", '"+c+"', "+e+", '"+d+"', "+a+")",Blockly.Dart.ORDER_UNARY_POSTFIX]};
 Blockly.Dart.text_changeCase=function(a){var b={UPPERCASE:".toUpperCase()",LOWERCASE:".toLowerCase()",TITLECASE:null}[a.getFieldValue("CASE")];b?(a=Blockly.Dart.valueToCode(a,"TEXT",Blockly.Dart.ORDER_UNARY_POSTFIX)||"''",a+=b):(b=Blockly.Dart.provideFunction_("text_toTitleCase",["String "+Blockly.Dart.FUNCTION_NAME_PLACEHOLDER_+"(String str) {","  RegExp exp = new RegExp(r'\\b');","  List<String> list = str.split(exp);","  final title = new StringBuffer();","  for (String part in list) {","    if (part.length > 0) {",
 "      title.write(part[0].toUpperCase());","      if (part.length > 0) {","        title.write(part.substring(1).toLowerCase());","      }","    }","  }","  return title.toString();","}"]),a=Blockly.Dart.valueToCode(a,"TEXT",Blockly.Dart.ORDER_NONE)||"''",a=b+"("+a+")");return[a,Blockly.Dart.ORDER_UNARY_POSTFIX]};
-Blockly.Dart.text_trim=function(a){var b={LEFT:".replaceFirst(new RegExp(r'^\\s+'), '')",RIGHT:".replaceFirst(new RegExp(r'\\s+$'), '')",BOTH:".trim()"}[a.getFieldValue("MODE")];return[(Blockly.Dart.valueToCode(a,"TEXT",Blockly.Dart.ORDER_UNARY_POSTFIX)||"''")+b,Blockly.Dart.ORDER_UNARY_POSTFIX]};Blockly.Dart.text_print=function(a){return"print("+(Blockly.Dart.valueToCode(a,"TEXT",Blockly.Dart.ORDER_NONE)||"''")+");\n"};
+Blockly.Dart.text_trim=function(a){var b={LEFT:".replaceFirst(new RegExp(r'^\\s+'), '')",RIGHT:".replaceFirst(new RegExp(r'\\s+$'), '')",BOTH:".trim()"}[a.getFieldValue("MODE")];return[(Blockly.Dart.valueToCode(a,"TEXT",Blockly.Dart.ORDER_UNARY_POSTFIX)||"''")+b,Blockly.Dart.ORDER_UNARY_POSTFIX]};Blockly.Dart.text_print=function(a){return"print('"+a.getFieldValue('TEXT')+"');\n"};
 Blockly.Dart.text_prompt_ext=function(a){
-    var c = Blockly.Dart.valueToCode(a,"VALUE",Blockly.Dart.ORDER_NONE)
+    var c=Blockly.Dart.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE)
     Blockly.Dart.definitions_.import_dart_html="import 'dart:html' as Html;";
     var b="Html.window.prompt()\n";"NUMBER"==a.getFieldValue("TYPE")&&(Blockly.Dart.definitions_.import_dart_math="import 'dart:math' as Math;",b="Math.parseDouble("+b+")");
     
-    return[c+" = "+b+'\n',Blockly.Dart.ORDER_UNARY_POSTFIX]};
-    
+    return c+" = "+b+'\n'
+};
+Blockly.Dart.text_print_as = function(a){return "print("+Blockly.Dart.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE)+");\n"}
 Blockly.Dart.text_prompt=Blockly.Dart.text_prompt_ext;Blockly.Dart.variables={};Blockly.Dart.variables_get=function(a){return[Blockly.Dart.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE),Blockly.Dart.ORDER_ATOMIC]};Blockly.Dart.variables_set=function(a){var b=Blockly.Dart.valueToCode(a,"VALUE",Blockly.Dart.ORDER_ASSIGNMENT)||"0";return Blockly.Dart.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE)+" = "+b+";\n"};
 Blockly.Dart.variables_set_type = function(a){
-    return ''
+    var b=Blockly.Dart.valueToCode(a,"VARIABLE_SETTYPE_INPUT",Blockly.Dart.ORDER_ASSIGNMENT)||"0";   
+    return[b,Blockly.Dart.ORDER_ATOMIC]
+
 }
+Blockly.Dart.getArduinoType_=function(a){
+    switch(a.typeId){
+        case Blockly.Types.SHORT_NUMBER.typeId:return"int";
+        case Blockly.Types.NUMBER.typeId:return"int";
+        case Blockly.Types.LARGE_NUMBER.typeId:return"int";
+        case Blockly.Types.DECIMAL.typeId:return"double";
+        case Blockly.Types.TEXT.typeId:return"String";
+        case Blockly.Types.CHARACTER.typeId:return"String";
+        case Blockly.Types.BOOLEAN.typeId:return"bool";
+        case Blockly.Types.NULL.typeId:return"None";
+        case Blockly.Types.UNDEF.typeId:return"None";
+        case Blockly.Types.CHILD_BLOCK_MISSING.typeId:return"None";
+        default:return"Invalid Blockly Type"
+    }
+};

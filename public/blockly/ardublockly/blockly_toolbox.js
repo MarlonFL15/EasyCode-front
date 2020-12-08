@@ -97,43 +97,39 @@ Ardublockly.TOOLBOX_XML =
 '  <sep></sep>' +
 '  <category id="catText" name="Text">' +
 '    <block type="text"></block>' +
-'    <block type="text_join"></block>' +
-'    <block type="text_append">' +
-'      <value name="TEXT">' +
-'        <block type="text"></block>' +
-'      </value>' +
-'    </block>' +
-'    <block type="text_length"></block>' +
-'    <block type="text_isEmpty"></block>' +
-//'    <!--block type="text_trim"></block Need to update block -->' +
-//'    <!--block type="text_print"></block Part of the serial comms -->' +
-   '    <block type="text_print">\n'
-  + '      <value name="TEXT">\n'
-  + '        <shadow type="text">\n'
-  + '          <field name="TEXT">abc</field>\n'  
-  + '        </shadow>\n'
-  + '      </value>\n'
-  + '    </block>\n'+
-  '    <block type="text_prompt_ext">\n'
-  + '      <value name="TEXT">\n'
-  + '        <shadow type="text">\n'
-  + '          <field name="TEXT">abc</field>\n'  
-  + '        </shadow>\n'
-  + '      </value>\n'
-  + '    </block>\n'+
+'    <block type="text_print">\n' + 
+'      <value name="TEXT">\n' +
+'        <shadow type="text">\n' +
+'          <field name="TEXT">abc</field>\n'  +
+'        </shadow>\n' +
+'      </value>\n' +
+'    </block>\n'+
+'<button text="create variable" callbackKey="CREATE_VARIABLE"></button>'+
+'    <block type="text_print_as">\n' + 
+'      <value name="VAR">\n' +
+'        <shadow type="text">\n' +
+'          <field name="TEXT">abc</field>\n' +
+'        </shadow>\n' +
+'      </value>\n' +
+'    </block>\n'+
+'    <block type="text_prompt_ext">\n' +
+'      <value name="VAR">\n' +
+'        <shadow type="text">\n' +
+'          <field name="TEXT">abc</field>\n' +
+'        </shadow>\n' +
+'      </value>\n' +
+'    </block>\n'+  
 '  </category>' +
 '  <sep></sep>' +
-'  <category id="catVariables" name="Variables">' +
-'    <block type="variables_get"></block>' +
-'    <block type="variables_set"></block>' +
-'    <block type="variables_set">' +
-'      <value name="VALUE">' +
-'        <block type="variables_set_type"></block>' +
-'      </value>' +
-'    </block>' +
-'    <block type="variables_set_type"></block>' +
+'  <category name="Variáveis" custom="VARIABLE">' +
+'  </category>' +
+'  <sep></sep>' +
+'  <category name="Tipos">' +
+'    <block type="variables_set_type"></block>'+
 '  </category>' +
 '  <sep></sep>' +
 '  <category id="catFunctions" name="Functions" custom="PROCEDURE"></category>' +
 '  <sep></sep>' +
+'<button text="A button" callbackKey="myFirstButtonPressed"></button>'+
 '</xml>';
+ 
