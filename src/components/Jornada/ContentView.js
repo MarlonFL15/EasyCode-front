@@ -8,6 +8,7 @@ import ExtensionIcon from '@material-ui/icons/Extension';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import clsx from "clsx";
 import GraficoSubmissoes from '../Dashboard/GraficoSubmissoes';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => createStyles({
     table: {
@@ -65,7 +66,7 @@ export default function ContentView() {
     ]
     const [ondeParou, setOndeParou] = useState(5)
     const texto = '<b>oi</b> ooi'
-
+    const history = useHistory()
     return (
         <div className={classes.root}>
             <div className="top" style={{ padding: 7, background: colors.blue, width: '100%', position: 'absolute', top: 0, left: 0, zIndex: -1, height: 300 }} />
@@ -164,7 +165,10 @@ export default function ContentView() {
                                                     marginTop: 30,
                                                     fontWeight: 500,
                                                     letterSpacing: 1.3
-                                                }}>Vamos lá!</Button>
+                                                }}
+                                                onClick={()=>{history.push({
+                                                    pathname: '/quiz/responder',
+                                                    state: { assunto: 'Seleção', jornada:true}})}}>Vamos lá!</Button>
                                         </Grid>
                                     </Grid>
                                 </div>
@@ -216,7 +220,10 @@ export default function ContentView() {
                                                     marginTop: 30,
                                                     fontWeight: 500,
                                                     letterSpacing: 1.3
-                                                }}>Vamos lá!</Button>
+                                                }}
+                                                onClick={()=>{history.push({
+                                                    pathname: '/questao',
+                                                    state: { id: 2 }})}}>Vamos lá!</Button>
                                         </Grid>
                                     </Grid>
                                 </div>

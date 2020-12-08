@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import Blockly from '../Questions'
 import { Grid, Divider, Typography, LinearProgress, Box, Card, IconButton, ListItemIcon } from '@material-ui/core'
 import { makeStyles, withStyles } from '@material-ui/core/styles'
 import colors from '../Colors'
-import UserSVG from './../assets/user.svg'
 import { getToken } from '../auth'
 import axios from '../../bd/client'
-import CodeIcon from '@material-ui/icons/Code';
-import { Redirect, useHistory, useLocation } from "react-router-dom";
+import { Redirect, useHistory, Link } from "react-router-dom";
 import GraficoHabilidade from './GraficoHabilidades';
 import GraficoSubmissoes from './GraficoSubmissoes'
-import Conquistas from './Conquistas'
+import ExtensionIcon from '@material-ui/icons/Extension';
+import AssignmentIcon from '@material-ui/icons/Assignment';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearRoundedIcon from '@material-ui/icons/ClearRounded';
 import CloseIcon from '@material-ui/icons/Close';
@@ -106,22 +104,6 @@ export default props => {
     const classes = useStyles()
     const history = useHistory()
 
-
-    const PercentualLabel = (props) => {
-        return (
-            <Box display="flex" alignItems="center" style={{ marginTop: 30 }}>
-                <Box width="100%" mr={1}>
-                    <Percentual variant="determinate" value={props.percent} />
-                </Box>
-                <Box minWidth={35}>
-                    <Typography variant="body2" style={{ color: '#fff', fontFamily: 'Quicksand, sans-serif' }}>{`${Math.round(
-                        props.percent,
-                    )}%`}</Typography>
-                </Box>
-            </Box >
-        )
-    }
-
     const HistoricBox = (props) => {
         var color = ""
         if (props.categoria === "Matemática" || props.categoria === "Textos")
@@ -133,28 +115,32 @@ export default props => {
         if (props.categoria === "Seleção")
             color = colors.green
 
-        if (props.questao){
-            return <div className={classes.bottom} style={{ backgroundColor: color }}>
-                <Text variant="h6" style={{ textAlign: 'center' }}><b>{props.categoria}</b></Text>
-                <Text style={{ textAlign: 'center', }}>Quiz</Text>
-                <PercentualLabel percent={parseFloat(props.acertos / props.questoes) * 100} />
-                <Text style={{ textAlign: 'center' }}>{props.acertos} acertos de {props.questoes} questôes</Text>
+        return (
+            <div style={{ display: 'flex', fontSize: 13, width: 'calc(100% + 10px)', borderRadius: 3, backgroundColor: props.index % 2 === 0 ? colors.background : '', padding: 5, paddingTop: 8, marginLeft: -5 }}>
+                <div style={{ width: '15%', }}>{props.blocks ? <ExtensionIcon fontSize="small" /> : <AssignmentIcon fontSize="small" />}</div>
+                <div style={{ width: '30%' }}>{props.blocks ? props.nomeQuestao : '-'}</div>
+                <div style={{ width: '30%' }}>{props.categoria}</div>
+                <div style={{ width: '15%' }}>  {props.blocks ?
+                    props.correto ?
+                        <Text style={{ display: 'flex', justifyContent: 'center' }}><CheckIcon />Certo</Text> :
+                        <Text style={{ display: 'flex', justifyContent: 'center' }}><CloseIcon />Errado</Text> :
+                    parseFloat(props.acertos / props.questoes) * 100}</div>
+            </div>
+            // <div style={{ display: 'flex' }}>
+            //     <Text style={{ textAlign: 'center', }}>Quiz</Text>
+            //     <div>{props.blocks ? props.nomeQuestao : '-'}</div>
+            //     <Text variant="h6" style={{ textAlign: 'center' }}><b>{props.categoria}</b></Text>
+            //     <div>
+            //         {props.blocks ?
+            //             props.correto ?
+            //                 <Text style={{ display: 'flex', justifyContent: 'center' }}><CheckIcon />Resposta correta</Text> :
+            //                 <Text style={{ display: 'flex', justifyContent: 'center' }}><CloseIcon />Resposta incorreta</Text> :
+            //             parseFloat(props.acertos / props.questoes) * 100}
 
-            </div>
-        }
-        if (props.blocks){
-            return <div className={classes.bottom} style={{ backgroundColor: color }}>
-                <Text variant="h6" style={{ textAlign: 'center' }}><b>{props.categoria}</b></Text>
-                <Text style={{ textAlign: 'center', }}>Submissão</Text>
-                <Divider style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)' }} />
-                <Text variant="h6" style={{ textAlign: 'center', }}>{props.nomeQuestao}</Text>
-                {props.correto?
-                    <Text style={{display:'flex', justifyContent: 'center' }}><CheckIcon />Resposta correta</Text>:
-                    <Text style={{display:'flex', justifyContent: 'center' }}><CloseIcon />Resposta incorreta</Text>
-                }
-            </div>
-        }
-        return null
+            //     </div>
+            // </div>
+        )
+
     }
     useEffect(() => {
         // Atualiza o titulo do documento usando a API do browser
@@ -200,9 +186,9 @@ export default props => {
                     else
                         return 0
                 })
-                
+
                 setHistoric(array)
-                setCards(array.splice(0,3))
+                setCards(array.splice(0, 3))
 
             }).catch(err => {
             })
@@ -210,7 +196,7 @@ export default props => {
         })
     }, []);
 
-    const CardPlay = ()=> {
+    const CardPlay = () => {
         const history = useHistory()
 
         return (
@@ -220,17 +206,17 @@ export default props => {
                         backgroundColor: 'purple',
                         color: '#FFFFFF',
                         fontFamily: 'Poppins',
-                        padding: '5px 15px', 
+                        padding: '5px 15px',
                         border: 'none'
                     }
                 }>
-                Vamos para a<br/>jornada?
-                <IconButton color="#FFFFF" onClick={()=>history.push('/jornada')}
-                style={{
-                    float: 'right',
-                    top: 120
-                }}>
-                    <ClearRoundedIcon/>
+                Vamos para a<br />jornada?
+                <IconButton color="#FFFFF" onClick={() => history.push('/jornada')}
+                    style={{
+                        float: 'right',
+                        top: 120
+                    }}>
+                    <ClearRoundedIcon />
                 </IconButton>
             </Card>
 
@@ -238,119 +224,94 @@ export default props => {
     }
     console.log(cards)
     return (
-        <Grid container style={{minWidth: 400}} className="container">
-            <div className="top" style={{ padding: 7, background: colors.blue, width: '100%'}}/>
-            <div className="grid-container" style={{ padding: 7,}}>
-                <Card variant="outlined" className="perfil"  style={{padding: 20, border: 'none', fontSize: 14, overflow: 'visible'}}>
-                    <div style={{textAlign: 'center'}}>
-                    <div className={classes.image}>
-                        <Avatar/>
+        <Grid container style={{ minWidth: 400 }} className="container">
+            <div className="top" style={{ padding: 7, background: colors.blue, width: '100%' }} />
+            <div className="grid-container" style={{ padding: 7, }}>
+                <Card variant="outlined" className="perfil" style={{ padding: 20, border: 'none', fontSize: 14, overflow: 'visible' }}>
+                    <div style={{ textAlign: 'center' }}>
+                        <Text variant="h6" style={{ fontWeight: 700 }}><b>Meu painel</b></Text>
                     </div>
-                        Meu Painel
-                    </div>
-                    <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+                    <div style={{ display: 'flex', flexDirection: 'row', fontSize: 16, justifyContent: 'space-between' }}>
                         <div>Conquistas</div>
-                        <div>Ver tudo</div>
+                        <Link to="/conquistas" style={{ textDecoration: 'none', color: colors.blue }}>Ver tudo</Link>
                     </div>
-                    <div>
-                        aaaaaaaaaaaaaaa
-                    </div>
-                    <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                        <div>Histórico</div>
+                    <Grid container spacing={1} style={{maxHeight: 112, overflow:'hidden'}}>
+                        {[1, 2, 3, 4, 5].map(i => {
+                            return <Grid item>
 
-                        <div>Ver tudo</div>
+                                <div style={{
+                                    display: 'block',
+                                    width: 45,
+                                    height: 45,
+                                    margin:'2px 0',
+                                    backgroundColor: colors.purple,
+                                    borderRadius: '100%'
+                                }} />
+                            </Grid>
+
+                        })}
+
+                    </Grid>
+                    <div style={{ display: 'flex', flexDirection: 'row', fontSize: 16, justifyContent: 'space-between', marginTop:10}}>
+                        <div>Histórico</div>
                     </div>
                     <div>
-                        aaaaaaaaaaaaaaa
+                        <div style={{ display: 'flex', fontWeight: 760, fontSize: 13, width: '100%' }}>
+                            <div style={{ width: '15%' }}>Tipo</div>
+                            <div style={{ width: '30%' }}>Nome</div>
+                            <div style={{ width: '30%', overflow: 'hidden', textOverflow: 'ellipsis' }}>Categoria</div>
+                            <div style={{ width: '25%', overflow: 'hidden', textOverflow: 'ellipsis' }}>Resultado</div>
+                        </div>
+                        <Grid container>
+                            {cards.map((el, i) => {
+                                return (
+                                    <Grid item xs={12}>
+                                        <HistoricBox index={i} questao={el.tipo == 2 ? true : false} blocks={el.tipo == 1 ? true : false}
+                                            correto={el.correto} categoria={el.assunto} nomeQuestao={el.titulo} acertos={el.certas} questoes={el.questoes} />
+                                    </Grid>
+                                )
+                            })}
+                        </Grid>
                     </div>
                 </Card>
                 <div className="text">
-                    Olá, <span>{nome.split(" ")[0]}!</span><br/>
-                    <div>O que iremos praticar<br/>hoje?</div>
-                    </div>
+                    Olá, <span>{nome.split(" ")[0]}!</span><br />
+                    <div>O que iremos praticar<br />hoje?</div>
+                </div>
                 <div className="cards">
-                    <Card variant="outlined"  className={classes.card} onClick={()=>history.push('/quiz')}>
-                    <div className={classes.image}>
-                        <img src={require('./memo_1f4dd.png')}></img>
-                    </div>
+                    <Card variant="outlined" className={classes.card} onClick={() => history.push('/quiz')}>
+                        <div className={classes.image}>
+                            <img src={require('./memo_1f4dd.png')}></img>
+                        </div>
                         <div className={classes.title}>Quiz</div>
-                        <div className={classes.description}>Ultimo resolvido:<br/>Comando If e Else 75%</div>
+                        <div className={classes.description}>Ultimo resolvido:<br />Comando If e Else 75%</div>
                     </Card>
-                    <Card variant="outlined" className={classes.card} onClick={()=>history.push('/questoes')}>
+                    <Card variant="outlined" className={classes.card} onClick={() => history.push('/questoes')}>
                         <div className={classes.image}>
                             <img src={require('./puzzle-piece-apple.png')}></img>
                         </div>
                         <div className={classes.title}>Blocos</div>
-                        <div className={classes.description}>Ultimo resolvido:<br/>Comando If e Else 75%</div></Card>
-                    <Card variant="outlined" className={classes.card} onClick={()=>history.push('/tabelas-verdade')}>
+                        <div className={classes.description}>Ultimo resolvido:<br />Comando If e Else 75%</div></Card>
+                    <Card variant="outlined" className={classes.card} onClick={() => history.push('/tabelas-verdade')}>
                         <div className={classes.image}>
-                        <img src={require('./clipboard-apple.png')}></img>
+                            <img src={require('./clipboard-apple.png')}></img>
 
                         </div>
                         <div className={classes.title}>Tabela-verdade</div>
-                        <div className={classes.description}>Ultimo resolvido:<br/><span>Vizinhança</span> em 5m</div></Card>
+                        <div className={classes.description}>Ultimo resolvido:<br /><span>Vizinhança</span> em 5m</div></Card>
                 </div>
-                <Card variant="outlined" className="charts" style={{padding: 20, border: 'none'}}>
-                <div className={classes.graphic}>
-                    <Text variant="h6" style={{ fontWeight: 700 }}><b>Habilidades</b></Text>
-                    <GraficoHabilidade className="habilidades"/>
-                </div>
-                <div className={classes.graphic}>
-                    <Text variant="h6" style={{ fontWeight: 700,}}><b>Exercícios na semana</b></Text>
-                    <GraficoSubmissoes />
-                </div>
+                <Card variant="outlined" className="charts" style={{ padding: 20, border: 'none' }}>
+                    <div className={classes.graphic}>
+                        <Text variant="h6" style={{ fontWeight: 700 }}><b>Habilidades</b></Text>
+                        <GraficoHabilidade className="habilidades" />
+                    </div>
+                    <div className={classes.graphic}>
+                        <Text variant="h6" style={{ fontWeight: 700, }}><b>Exercícios na semana</b></Text>
+                        <GraficoSubmissoes />
+                    </div>
                 </Card>
-                <CardPlay/>
+                <CardPlay />
             </div>
-            
-            {/* <Grid item sm={4}>
-                <div className={classes.top}>
-                    <Text variant="h6" style={{ textAlign: 'center' }}><b>Meu perfil</b></Text>
-                    <img src={foto ? foto : UserSVG} />
-                    <Text variant="h6" style={{ textAlign: 'center' }}>{nome}</Text>
-                    <Text variant="h6" style={{ textAlign: 'center' }}>Nivel X</Text>
-                    <Text variant="h6" style={{ textAlign: 'center' }}>{email}</Text>
-                </div>
-            </Grid>
-            <Grid item sm={8}>
-                <Conquistas></Conquistas>
-                
-            </Grid>
-            <Grid container sm={12} spacing={1}
-                style={{ marginTop: 10, padding: '0 5px', marginBottom: 10 }}>
-                <Grid item sm={12}>
-                    <Divider light />
-                </Grid>
-                <Grid item sm={12}
-                    style={{
-                        display: 'flex',
-                        justifyContent: 'space-between'
-                    }}>
-                    <Text variant="h6"><b>Histórico de atividades</b></Text>
-                    <Text variant="h6" > veja mais</Text>
-                </Grid>
-            </Grid>
-            {cards.map(el => {
-                return (
-                    <Grid item sm={4}>
-                        <HistoricBox questao={el.tipo==2?true:false} blocks={el.tipo==1?true:false} 
-                            correto={el.correto} categoria={el.assunto} nomeQuestao={el.titulo} acertos={el.certas} questoes={el.questoes}/>
-                    </Grid> 
-                )
-            })}
-           
-            <Grid item sm={6}>
-                <div className={classes.graphic}>
-                    <Text variant="h6" style={{ textAlign: 'center' }}><b>Habilidades</b></Text>
-                    <GraficoHabilidade />
-                </div>
-            </Grid>
-            <Grid item sm={6}>
-                <div className={classes.graphic}>
-                    <Text variant="h6" style={{ textAlign: 'center' }}><b>Exercícios na semana</b></Text>
-                    <GraficoSubmissoes />
-                </div>
-            </Grid> */}
         </Grid>
     )
 }

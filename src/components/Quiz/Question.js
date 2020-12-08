@@ -214,7 +214,11 @@ export default function Container(props) {
                 acertos: acertos
             }
             console.log(quiz)
-            history.push('/quiz/resultado', { quiz })
+            if (location.state.jornada) {
+                history.push('/jornada/' + assunto, { quiz })
+            } else {
+                history.push('/quiz/resultado', { quiz })
+            }
         } else {
             setQuestao(questao + 1)
             setShow(false)

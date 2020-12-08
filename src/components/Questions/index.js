@@ -63,7 +63,7 @@ class BlockDiv extends React.Component {
   componentDidMount = () => {
 
     const id = this.props.location.state.id
-
+    console.log(id)
     //então ele já precisa iniciar com o código
     if (this.props.location.state.idResposta) {
 

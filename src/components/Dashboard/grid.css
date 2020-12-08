@@ -106,7 +106,7 @@
 
     }
 
-    .text{
+    .text, .text div{
         margin-top: 0px;
         color: #FFFFFF !important;
     }
