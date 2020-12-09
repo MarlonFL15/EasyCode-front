@@ -35,15 +35,12 @@ export default props =>{
 
                 axios.get('getPontuacaoQuiz/'+getToken()).then(response => {
                     const userQuiz = response.data
-                    console.log('valor do userquiz: ')
-                    console.log(userQuiz)
                     Object.keys(total).map(el => {
                         if(userQuiz[el])
                             data1[el] = userQuiz[el]
                         else
                             data1[el] = 0
                     })   
-                    console.log(data1) 
                     setDataTeorica(data1)
                 }).catch(err => {
                     console.log('erro')

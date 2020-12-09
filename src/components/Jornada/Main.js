@@ -164,7 +164,11 @@ export default function Main() {
                             className={cClasses.root}
                             onClick={() => {
                                 if (active === i) {
-                                    history.push('/jornada/assunto')
+                                    let assunto = ''
+                                    if(i==0) assunto = 'sequencia'
+                                    if(i==1) assunto = 'selecao'
+                                    if(i==2) assunto = 'repeticao'
+                                    history.push('/jornada/'+assunto)
                                 } else
                                     if (active > i) {
                                         setActive(active - 1)

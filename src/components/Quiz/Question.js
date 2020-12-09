@@ -209,13 +209,19 @@ export default function Container(props) {
             console.log(quiz)
             if (location.state.jornada) {
                 finish('oi')
+
+                const tema = assunto==='Seleção'? 'selecao':
+                assunto==='Sequência'? 'sequencia':
+                'repeticao'
+                console.log(location.state)
                 history.push({
-                    pathname: '/jornada/' + assunto ,
+                    pathname: '/jornada/' + tema ,
                     state: {
                         quiz:{
                             questoes: questoes.length,
                             acertos: selected === questoes[questao].indexCerta?acertos+1:acertos,
-                            assunto: assunto
+                            assunto: assunto,
+                            ondeParou: location.state.ondeParou
                         }
                     },
                 });
@@ -227,7 +233,7 @@ export default function Container(props) {
                         quiz:{
                             questoes: questoes.length,
                             acertos: selected === questoes[questao].indexCerta?acertos+1:acertos,
-                            assunto: assunto
+                            assunto: assunto,
                         }
                     },
                 });
@@ -369,7 +375,7 @@ export default function Container(props) {
 
                 </Grid>
                 <Grid item sm={12} className={classes.card}>
-                    <h3 className={classes.title}>{assunto}</h3>
+                    <h3 className={classes.title}>{assunto[0].toLocaleUpperCase()+assunto.substring(1)}</h3>
                     {questoes[questao].enunciado}
                     <br />
                     {questoes[questao].codigo}

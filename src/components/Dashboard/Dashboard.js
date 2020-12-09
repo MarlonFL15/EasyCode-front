@@ -122,13 +122,13 @@ export default props => {
         return (
             <div style={{ display: 'flex', fontSize: 13, width: 'calc(100% + 10px)', borderRadius: 3, backgroundColor: props.index % 2 === 0 ? colors.background : '', padding: 5, paddingTop: 8, marginLeft: -5 }}>
                 <div style={{ width: '15%', }}>{props.blocks ? <ExtensionIcon fontSize="small" /> : <AssignmentIcon fontSize="small" />}</div>
-                <div style={{ width: '30%' }}>{props.blocks ? props.nomeQuestao : '-'}</div>
-                <div style={{ width: '30%' }}>{props.categoria}</div>
+                <div style={{ width: '30%' }}>{props.blocks ? props.nomeQuestao : props.nivel?props.nome: '-'}</div>
+                <div style={{ width: '30%', overflow:'hidden', textOverflow:'ellipsis'}}>{ props.nivel?props.nivel:props.categoria}</div>
                 <div style={{ width: '15%' }}>  {props.blocks ?
                     props.correto ?
-                        <Text style={{ display: 'flex', justifyContent: 'center' }}><CheckIcon />Certo</Text> :
-                        <Text style={{ display: 'flex', justifyContent: 'center' }}><CloseIcon />Errado</Text> :
-                    parseFloat(props.acertos / props.questoes) * 100}</div>
+                        'Certo' : 'Errado' :
+                    props.nivel?'-':
+                    props.percentual+'%'}</div>
             </div>
             // <div style={{ display: 'flex' }}>
             //     <Text style={{ textAlign: 'center', }}>Quiz</Text>
@@ -159,7 +159,6 @@ export default props => {
                 const enc = new TextDecoder("utf-8");
                 const arr = new Uint8Array(response.data[0].foto.data);
                 const downloadUrl = enc.decode(arr)
-                console.log(downloadUrl)
                 setFoto(downloadUrl)
             }
 
@@ -224,7 +223,7 @@ export default props => {
                         padding: '15px 30px',
                         border: 'none',
                         position: 'relative',
-                        fontSize:24,
+                        fontSize: 24,
                         fontWeight: 600
                         // height: 250,
                     }
@@ -250,8 +249,8 @@ export default props => {
                         position: 'absolute',
                         bottom: 0,
                         right: 0,
-                        cursor:'pointer'
-                    }} onClick={() => history.push('/jornada')}/>
+                        cursor: 'pointer'
+                    }} onClick={() => history.push('/jornada')} />
             </Card>
 
         )
@@ -278,13 +277,13 @@ export default props => {
                                             width: 45,
                                             height: 45,
                                             margin: '0 auto',
-                                            backgroundColor: item.idUsuario?'none':colors.black,
+                                            backgroundColor: item.idUsuario ? 'none' : colors.black,
                                             borderRadius: '100%',
                                             boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.25)'
                                         }}>
                                         <img width={45} height={45} src={'media/Conquistas/' + item.id + ".svg"}
                                             style={{
-                                                opacity: item.idUsuario?1:0.4,
+                                                opacity: item.idUsuario ? 1 : 0.4,
                                             }} />
                                     </div>
 
@@ -305,13 +304,13 @@ export default props => {
                         </div>
                         <Grid container>
                             {cards.map((el, i) => {
-                                { console.log(el) }
-                                return (
-                                    <Grid item xs={12}>
-                                        <HistoricBox index={i} questao={el.tipo == 2 ? true : false} blocks={el.tipo == 1 ? true : false}
-                                            correto={el.correto} categoria={el.assunto} nomeQuestao={el.titulo} acertos={el.certas} questoes={el.questoes} />
-                                    </Grid>
-                                )
+                                if (i < 7)
+                                    return (
+                                        <Grid item xs={12}>
+                                            <HistoricBox index={i} questao={el.tipo == 2 ? true : false} blocks={el.tipo == 1 ? true : false} nivel={el.nivel}
+                                                correto={el.correto} categoria={el.assunto} nomeQuestao={el.titulo} nome={el.nome} percentual={el.percentual} />
+                                        </Grid>
+                                    )
                             })}
                         </Grid>
                     </div>

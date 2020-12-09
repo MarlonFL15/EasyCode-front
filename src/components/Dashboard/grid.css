@@ -59,7 +59,7 @@
     grid-template-columns: 1fr 1fr 1fr;
     column-gap: 2%;
     grid-area: cards;
-    height: 1000;
+    height: 220;
 }
 
 .top {

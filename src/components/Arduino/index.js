@@ -58,7 +58,6 @@ class BlockDiv extends React.Component {
     var code = Blockly.Arduino.workspaceToCode(
       this.simpleWorkspace.current.workspace
     );
-    console.log(Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(this.simpleWorkspace.current.workspace)))
     //console.log(this.simpleWorkspace.current.workspace)
     document.getElementById("code").value = code;
 

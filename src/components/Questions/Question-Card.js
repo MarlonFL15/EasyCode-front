@@ -80,7 +80,6 @@ export default function SimpleCard(props) {
             <div className={classes.border}>
               Entrada:
               <br></br>
-              {console.log(props.exemplos)}
               {props.exemplos? props.exemplos.entrada:false} 
             </div>
             <div className={classes.border} style={{borderLeft:0}}>

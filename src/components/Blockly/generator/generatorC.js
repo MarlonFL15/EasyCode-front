@@ -333,19 +333,14 @@ BlocklyC.init = function(a) {
     }
     var names = ""
     if(int.length){
-        console.log('inteiro ok')
         names += "int "+int.join(", ")+";\n";
     }
     if(char.length){
-        console.log('char ok')
         names += "char "+char.join(", ")+";\n";
     }
     if(float.length){
-        console.log('float ok')
         names += "float "+float.join(", ")+";\n";
     }
-    console.log('valor de names: ')
-    console.log(names)
     b.length&&(BlocklyC.definitions_.variables=names)
     
 }

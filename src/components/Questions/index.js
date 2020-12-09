@@ -100,6 +100,7 @@ class BlockDiv extends React.Component {
     let code = e.data
     code = code.replaceAll('&lt;', '<')
     code = code.replaceAll('&gt;', '>')
+    console.log(code)
 
     this.onSubmit(code)
     window.removeEventListener("message", this.messageReceived, false);
@@ -171,7 +172,6 @@ class BlockDiv extends React.Component {
             position="relative" />
         </Grid>
 
-        {console.log("BBBBBBBBBBBBBBBBB")}
         {console.log(this.state.question)}
         
         <Grid item xs={12} md={5} style={{ width: 'auto', padding: 5, paddingTop: 0 }}>
