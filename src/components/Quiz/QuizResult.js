@@ -3,6 +3,7 @@ import React from 'react'
 import { Link, useLocation, useHistory } from 'react-router-dom'
 import colors from '../Colors'
 import GraficoSubmissoes from '../Dashboard/GraficoSubmissoes'
+import Graficoquiz from './GraficoQuiz'
 
 const useStyles = makeStyles((theme) => ({
     buttonRow: {
@@ -110,7 +111,7 @@ export default function QuizResult(props) {
 
                         <Grid item xs={12} md={6} style={{ height: '100%', padding: '50px 0', display: 'flex' }}>
                             <div style={{ width: '100%', maxWidth: 500, margin: '0 auto' }}>
-                                <GraficoSubmissoes />
+                                <Graficoquiz assunto={assunto} />
 
                             </div>
                         </Grid>

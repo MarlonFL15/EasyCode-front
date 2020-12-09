@@ -5,6 +5,7 @@ import Right from '../assets/right-roleta.svg'
 import colors from '../Colors'
 import axios from '../../bd/client'
 import { getToken } from '../auth'
+import GraficoQuiz from '../Quiz/GraficoQuiz'
 import { withStyles, makeStyles } from '@material-ui/core/styles'
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -306,7 +307,7 @@ export default function Roleta() {
 
                                     </Grid>
                                     <Grid item sm={6}>
-                                        <GraficoSubmissoes />
+                                        <GraficoQuiz assunto={assunto}/>
                                         <div>Seu desempenho em <b>{assunto}</b></div>
                                     </Grid>
                                     <Grid item sm={12} style={{ textAlign: "center" }}>
