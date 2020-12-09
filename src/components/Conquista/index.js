@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import axios from '../../bd/client'
 import { isNumber } from 'blockly';
 import { getToken } from '../auth';
+import colors from '../Colors';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -15,8 +16,10 @@ const useStyles = makeStyles(theme => ({
         'zIndex':9999,
         display: 'flex',
         alignItems:'center',
-        backgroundColor:'#ccc',
-        borderRadius: 25
+        backgroundColor: '#ffffff',
+        padding: 5,
+        paddingRight: 15,
+        borderRadius: 30
     },
     
     icon: {
@@ -81,7 +84,10 @@ export default props => {
     return(
         open?
         <div className={classes.root}>
-            <img src="/media/Conquistas/1.svg"></img>
+            <img height={50} width={50} 
+            style={{ 
+                marginRight: 10
+            }}src="/media/Conquistas/1.svg"></img>
             {titulo}
         </div>:false
       

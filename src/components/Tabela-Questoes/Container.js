@@ -166,32 +166,26 @@ export default function Container() {
           
           }}>
           <li onClick={()=>history.push('/jornada')}>
-            <img src={require('../assets/user.svg')}
+            <img src={require('./jornada.svg')}
               style={{
                 height: 100,
-                backgroundColor: 'red',
                 width: 100,
-                borderRadius: '100%'
               }} />
             <div>Jornada</div>
           </li>
           <li onClick={()=>history.push('/blocos')}>
-            <img src={require('../assets/user.svg')}
+            <img src={require('./livre.svg')}
               style={{
                 height: 100,
-                backgroundColor: 'red',
                 width: 100,
-                borderRadius: '100%'
               }} />
             <div> Programar Livre</div>
           </li>
           <li onClick={()=>history.push('/arduino')}>
-            <img src={require('../assets/user.svg')}
+            <img src={require('./arduino.svg')}
               style={{
                 height: 100,
-                backgroundColor: 'red',
                 width: 100,
-                borderRadius: '100%'
               }} />
             <div>Arduino</div>
           </li>

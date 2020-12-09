@@ -75,12 +75,12 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: 400,
     },
     image: {
-        height: 100,
-        width: 100,
+        height: 130,
+        width: 130,
         margin: '0 auto',
         marginTop: '-25%',
         '& img': {
-            height: 100
+            height: 130
         }
     },
     card: {
@@ -167,7 +167,7 @@ export default props => {
 
         })
 
-        axios.get('getConquistas/'+getToken()).then(response => {
+        axios.get('getConquistas/' + getToken()).then(response => {
             setConquistas(response.data)
         }).catch(e => {
 
@@ -179,7 +179,7 @@ export default props => {
             //console.log("deu tudo certo")
             axios.get("/getRespostasByUser/" + getToken()).then(response => {
                 setLastBloco(response.data[0])
-                axios.get('getTabelasByUser/'+getToken()).then(response1 => {
+                axios.get('getTabelasByUser/' + getToken()).then(response1 => {
                     setLastTable(response1.data[0])
                     let arrayquestao = response.data
                     let arraytabelas = response1.data
@@ -187,7 +187,7 @@ export default props => {
                     array.sort((a1, a2) => {
                         var date1 = new Date(a1.datacriacao)
                         var date2 = new Date(a2.datacriacao)
-    
+
                         if (date1.getTime() > date2.getTime())
                             return -1
                         else if (date1.getTime() < date2.getTime())
@@ -197,14 +197,14 @@ export default props => {
                     })
                     setHistoric(array)
                     setCards(array)
-    
+
                 })
-                
-                
+
+
 
                 // console.log('antes: ')
                 // console.log(array)
-                
+
             }).catch(err => {
             })
         }).catch(err => {
@@ -218,26 +218,45 @@ export default props => {
             <Card variant="outlined" className="play"
                 style={
                     {
-                        backgroundColor: 'purple',
+                        backgroundColor: colors.purple,
                         color: '#FFFFFF',
                         fontFamily: 'Poppins',
-                        padding: '5px 15px',
-                        border: 'none'
+                        padding: '15px 30px',
+                        border: 'none',
+                        position: 'relative',
+                        fontSize:24,
+                        fontWeight: 600
+                        // height: 250,
                     }
                 }>
                 Vamos para a<br />jornada?
-                <IconButton color="#FFFFF" onClick={() => history.push('/jornada')}
+                <img src={require('./cardPlayTop.svg')}
                     style={{
-                        float: 'right',
-                        top: 120
-                    }}>
-                    <ClearRoundedIcon />
-                </IconButton>
+                        height: 70,
+                        position: 'absolute',
+                        top: 0,
+                        right: 0
+                    }} />
+                <img src={require('./cardPlayBottom.svg')}
+                    style={{
+                        height: 150,
+                        position: 'absolute',
+                        bottom: 0,
+                        left: 0
+                    }} />
+                <img src={require('./cardPlayButton.svg')}
+                    style={{
+                        height: 100,
+                        position: 'absolute',
+                        bottom: 0,
+                        right: 0,
+                        cursor:'pointer'
+                    }} onClick={() => history.push('/jornada')}/>
             </Card>
 
         )
     }
-    
+
     return (
         <Grid container style={{ minWidth: 400 }} className="container">
             <div className="top" style={{ padding: 7, background: colors.blue, width: '100%' }} />
@@ -250,19 +269,31 @@ export default props => {
                         <div>Conquistas</div>
                         <Link to="/conquistas" style={{ textDecoration: 'none', color: colors.blue }}>Ver tudo</Link>
                     </div>
-                    <Grid container spacing={1} style={{maxHeight: 112, overflow:'hidden'}}>
+                    <Grid container spacing={1} style={{ maxHeight: 110, overflow: 'hidden' }}>
                         {conquistas.map(item => {
                             return (
                                 <Grid item>
-                                    <img width={45} height={45} src={'media/Conquistas/'+item.id + (item.idUsuario?"":"-disabled")+".svg"} >
-                                    </img>
-                                    
-                                </Grid> 
+                                    <div
+                                        style={{
+                                            width: 45,
+                                            height: 45,
+                                            margin: '0 auto',
+                                            backgroundColor: item.idUsuario?'none':colors.black,
+                                            borderRadius: '100%',
+                                            boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.25)'
+                                        }}>
+                                        <img width={45} height={45} src={'media/Conquistas/' + item.id + ".svg"}
+                                            style={{
+                                                opacity: item.idUsuario?1:0.4,
+                                            }} />
+                                    </div>
+
+                                </Grid>
                             )
                         })}
 
                     </Grid>
-                    <div style={{ display: 'flex', flexDirection: 'row', fontSize: 16, justifyContent: 'space-between', marginTop:10}}>
+                    <div style={{ display: 'flex', flexDirection: 'row', fontSize: 16, justifyContent: 'space-between', marginTop: 10 }}>
                         <div>Histórico</div>
                     </div>
                     <div>
@@ -274,7 +305,7 @@ export default props => {
                         </div>
                         <Grid container>
                             {cards.map((el, i) => {
-                                {console.log(el)}
+                                { console.log(el) }
                                 return (
                                     <Grid item xs={12}>
                                         <HistoricBox index={i} questao={el.tipo == 2 ? true : false} blocks={el.tipo == 1 ? true : false}
@@ -292,28 +323,28 @@ export default props => {
                 <div className="cards">
                     <Card variant="outlined" className={classes.card} onClick={() => history.push('/quiz')}>
                         <div className={classes.image}>
-                            <img src={require('./memo_1f4dd.png')}></img>
+                            <img src={require('./quiz.svg')}></img>
                         </div>
                         <div className={classes.title}>Quiz</div>
-                        {lastQuiz ? 
-                        <div className={classes.description}>Ultimo resolvido:<br />{lastQuiz.assunto} {lastQuiz.percentual}%</div>:false}
+                        {lastQuiz ?
+                            <div className={classes.description}>Ultimo resolvido:<br />{lastQuiz.assunto} {lastQuiz.percentual}%</div> : <div className={classes.description}>Nenhuma atividade recente</div>}
                     </Card>
                     <Card variant="outlined" className={classes.card} onClick={() => history.push('/questoes')}>
                         <div className={classes.image}>
-                            <img src={require('./puzzle-piece-apple.png')}></img>
+                            <img src={require('./blocos.svg')}></img>
                         </div>
                         <div className={classes.title}>Blocos</div>
                         {lastBloco ?
-                        <div className={classes.description}>Ultimo resolvido:<br />{lastBloco.titulo} - {lastBloco.assunto}</div>:false}
+                            <div className={classes.description}>Ultimo resolvido:<br />{lastBloco.titulo} - {lastBloco.assunto}</div> : <div className={classes.description}>Nenhuma atividade recente</div>}
                     </Card>
                     <Card variant="outlined" className={classes.card} onClick={() => history.push('/tabelas-verdade')}>
                         <div className={classes.image}>
-                            <img src={require('./clipboard-apple.png')}></img>
+                            <img src={require('./tabela_verdade.svg')}></img>
 
                         </div>
                         <div className={classes.title}>Tabela-verdade</div>
-                        {lastTable ? 
-                        <div className={classes.description}>Ultimo resolvido:<br /><span>{lastTable.nome}</span> - {lastTable.nivel}</div>:false}
+                        {lastTable ?
+                            <div className={classes.description}>Ultimo resolvido:<br /><span>{lastTable.nome}</span> - {lastTable.nivel}</div> : <div className={classes.description}>Nenhuma atividade recente</div>}
                     </Card>
                 </div>
                 <Card variant="outlined" className="charts" style={{ padding: 20, border: 'none' }}>

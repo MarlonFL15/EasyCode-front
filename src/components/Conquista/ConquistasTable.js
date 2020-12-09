@@ -137,7 +137,7 @@ export default function ConquistasTable() {
     }
 
     useEffect(() => {
-        axios.get('getConquistas/'+getToken()).then(response => {
+        axios.get('getConquistas/' + getToken()).then(response => {
             setConquistas(response.data)
         }).catch(e => {
 
@@ -163,39 +163,53 @@ export default function ConquistasTable() {
                 </Paper>
                 <Grid container spacing={2}>
                     {conquistas.map((item) => {
-                        return (
-                            <Grid item xs={6} sm={3}>
-                                <div style={{
-                                    borderRadius: 5,
-                                    backgroundColor: colors.background,
-                                    padding: 10,
-                                    textAlign: 'center'
-                                }} xs={6} sm={3}>
-                                    <img width={70} height={70} src={'media/Conquistas/'+item.id + (item.idUsuario?"":"-disabled")+".svg"} >
-                                    </img>
+                        if (item.titulo.toLocaleLowerCase().includes(value.toLocaleLowerCase()))
+                            return (
+                                <Grid item xs={12} sm={4} md={3}>
                                     <div style={{
-                                        fontSize: 18,
-                                        fontWeight: 600,
-                                    }}>
-                                        {item.titulo}
+                                        borderRadius: 5,
+                                        backgroundColor: colors.background,
+                                        padding: 10,
+                                        textAlign: 'center',
+                                        height: '100%'
+                                    }} >
+                                        <div
+                                            style={{
+                                                width: 70,
+                                                height: 70,
+                                                margin: '0 auto',
+                                                backgroundColor: item.idUsuario ? 'none' : colors.black,
+                                                borderRadius: '100%',
+                                                boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.25)'
+                                            }}>
+                                            <img width={70} height={70} src={'media/Conquistas/' + item.id + ".svg"}
+                                                style={{
+                                                    opacity: item.idUsuario ? 1 : 0.4,
+                                                }} />
+                                        </div>
+                                        <div style={{
+                                            fontSize: 18,
+                                            fontWeight: 600,
+                                        }}>
+                                            {item.titulo}
+                                        </div>
+                                        <div style={{
+                                            fontSize: 14,
+                                        }}>
+                                            {item.descricao}
+                                        </div>
+                                        <div style={{
+                                            fontSize: 14,
+                                        }}>
+                                            +{item.pontuacao}pts
                                 </div>
-                                    <div style={{
-                                        fontSize: 14,
-                                    }}>
-                                        {item.descricao}
-                                </div>
-                                    <div style={{
-                                        fontSize: 14,
-                                    }}>
-                                        +{item.pontuacao}pts
-                                </div>
-                                </div>
-                            </Grid>
+                                    </div>
+                                </Grid>
                             )
-                        }
+                    }
 
                     )}
-                    
+
 
                 </Grid>
 
