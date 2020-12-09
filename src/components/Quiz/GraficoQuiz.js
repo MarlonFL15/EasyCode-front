@@ -16,7 +16,8 @@ const useStyles = makeStyles((theme)=>({
 export default props =>{
     const classes = useStyles()
 
-    const [data, setData] = useState([])
+    const [data, setData] = useState({date:[], values:[]
+    })
     useEffect(() => {
        
         axios.get('/getHistoricByAssunto',{
@@ -39,7 +40,7 @@ export default props =>{
             <Bar 
            
             data={{
-                labels: data,
+                labels: data.date,
                 datasets: [
                   {
                     label: 'Submissões',
@@ -47,7 +48,7 @@ export default props =>{
                     lineTension: 0.1,
                     backgroundColor:'rgba(38, 100, 208, 0.6)',
                     borderColor: colors.blue,
-                    data: data
+                    data: data.values
                   },
                 ]
                 
