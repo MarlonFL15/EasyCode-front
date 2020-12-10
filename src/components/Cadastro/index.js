@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.down('xs')]: {
             display: 'none'
         },
-        padding: 30,
+        // padding: 30,
         margin: 'auto 0',
         zIndex: 1000,
         overflow: 'visible',
@@ -94,14 +94,15 @@ const useStyles = makeStyles((theme) => ({
         position: 'relative'
     },
     imgLeft: {
-        marginRight: '-40%',
+        
+        marginRight: '-60%',
         zIndex: 10000,
-        width: 310,
-        [theme.breakpoints.down('sm')]: {
+        width: 400,
+        [theme.breakpoints.down('md')]: {
             marginRight: '-30%',
             width: 'calc(110%)',
             maxWidth: 310,
-        }
+        },
 
     },
     imgRight: {
