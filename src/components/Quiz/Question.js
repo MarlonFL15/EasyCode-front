@@ -1,14 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { withStyles, makeStyles, createStyles } from '@material-ui/core/styles';
-import { Grid, Typography, Button, Checkbox, Box, List, ListItem, ListItemIcon, ListItemText, Divider } from '@material-ui/core';
+import { Grid, Typography, Button, Checkbox, List, ListItem, ListItemIcon, ListItemText, Divider } from '@material-ui/core';
 import colors from '../Colors'
-import LinearProgress from '@material-ui/core/LinearProgress';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Slide from '@material-ui/core/Slide';
 import { useHistory, useLocation, BrowserRouter } from "react-router-dom";
 import axios from '../../bd/client'
 import { getToken } from '../auth';
@@ -378,8 +371,22 @@ export default function Container(props) {
                 <Grid item sm={12} className={classes.card}>
                     <h3 className={classes.title}>{assunto[0].toLocaleUpperCase()+assunto.substring(1)}</h3>
                     {questoes[questao].enunciado}
-                    <br />
-                    {questoes[questao].codigo}
+                    
+                    <Typography
+                    style={{
+                    display:questoes[questao].codigo?'flex':'none',
+                    height:'auto',
+                    color: '#ffffff',
+                    padding: '5px 15px',
+                    width:'50%',
+                    margin:'0 auto',
+                    marginTop: 10,
+                    borderRadius: 3,
+                    wordWrap: 'break-word',
+                    backgroundColor: colors.black,
+                    whiteSpace: 'pre-wrap',
+                    fontFamily:'Source Code Pro'}}>{questoes[questao].codigo}</Typography>
+                    
                 </Grid>
 
                 {questoes[questao].alternativas.map((item, index) => {
