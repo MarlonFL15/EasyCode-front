@@ -86,7 +86,7 @@ export default function ContentView() {
     //     if (onde != ondeParou)
     //         setOndeParou(onde)
     // }
-    const locState = location.state.quiz?location.state.quiz:location.state
+    const locState = location.state.quiz ? location.state.quiz : location.state
 
     const [ondeParou, setOndeParou] = useState(locState ? locState.ondeParou : 0)
     console.log(ondeParou)
@@ -274,9 +274,9 @@ export default function ContentView() {
                 <Grid container item xs={12} className={classes.buttonRow} style={{ marginTop: 'auto' }}>
                     <Grid item xs={12} md={2}>
                         <Button variant="contained"
-                            onClick={(e) =>  history.push({
+                            onClick={(e) => history.push({
                                 pathname: '/questao',
-                                state: { id: 2, jornada:true, ondeParou, assunto:tema }
+                                state: { id: 2, jornada: true, ondeParou, assunto: tema }
                             })}
                             style={{
                                 border: '3px solid ' + colors.blue,
@@ -387,7 +387,7 @@ export default function ContentView() {
                     <Grid item xs={12} md={8}>
                         <Card style={{ height: '100%', border: 'none', minHeight: 400, overflow: 'visible' }} variant='outlined'>
                             {conteudo[assunto].aulas[ondeParou].tipo === 'Quiz' ?
-                                locState.assunto?
+                                locState.assunto ?
                                     resultadoQuiz()
                                     :
                                     <div>
@@ -417,7 +417,7 @@ export default function ContentView() {
                                                 </Grid>
                                                 <Grid item sm={6}>
                                                     <GraficoSubmissoes />
-                                                    <div>Seu desempenho em <b>If e else</b></div>
+                                                    <div>Seu desempenho em <b>{assunto == 0 ? 'Sequência' : assunto == 1 ? 'Seleção' : 'Repetição'}</b></div>
                                                 </Grid>
                                                 <Grid item sm={12} style={{ textAlign: "center" }}>
                                                     <Button variant="contained"
@@ -442,63 +442,64 @@ export default function ContentView() {
                                         </div>
                                     </div> :
                                 conteudo[assunto].aulas[ondeParou].tipo === 'Blocos' ?
-                                    locState.id?
-                                    resultadoBlocos():
-                                    <div style={{
-                                        backgroundColor: '#ffffff',
-                                        borderRadius: 7,
-                                        height: '100%',
-                                        padding: '50px 30px',
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        justifyContent: 'center',
-                                        textAlign: 'center',
-                                    }}>
-                                        <Grid container>
-                                            <Grid item xs={12} style={{
-                                                display: 'flex',
-                                                flexDirection: 'column',
-                                                justifyContent: 'center',
-                                                textAlign: 'center',
+                                    locState.id ?
+                                        resultadoBlocos() :
+                                        <div style={{
+                                            backgroundColor: '#ffffff',
+                                            borderRadius: 7,
+                                            height: '100%',
+                                            padding: '50px 30px',
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            justifyContent: 'center',
+                                            textAlign: 'center',
+                                        }}>
+                                            <Grid container>
+                                                <Grid item xs={12} style={{
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    justifyContent: 'center',
+                                                    textAlign: 'center',
 
-                                            }}>
-                                                <div style={{
-                                                    fontSize: 27,
-                                                    fontWeight: 800,
-                                                    color: colors.black
-                                                }}>{conteudo[assunto].aulas[ondeParou].titulo}</div>
-                                                <div style={{
-                                                    fontSize: 18,
-                                                    // fontWeight: 600,
-                                                    color: colors.black
-                                                }}>Blocos</div>
-                                                <div style={{
-                                                    fontSize: 14,
-                                                    color: colors.black
-                                                }}>{conteudo[assunto].aulas[ondeParou].nivel}</div>
+                                                }}>
+                                                    <div style={{
+                                                        fontSize: 27,
+                                                        fontWeight: 800,
+                                                        color: colors.black
+                                                    }}>{conteudo[assunto].aulas[ondeParou].titulo}</div>
+                                                    <div style={{
+                                                        fontSize: 18,
+                                                        // fontWeight: 600,
+                                                        color: colors.black
+                                                    }}>Blocos</div>
+                                                    <div style={{
+                                                        fontSize: 14,
+                                                        color: colors.black
+                                                    }}>{conteudo[assunto].aulas[ondeParou].nivel}</div>
 
+                                                </Grid>
+                                                <Grid item sm={12} style={{ textAlign: "center" }}>
+                                                    <Button variant="contained"
+                                                        style={{
+                                                            backgroundColor: colors.blue,
+                                                            padding: '10px 40px',
+                                                            color: 'white',
+                                                            margin: '0',
+                                                            fontSize: 16,
+                                                            marginTop: 30,
+                                                            fontWeight: 500,
+                                                            letterSpacing: 1.3
+                                                        }}
+                                                        onClick={() => {
+                                                            history.push({
+                                                                pathname: '/questao',
+                                                                state: { id: conteudo[assunto].aulas[ondeParou].id, jornada: true, ondeParou, assunto: tema }
+
+                                                            })
+                                                        }}>Vamos lá!</Button>
+                                                </Grid>
                                             </Grid>
-                                            <Grid item sm={12} style={{ textAlign: "center" }}>
-                                                <Button variant="contained"
-                                                    style={{
-                                                        backgroundColor: colors.blue,
-                                                        padding: '10px 40px',
-                                                        color: 'white',
-                                                        margin: '0',
-                                                        fontSize: 16,
-                                                        marginTop: 30,
-                                                        fontWeight: 500,
-                                                        letterSpacing: 1.3
-                                                    }}
-                                                    onClick={() => {
-                                                        history.push({
-                                                            pathname: '/questao',
-                                                            state: { id: 2, jornada:true, ondeParou, assunto:tema }
-                                                        })
-                                                    }}>Vamos lá!</Button>
-                                            </Grid>
-                                        </Grid>
-                                    </div>
+                                        </div>
                                     : printConteudo(conteudo[assunto].aulas[ondeParou].titulo, texto)}
                         </Card>
                     </Grid>

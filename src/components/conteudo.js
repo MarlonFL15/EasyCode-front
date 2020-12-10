@@ -46,22 +46,33 @@ const conteudo = [
             {
                 tipo: 'Texto',
                 titulo: 'Operadores relacionais',
-                conteudo: 'Os operadores relacionais são utilizados para a comparação de caracteres e números e sempre retornam os valores lógicos TRUE (caso a comparação seja verdadeira) ou FALSE (caso a comparação seja falsa)<table><tr><th>Operador</th><th>Descrição</th></tr><tr><td>=</td><td>Igual a</td>  </tr><tr><td>≠</td><td>Diferente de</td>  </tr><tr><td>></td><td>Maior que</td>  </tr><tr><td><</td><td>Menor que</td>  </tr><tr><td>>=</td><td>Maior ou igual que</td>  </tr><tr><td><=</td><td>Menor ou igual que</td>  </tr></table><br>    Para usar os operadores relacionais no blockly é muito simples: <ul><li>Arraste o bloco de operadores relacionais/li><li>Encaixe os 2 números que vão ser comparados</li><li>Escolha o operador relacional</li></ul><img width="720" src="imgs/operadores_relacionais.gif"></img>'
+                conteudo: 'Os operadores relacionais são utilizados para a comparação de caracteres e números e sempre retornam os valores lógicos TRUE (caso a comparação seja verdadeira) ou FALSE (caso a comparação seja falsa)<table><tr><th>Operador</th><th>Descrição</th></tr><tr><td>=</td><td>Igual a</td>  </tr><tr><td>≠</td><td>Diferente de</td>  </tr><tr><td>></td><td>Maior que</td>  </tr><tr><td><</td><td>Menor que</td>  </tr><tr><td>>=</td><td>Maior ou igual que</td>  </tr><tr><td><=</td><td>Menor ou igual que</td>  </tr></table><br>    Para usar os operadores relacionais no blockly é muito simples: <ul><li>Arraste o bloco de operadores relacionais/li><li>Encaixe os 2 números que vão ser comparados</li><li>Escolha o operador relacional</li></ul><img width="720" src="/imgs/operadores_relacionais.gif"></img>'
             },
             {
                 tipo: 'Texto',
                 titulo: 'Operadores lógicos',
-                conteudo: 'Os operadores lógicos combinam duas ou mais expressões relacionais para criar uma lógica verdadeira ou falsa. Os operadores lógicos são:<table><tr><th>Operador</th><th>Descrição</th></tr><tr><td>E</td><td>Operador de conjunção</td>  </tr><tr><td>OU</td> <td>Operador de disjunção</td>  </tr><tr><td>NÃO</td><td>Operador de negação</td>  </tr></table><br><h2>Operador lógico "E"</h2>O operador lógico E retornará verdadeiro somente se todas as expressões relacionais retornarem verdadeiro também. A tabela abaixo representa seu funcionamento<br><br><img width=520 src="https://dkrn4sk0rn31v.cloudfront.net/2020/01/15112656/operador-logico-e.png"><h2>Operador lógico "OU"</h2>O operador lógico OU retornará verdadeiro se pelo menos uma das expressões relacionais retornarem verdadeiro. A tabela abaixo representa seu funcionamento.<br><br><img width=520 src="https://dkrn4sk0rn31v.cloudfront.net/2020/01/15112711/operador-logico-ou.png"><h2>Operador lógico "NÃO"</h2>Esse operador, diferente dos demais que vimos até agora, realiza uma operação sobre um único valor. Se o valor for verdadeiro ele retorna falso e se o valor for falso ele retorna verdadeiro. Ele também é chamado de operador de negação.<br><br><img width=520 src="https://dkrn4sk0rn31v.cloudfront.net/2020/01/15112711/operador-logico-ou.png"><br>Para usar os operadores lógicos no blockly é muito simples: <ul><li>Arraste o bloco de operadores lógicos/li><li>Encaixe as duas expressões que vão ser comparadas</li><li>Escolha o operador lógico</li></ul><img width="720" src="imgs/operadores_logicos.gif"></img>'
-            },
-            {
-                tipo: 'Quiz'
+                conteudo: 'Os operadores lógicos combinam duas ou mais expressões relacionais para criar uma lógica verdadeira ou falsa. Os operadores lógicos são:<table><tr><th>Operador</th><th>Descrição</th></tr><tr><td>E</td><td>Operador de conjunção</td>  </tr><tr><td>OU</td> <td>Operador de disjunção</td>  </tr><tr><td>NÃO</td><td>Operador de negação</td>  </tr></table><br><h2>Operador lógico "E"</h2>O operador lógico E retornará verdadeiro somente se todas as expressões relacionais retornarem verdadeiro também. A tabela abaixo representa seu funcionamento<br><br><img width=520 src="https://dkrn4sk0rn31v.cloudfront.net/2020/01/15112656/operador-logico-e.png"><h2>Operador lógico "OU"</h2>O operador lógico OU retornará verdadeiro se pelo menos uma das expressões relacionais retornarem verdadeiro. A tabela abaixo representa seu funcionamento.<br><br><img width=520 src="https://dkrn4sk0rn31v.cloudfront.net/2020/01/15112711/operador-logico-ou.png"><h2>Operador lógico "NÃO"</h2>Esse operador, diferente dos demais que vimos até agora, realiza uma operação sobre um único valor. Se o valor for verdadeiro ele retorna falso e se o valor for falso ele retorna verdadeiro. Ele também é chamado de operador de negação.<br><br><img width=520 src="https://dkrn4sk0rn31v.cloudfront.net/2020/01/15112711/operador-logico-ou.png"><br>Para usar os operadores lógicos no blockly é muito simples: <ul><li>Arraste o bloco de operadores lógicos/li><li>Encaixe as duas expressões que vão ser comparadas</li><li>Escolha o operador lógico</li></ul><img width="720" src="/imgs/operadores_logicos.gif"></img>'
             },
             {
                 tipo: 'Blocos',
                 id: 1,
-                titulo: 'Média aritmética',
+                titulo: 'Ola mundo',
                 nivel: 'Fácil'
-            }
+            },
+            {
+                tipo: 'Blocos',
+                id: 10,
+                titulo: 'Antecessor de um número',
+                nivel: 'Fácil'
+            },            {
+                tipo: 'Blocos',
+                id: 5,
+                titulo: 'Lendo e imprimindo',
+                nivel: 'Fácil'
+            },
+            {
+                tipo: 'Quiz'
+            },
         ]
     },
     {
@@ -69,17 +80,35 @@ const conteudo = [
         aulas: [
             {
                 tipo: 'Texto',
-                titulo: 'Definição',
-                conteudo: 'fjksdfksdj'
+                titulo: 'Definição de seleção',
+                conteudo: 'Na maioria das vezes é preciso tomar decisões no andamento do algoritmo. Por exemplo podemos precisar verificar se um usuário é maior de idade, ou então se o usuário digitou um mês válido entre os 12 meses possíveis. Essas decisões interferem diretamente no andamento do programa.<br><br>Para fazermos este tipo de verificação, nós precisaremos das estruturas de decisão. Estas estruturas podem fazer com que o programa proceda de uma ou outra maneira, de acordo com as decisões lógicas tomadas em função dos dados ou resultados anteriores. As principais estruturas de decisão são: "Se-Então-Senão" e "Caso-Selecione".<br><br>A estrutura de decisão se-então-senão nos ajuda a executarmos ou não um determinado trecho de código. Quando a utilizamos, nós passamos uma operação de comparação, operação esta que será avaliada pela estrutura. Se a operação retornar que a expressão é verdadeira, o bloco “então” é executado. Agora, se ela não for verdadeira, o bloco “senão” será executado, isso se ele existir (o bloco senão é opcional na maioria das linguagens).'
             },
             {
-                tipo: 'Quiz',
+                tipo: 'Texto',
+                titulo: 'Como usar (parte 1)',
+                conteudo: 'Como funciona?<ul><li>A condição é verificada a cada passagem pela estrutura SE;</li><li>Se a condição for satisfeita (verdadeira), são executadas as instruções entre chaves do SE;</li></ul>E para usar o bloco de decisão, basta arrastá-lo para a área de trabalho, e encaixar as condições. Tudo que estiver dentro do bloco será executado caso o resultado seja verdadeiro.<img width="720" src="/imgs/bloco_se.gif"></img>'
+            },
+            {
+                tipo: 'Texto',
+                titulo: 'Como usar (parte 2)',
+                conteudo: 'Outros blocos importantes de serem utilizados, é o SENÃO-SE e o SENÃO.Como funciona?<ul><li>A condição é verificada a cada passagem pela estrutura SE;</li><li>Se a condição for satisfeita (verdadeira), são executadas as instruções entre chaves do SE;</li><li>Se a condição NÃO for satisfeita (falsa), são verificadas as condições do SENÃO-SE;</li><li>Se a condição do SENÃO-SE for satisfeita (verdadeira), são executadas as instruções entre chaves do SENÃO-SE;</li><li>Se nenhuma das condições forem satisfeitas, são executadas as intruções entre as chaves do SENÃO</li></ul>Segue um vídeo de como usar o SENÃO-SE e o SENÃO<img width="720" src="/imgs/bloco_senao.gif"></img>'
             },
             {
                 tipo: 'Blocos',
-                id: 0,
-                nomeDaQuestao: 'Ola mundo'
-            }
+                id: 21,
+                titulo: 'Positivo ou negativo',
+                nivel: 'Médio'
+            },
+            {
+                tipo: 'Blocos',
+                id: 24,
+                titulo: 'Ímpar maior que 10',
+                nivel: 'Médio'
+            },
+            
+            {
+                tipo: 'Quiz',
+            },
         ]
     },
     {
@@ -88,16 +117,33 @@ const conteudo = [
             {
                 tipo: 'Texto',
                 titulo: 'Definição',
-                conteudo: 'fjksdfksdj'
+                conteudo: 'As estruturas de repetição ou iteração também são conhecidas como "looping", ou laço. Estas estruturas permitem que tarefas individuais sejam repetidas determinado número de vezes, ou tantas vezes quanto uma condição lógica permita.<br><br>Podemos utilizar estruturas de repetição para tarefas que precisam ser realizadas da mesma maneira durante um determinado número de vezes, por exemplo:<br><br><ul><li>Bater a mão na mesa 6 vezes;</li><li>Enquanto eu tiver dinheiro e saúde, desfrutarei a vida.</li></ul>'
+            },
+            {
+                tipo: 'Texto',
+                titulo: 'Bloco "Repita"',
+                conteudo: 'O primeiro bloco, e mais simples é o bloco "REPITA". Esse bloco deve ser utilizado quando sabemos a quantidade de vezes que o laço deve ser executado.<br>No exemplo abaixo, o bloco de imprimir seria executado 10 vezes.<br><br><img width="720" src="/imgs/bloco_repita.gif"></img>'
+            },
+            {
+                tipo: 'Texto',
+                titulo: 'Bloco "Enquanto"',
+                conteudo: 'A estrutura “enquanto-faça” é utilizada para repetir um determinado trecho de código enquanto uma expressão lógica ou relacional retornar verdadeiro. Nós a utilizamos para repetir determinados trechos do algoritmo quando não sabemos bem quantas vezes aquele trecho deverá ser repetido.<br><br><img width="720" src="/imgs/bloco_repita_enquanto.gif"></img>'
+            },
+            {
+                tipo: 'Blocos',
+                id: 40,
+                titulo: 'Somatório de 1 a 100',
+                nivel: 'Difícil'
+            },
+            {
+                tipo: 'Blocos',
+                id: 50,
+                titulo: 'Fatorial',
+                nivel: 'Médio'
             },
             {
                 tipo: 'Quiz',
             },
-            {
-                tipo: 'Blocos',
-                id: 0,
-                nomeDaQuestao: 'Ola mundo'
-            }
         ]
     }
 ]

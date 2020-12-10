@@ -29,8 +29,12 @@ export default function QuestionResult(props) {
     const location = useLocation()
     const history = useHistory()
     const classes = useStyles()
-    const { certo, id, saida, resultado } = location.state
+    console.log("AAAAAAAAAAAAAAAA")
+    console.log(location.state)
+    const { certo, id, saida, resultado, saidas } = location.state
   
+    console.log(saidas)
+
     const headerColor = certo ? colors.green : colors.red
 
     return (
@@ -84,7 +88,9 @@ export default function QuestionResult(props) {
 
                         </Grid>
                     </Grid>
-                    <Grid item xs={12} md={6}>
+                    {saidas ? saidas.map(element => {
+                        return <>
+                        <Grid item xs={12} md={6}>
                         <h3>Resultado</h3>
                         <Card variant="outlined"
                             style={{
@@ -92,7 +98,7 @@ export default function QuestionResult(props) {
                                 padding: 10,
                                 backgroundColor: colors.background
                             }}>
-                            {resultado}
+                            {element.saida}
                         </Card>
                     </Grid>
                     <Grid item xs={12} md={6}>
@@ -102,10 +108,13 @@ export default function QuestionResult(props) {
                             padding: 10,
                             backgroundColor: colors.background
                         }}>
-                            {saida}
+                            {element.esperado}
                         </Card>
                     </Grid>
 
+                        </>    
+                    }):false}
+                    
 
                     <Grid container item xs={12} className={classes.buttonRow} style={{ marginTop: 'auto' }}>
                         <Grid item xs={12} md={2}>

@@ -117,6 +117,9 @@ class BlockDiv extends React.Component {
       pontuacao: this.state.question.pontos,
       xml: '<oi>'
     }).then(response => {
+      console.log("responseaaaaaaaaaaaaaaaa")
+      console.log(response.data)
+      alert("oi")
       if (response.data.result) {
         this.setState({ incorrect: false, correct: true })
 
@@ -140,6 +143,7 @@ class BlockDiv extends React.Component {
               certo: this.state.correct,
               resultado:'Ola mundo',
               saida:'Ola mundo',
+              saidas:response.data.saida,
               ondeParou: this.props.location.state.ondeParou
           }})
       }else{
@@ -149,10 +153,12 @@ class BlockDiv extends React.Component {
               id: this.state.question.id,
               certo: this.state.correct,
               resultado:'Ola mundo',
-              saida:'Ola mundo'
+              saida:'Ola mundo',
+              saidas:response.data.saida
           }})
       }
   
+
     }).catch(error => {
       console.log(error)
 
