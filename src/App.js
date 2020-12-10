@@ -30,6 +30,7 @@ import QuizResult from "./components/Quiz/QuizResult";
 import Main from "./components/Jornada/Main";
 import ContentView from "./components/Jornada/ContentView";
 import ConquistasTable from "./components/Conquista/ConquistasTable";
+import QuestionResult from "./components/Questions/QuestionResult";
 
 export default function App() {
  
@@ -54,8 +55,11 @@ export default function App() {
           <PrivateRoute path="/roleta2" exact>
             <Roullete />
           </PrivateRoute>
-          <PrivateRoute path="/questao">
+          <PrivateRoute path="/questao" exact> 
             <BlocklyQuestion />
+          </PrivateRoute>
+          <PrivateRoute path="/questao/resultado" exact>
+            <QuestionResult />
           </PrivateRoute>
           <PrivateRoute path="/quiz" exact>
             <Quiz />

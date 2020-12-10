@@ -11,10 +11,11 @@ const useStyles = makeStyles((theme) => createStyles({
     table: {
     },
     root: {
-        overflow:'hidden',
+        overflow: 'hidden',
         width: '100%',
         minHeight: 600,
         display: 'flex',
+        position: 'relative',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
@@ -71,9 +72,12 @@ const useStyles = makeStyles((theme) => createStyles({
         fontSize: 24,
         marginTop: 100,
         color: '#FFFFFf',
-        width: 1000,
+        width: 800,
         marginBottom: 30,
         minWidth: 200,
+        [theme.breakpoints.down('md')]: {
+            width: 500,
+        }
 
     },
     seeAll: {
@@ -85,9 +89,9 @@ const useStyles = makeStyles((theme) => createStyles({
     carrousel: {
         display: 'flex',
         position: 'relative',
-        height:'100%',
-        [theme.breakpoints.down('md')]:{
-            display:'block'
+        height: '100%',
+        [theme.breakpoints.down('md')]: {
+            display: 'block'
         }
     }
 }));
@@ -119,7 +123,8 @@ export default function Main() {
     //   )
     // }
     const themes = ['Sequência', 'Seleção', 'Repetição']
-
+    const colorss = [colors.red, colors.yellow, colors.green]
+    const images = [require('../Quiz/sequencia.svg'), require('../Quiz/selecao.svg'), require('../Quiz/repeticao.svg')]
     return (
         <div className={classes.root}>
             <div className="top" style={{ padding: 7, background: colors.purple, width: '100%', position: 'absolute', top: 0, left: 0, zIndex: -1, height: 500 }} />
@@ -137,23 +142,28 @@ export default function Main() {
 
                     </div>
                 </div>
-                <div style={{ overflow: 'hidden', height: 'calc(100% - 100px)', width: 50 , background: colors.gray, position: 'absolute', top: 60, zIndex: -1, right:'calc(50% - 25px)',}}>
+                <div style={{ overflow: 'hidden', height: 'calc(100% - 100px)', width: 50, background: colors.gray, position: 'absolute', top: 60, zIndex: -1, right: 'calc(50% - 25px)', }}>
                 </div>
                 {themes.map((item, i) => {
                     const cardStyles = makeStyles((theme) => ({
                         root: {
                             border: 'none',
                             padding: 10,
+                            overflow: 'visible',
+
                             position: 'relative',
-                            width: 1000,
-                            left: 1000 + 30 * i - 1030 * active,
+                            width: 800,
+                            left: 800 + 30 * i - 830 * active,
                             transform: active === i ? 'scale(1)' : 'scale(0.96)',
                             height: 400,
                             cursor: active === i ? '' : 'pointer',
-                            [theme.breakpoints.down('md')]:{
+                            backgroundColor: colorss[i],
+                            color: '#ffffff',
+                            borderRadius:10,
+                            [theme.breakpoints.down('md')]: {
                                 width: 500,
                                 top: 30,
-                                left:0,
+                                left: 0,
                                 marginBottom: 30
                             }
                         }
@@ -165,10 +175,10 @@ export default function Main() {
                             onClick={() => {
                                 if (active === i) {
                                     let assunto = ''
-                                    if(i==0) assunto = 'sequencia'
-                                    if(i==1) assunto = 'selecao'
-                                    if(i==2) assunto = 'repeticao'
-                                    history.push('/jornada/'+assunto)
+                                    if (i == 0) assunto = 'sequencia'
+                                    if (i == 1) assunto = 'selecao'
+                                    if (i == 2) assunto = 'repeticao'
+                                    history.push('/jornada/' + assunto)
                                 } else
                                     if (active > i) {
                                         setActive(active - 1)
@@ -178,8 +188,27 @@ export default function Main() {
                             }}
                             variant="outlined"
                         >
+                            <img src={images[i]} style={{
+                                height: 450,
+                                margin: 'auto',
+                                alignItems: 'center',
+                                display: 'flex',
+                                position: 'absolute',
+                                right: 20,
+                                top: -50,
+                                flexDirection: 'column',
+                                justifyContent: 'center',
+                                fontSize: 50,
+                                fontWeight: 700,
+                                fontFamily: 'Roboto, sans-serif',
+                            }} />
 
-                            {item}
+                            <h1 style={{
+                                position:'absolute',
+                                bottom: 30,
+                                left:30,
+                                textShadow:'1px 1px 5px rgba(0, 0, 0, 0.2)'
+                            }}>{item}</h1>
                         </Card>
                     )
                 })}

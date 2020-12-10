@@ -63,16 +63,16 @@ class BlockDiv extends React.Component {
   componentDidMount = () => {
 
     const id = this.props.location.state.id
- 
-      axios.get("/pergunta/" + id).then(response => {
 
-        this.setState({ question: response.data })
+    axios.get("/pergunta/" + id).then(response => {
+
+      this.setState({ question: response.data })
 
 
-      }).catch(err => {
-        alert(err)
-      })
-    
+    }).catch(err => {
+      alert(err)
+    })
+
   }
   generateCode = () => {
     var code = Languages[this.lang].workspaceToCode(
@@ -132,6 +132,15 @@ class BlockDiv extends React.Component {
       else {
         this.setState({ incorrect: true, correct: false })
       }
+      this.props.history.push({
+        pathname: '/questao/resultado',
+        state: {
+            id: this.state.question.id,
+            certo: this.state.correct,
+            resultado:'Ola mundo',
+            saida:'Ola mundo'
+        }
+    })
     }).catch(error => {
       console.log(error)
 
@@ -147,7 +156,7 @@ class BlockDiv extends React.Component {
 
   render() {
 
-    if(!this.state.question){
+    if (!this.state.question) {
       return <div>false</div>
     }
     return (
@@ -173,7 +182,7 @@ class BlockDiv extends React.Component {
         </Grid>
 
         {console.log(this.state.question)}
-        
+
         <Grid item xs={12} md={5} style={{ width: 'auto', padding: 5, paddingTop: 0 }}>
           <Question submit={this.onClick} {...this.state.question}></Question>
           <textarea id="code" style={{ display: 'none' }}></textarea>
