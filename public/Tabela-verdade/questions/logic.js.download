@@ -9,7 +9,6 @@ if(corrects==problem.regras.length){
 }}else if(problem.objetivo.regra(problem,logic)){
     window.parent.postMessage ('ok meu patrão', '*');
 }}else{
-    window.parent.postMessage ('ok meu patrão', '*');
     
     
 }}
