@@ -263,6 +263,7 @@ export default props => {
                 <Card variant="outlined" className="perfil" style={{ padding: 20, border: 'none', fontSize: 14, overflow: 'visible' }}>
                     <div style={{ textAlign: 'center' }}>
                         <Text variant="h6" style={{ fontWeight: 700 }}><b>Meu painel</b></Text>
+                        <Text>500 pontos</Text>
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'row', fontSize: 16, justifyContent: 'space-between' }}>
                         <div>Conquistas</div>

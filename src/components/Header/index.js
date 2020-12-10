@@ -13,8 +13,8 @@ const topbarHeight = 50;
 
 const StyledMenu = withStyles({
     paper: {
-        backgroundColor: colors.blue,
-        color: '#FFF',
+        backgroundColor: colors.background,
+        color: colors.blue,
         borderRadius: 2,
         fontFamily: 'Nunito, sans-serif'
     },
@@ -80,13 +80,6 @@ export default function TopBar(props) {
             [theme.breakpoints.down('sm')]: {
                 display: 'none'
             }
-        },
-        icon: {
-            backgroundColor: colors.red,
-            height: 35,
-            width: 35,
-            borderRadius: '100%',
-            marginRight: -5
         },
         button: {
             height: 35,
@@ -210,9 +203,8 @@ export default function TopBar(props) {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <StyledMenuItem onClick={handleClose}>Profile</StyledMenuItem>
-                <StyledMenuItem onClick={handleClose}>My account</StyledMenuItem>
-                <StyledMenuItem onClick={handleClose}>Logout</StyledMenuItem>
+                <StyledMenuItem onClick={handleClose}>Conquistas</StyledMenuItem>
+                <StyledMenuItem onClick={handleClose}>Sair</StyledMenuItem>
             </StyledMenu>
 
             <nav
@@ -248,8 +240,7 @@ export default function TopBar(props) {
                     </div>
                 </div>
                 <div className={classes.perfil}>
-                    <div className={classes.icon}>
-                    </div>
+                    <img width={35} height={35} style={{ margin: 0, padding:0}} src={require('../assets/user.svg')}/>
                     <IconButton className={classes.button} aria-controls="menu" aria-haspopup="true" onClick={handleClick}>
                         <ArrowDropDownIcon className={anchorEl ? classes.iconRotate : classes.iconDown} />
                     </IconButton>
@@ -300,8 +291,8 @@ export default function TopBar(props) {
                     <Link to="/tabelas-verdade" onClick={() => setDDopen(false)}>
                         <div className={classes.linksDropdown}>Tabela-verdade</div>
                     </Link>
-                    <Link to="/dashboard" onClick={() => setDDopen(false)}>
-                        <div className={classes.linksDropdown}>Perfil</div>
+                    <Link to="/conquistas" onClick={() => setDDopen(false)}>
+                        <div className={classes.linksDropdown}>Conquistas</div>
                     </Link>
                     <Link to="/login" onClick={() => setDDopen(false)}>
                         <div className={classes.linksDropdown}>Sair</div>

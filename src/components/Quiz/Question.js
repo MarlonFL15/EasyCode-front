@@ -29,7 +29,6 @@ export default function Container(props) {
     let location = useLocation();
     let history = useHistory()
     const assunto = location.state.assunto
-    console.log(location.state)
     
     const headerColor = assunto === 'Seleção' ? colors.yellow : assunto === 'Sequência' ? colors.red : assunto === 'Repetição' ? colors.green : colors.blue
     const [didMount, setDidMount] = React.useState(false);
@@ -149,7 +148,6 @@ export default function Container(props) {
     useEffect(() => {
 
         //const assunto = location.state.assunto;
-        console.log('chamou')
         axios.get('quiz', {
             params: {
                 assunto: assunto,
@@ -178,9 +176,7 @@ export default function Container(props) {
             console.log(error)
         })
 
-        console.log(selected)
 
-        console.log()
 
     }, []);
 
@@ -206,14 +202,12 @@ export default function Container(props) {
                 acertos: acertos,
                 assunto: assunto
             }
-            console.log(quiz)
             if (location.state.jornada) {
                 finish('oi')
 
                 const tema = assunto==='Seleção'? 'selecao':
                 assunto==='Sequência'? 'sequencia':
                 'repeticao'
-                console.log(location.state)
                 history.push({
                     pathname: '/jornada/' + tema ,
                     state: {
@@ -322,7 +316,6 @@ export default function Container(props) {
 
     const getAcertos = () => {
         let resp = 0
-        console.log(gabarito)
         gabarito.map((item) => {
             if (item.correto)
                 resp += 1
@@ -357,7 +350,15 @@ export default function Container(props) {
 
     if (questoes.length == 0)
         return (
-            <div>Carregando</div>
+            <div style={{
+                height:'100%',
+                width:'100%',
+                display:'flex',
+                flexDirection:'column',
+                justifyContent:'center'
+            }}>
+                <img height={150} src={require('../assets/bloquinhoIcon.svg')}></img>
+            </div>
         )
 
     if (proximo) {
