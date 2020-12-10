@@ -59,7 +59,8 @@ const conteudo = [
             {
                 tipo: 'Blocos',
                 id: 1,
-                titulo: 'Ola mundo'
+                titulo: 'Média aritmética',
+                nivel: 'Fácil'
             }
         ]
     },

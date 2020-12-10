@@ -132,15 +132,27 @@ class BlockDiv extends React.Component {
       else {
         this.setState({ incorrect: true, correct: false })
       }
-      this.props.history.push({
-        pathname: '/questao/resultado',
-        state: {
-            id: this.state.question.id,
-            certo: this.state.correct,
-            resultado:'Ola mundo',
-            saida:'Ola mundo'
-        }
-    })
+      if(this.props.location.state.jornada){
+        this.props.history.push({
+          pathname: '/jornada/'+this.props.location.state.assunto,
+          state: {
+              id: this.state.question.id,
+              certo: this.state.correct,
+              resultado:'Ola mundo',
+              saida:'Ola mundo',
+              ondeParou: this.props.location.state.ondeParou
+          }})
+      }else{
+        this.props.history.push({
+          pathname: '/questao/resultado',
+          state: {
+              id: this.state.question.id,
+              certo: this.state.correct,
+              resultado:'Ola mundo',
+              saida:'Ola mundo'
+          }})
+      }
+  
     }).catch(error => {
       console.log(error)
 

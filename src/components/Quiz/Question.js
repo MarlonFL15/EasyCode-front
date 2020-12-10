@@ -199,7 +199,7 @@ export default function Container(props) {
                 finish('oi')
 
                 const tema = assunto==='Seleção'? 'selecao':
-                assunto==='Sequência'? 'sequencia':
+                assunto==='sequência'? 'sequencia':
                 'repeticao'
                 history.push({
                     pathname: '/jornada/' + tema ,

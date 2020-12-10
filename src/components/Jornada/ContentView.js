@@ -75,7 +75,6 @@ const useStyles = makeStyles((theme) => createStyles({
 
 export default function ContentView() {
     const [barOpen, setBarOpen] = React.useState(false)
-    const [texto, setTexto] = React.useState('<div>oi</div>')
     let { tema } = useParams()
     const classes = useStyles();
     const location = useLocation()
@@ -87,15 +86,19 @@ export default function ContentView() {
     //     if (onde != ondeParou)
     //         setOndeParou(onde)
     // }
-    const [ondeParou, setOndeParou] = useState(location.state ? location.state.quiz.ondeParou : 0)
+    const locState = location.state.quiz?location.state.quiz:location.state
+
+    const [ondeParou, setOndeParou] = useState(locState ? locState.ondeParou : 0)
+    console.log(ondeParou)
     // const texto = '<b>oi</b> ooi'
     const history = useHistory()
+    const [texto, setTexto] = React.useState(conteudo[assunto].aulas[ondeParou] ? conteudo[assunto].aulas[ondeParou].conteudo : '')
+
 
     function printConteudo(titulo, texto) {
         const conteudoHMTML = <di dangerouslySetInnerHTML={{ __html: '' }} />
         conteudoHMTML.props.dangerouslySetInnerHTML.__html = texto
 
-        console.log(conteudoHMTML)
         return <div style={{ padding: 30 }}>
             <h1>{titulo}</h1>
             {conteudoHMTML}
@@ -201,9 +204,120 @@ export default function ContentView() {
                                     fontSize: 16,
                                     fontWeight: 500,
                                     letterSpacing: 1.3
-                                }} 
-                                onClick={()=>{setOndeParou(ondeParou+1)}}>PRÓXIMO</Button>
+                                }}
+                                onClick={() => { setOndeParou(ondeParou + 1) }}>PRÓXIMO</Button>
                         </Grid>
+
+                    </Grid>
+
+                </Grid>
+            </Grid>
+        )
+    }
+
+    function resultadoBlocos() {
+        const { certo, resultado, saida, id } = location.state
+
+        var stars = [false, false, false]
+
+        if (resultado !== 0) stars[0] = true
+        if (resultado > 50) stars[1] = true
+        if (resultado === 100) stars[2] = true
+
+        // const classes = useStyles()
+        return (
+            <Grid container spacing={2} style={{ height: '100%', padding: 30 }}>
+
+
+                <img style={{
+                    display: 'block',
+                    width: 150, height: 270,
+                    margin: '0 auto',
+                    marginTop: -130, marginBottom: 0
+                }} src={require(certo ? '../Quiz/ResultOver50.svg' : '../Quiz/ResultUnder50.svg')} />
+
+
+                <Grid container item sm={12}>
+                    <Grid xs={12} item md={6} style={{ margin: 'auto', textAlign: 'center', paddingBottom: 50 }}>
+                        <div
+                            style={{
+                                fontSize: 25,
+                                fontWeight: 600,
+                            }}>{certo ? 'Você acertou!' : 'Você errou'}</div>
+                        <div>{certo ? 'Continue assim!' : 'Continue tentando!'}</div>
+
+                    </Grid>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                    <h3>Resultado</h3>
+                    <Card variant="outlined"
+                        style={{
+                            border: 'none',
+                            padding: 10,
+                            backgroundColor: colors.background
+                        }}>
+                        {resultado}
+                    </Card>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                    <h3>Saída esperada</h3>
+                    <Card variant="outlined" style={{
+                        border: 'none',
+                        padding: 10,
+                        backgroundColor: colors.background
+                    }}>
+                        {saida}
+                    </Card>
+                </Grid>
+
+
+                <Grid container item xs={12} className={classes.buttonRow} style={{ marginTop: 'auto' }}>
+                    <Grid item xs={12} md={2}>
+                        <Button variant="contained"
+                            onClick={(e) =>  history.push({
+                                pathname: '/questao',
+                                state: { id: 2, jornada:true, ondeParou, assunto:tema }
+                            })}
+                            style={{
+                                border: '3px solid ' + colors.blue,
+                                padding: '10px 40px',
+                                background: 'transparent',
+                                color: colors.blue,
+                                fontSize: 16,
+                                fontWeight: 600,
+                                letterSpacing: 1.3,
+                            }}>Refazer</Button>
+                    </Grid>
+
+
+                    <Grid container item xs={12} md={10} className={classes.buttonRowRight}>
+                        <Grid item xs={12} md={6} >
+
+                            <Button
+                                onClick={(e) => history.push('/dashboard')}
+                                style={{
+                                    padding: '10px 40px',
+                                    background: 'transparent',
+                                    color: colors.blue,
+                                    fontSize: 16,
+                                    fontWeight: 600,
+                                    letterSpacing: 1.3,
+                                }}>Voltar para o menu</Button>
+
+                        </Grid>
+                        {/* <Grid item style={{ textAlign: 'end' }}>
+
+                                <Button variant="contained"
+                                    style={{
+                                        backgroundColor: colors.blue,
+                                        padding: '10px 40px',
+                                        color: 'white',
+                                        margin: '0',
+                                        fontSize: 16,
+                                        fontWeight: 500,
+                                        letterSpacing: 1.3
+                                    }}>PRÓXIMO</Button>
+                            </Grid> */}
 
                     </Grid>
 
@@ -234,17 +348,19 @@ export default function ContentView() {
                                         style={{
                                             display: 'flex',
                                             margin: '20px 0',
+                                            height: 43
                                         }}
                                         onClick={() => {
                                             setOndeParou(i)
+                                            console.log(ondeParou)
                                             setTexto(conteudo[assunto].aulas[i].conteudo)
-                                            console.log(texto)
                                         }}>
                                         <div
                                             id={'order_' + i}
                                             style={{
                                                 backgroundColor: ondeParou >= i ? colors.green : colors.background,
                                                 width: 25,
+                                                display: 'block',
                                                 textAlign: 'center',
                                                 height: 25,
                                                 borderRadius: '100%',
@@ -263,15 +379,15 @@ export default function ContentView() {
                                     </div>
                                 )
                             })}
-                            <div style={{ position: 'absolute', width: 10, height: 45 * (conteudo[assunto].aulas.length - 1), top: 78, left: 27, backgroundColor: 'lightgray' }}></div>
-                            <div style={{ position: 'absolute', width: 10, height: 45 * ondeParou, top: 78, left: 27, backgroundColor: colors.green }}></div>
+                            <div style={{ position: 'absolute', width: 10, height: 63 * (conteudo[assunto].aulas.length - 1), top: 78, left: 27, backgroundColor: 'lightgray' }}></div>
+                            <div style={{ position: 'absolute', width: 10, height: 63 * ondeParou, top: 78, left: 27, backgroundColor: colors.green }}></div>
 
                         </Card>
                     </Grid>
                     <Grid item xs={12} md={8}>
                         <Card style={{ height: '100%', border: 'none', minHeight: 400, overflow: 'visible' }} variant='outlined'>
                             {conteudo[assunto].aulas[ondeParou].tipo === 'Quiz' ?
-                                location.state ?
+                                locState.assunto?
                                     resultadoQuiz()
                                     :
                                     <div>
@@ -291,8 +407,8 @@ export default function ContentView() {
                                                         fontSize: 27,
                                                         fontWeight: 800,
                                                         color: colors.black
-                                                    }}>{themes[assunto][0].toLocaleUpperCase()+themes[assunto].substring(1)}</div>
-                                                 
+                                                    }}>{themes[assunto][0].toLocaleUpperCase() + themes[assunto].substring(1)}</div>
+
                                                     <div style={{
                                                         fontSize: 14,
                                                         color: colors.black
@@ -326,7 +442,8 @@ export default function ContentView() {
                                         </div>
                                     </div> :
                                 conteudo[assunto].aulas[ondeParou].tipo === 'Blocos' ?
-
+                                    locState.id?
+                                    resultadoBlocos():
                                     <div style={{
                                         backgroundColor: '#ffffff',
                                         borderRadius: 7,
@@ -349,7 +466,7 @@ export default function ContentView() {
                                                     fontSize: 27,
                                                     fontWeight: 800,
                                                     color: colors.black
-                                                }}>Olá mundo</div>
+                                                }}>{conteudo[assunto].aulas[ondeParou].titulo}</div>
                                                 <div style={{
                                                     fontSize: 18,
                                                     // fontWeight: 600,
@@ -358,7 +475,7 @@ export default function ContentView() {
                                                 <div style={{
                                                     fontSize: 14,
                                                     color: colors.black
-                                                }}>Difícil</div>
+                                                }}>{conteudo[assunto].aulas[ondeParou].nivel}</div>
 
                                             </Grid>
                                             <Grid item sm={12} style={{ textAlign: "center" }}>
@@ -376,7 +493,7 @@ export default function ContentView() {
                                                     onClick={() => {
                                                         history.push({
                                                             pathname: '/questao',
-                                                            state: { id: 2 }
+                                                            state: { id: 2, jornada:true, ondeParou, assunto:tema }
                                                         })
                                                     }}>Vamos lá!</Button>
                                             </Grid>
