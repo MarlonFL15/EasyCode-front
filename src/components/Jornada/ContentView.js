@@ -301,7 +301,7 @@ export default function ContentView() {
                                                 </Grid>
                                                 <Grid item sm={6}>
                                                     <GraficoSubmissoes />
-                                                    <div>Seu desempenho em <b>If e else</b></div>
+                                                <div>Seu desempenho em <b>{assunto == 0?'Sequência':assunto==1?'Seleção':'Repetição'}</b></div>
                                                 </Grid>
                                                 <Grid item sm={12} style={{ textAlign: "center" }}>
                                                     <Button variant="contained"
@@ -349,7 +349,7 @@ export default function ContentView() {
                                                     fontSize: 27,
                                                     fontWeight: 800,
                                                     color: colors.black
-                                                }}>Olá mundo</div>
+                                                }}>{conteudo[assunto].aulas[ondeParou].titulo}</div>
                                                 <div style={{
                                                     fontSize: 18,
                                                     // fontWeight: 600,
@@ -358,7 +358,7 @@ export default function ContentView() {
                                                 <div style={{
                                                     fontSize: 14,
                                                     color: colors.black
-                                                }}>Difícil</div>
+                                                }}>{conteudo[assunto].aulas[ondeParou].nivel}</div>
 
                                             </Grid>
                                             <Grid item sm={12} style={{ textAlign: "center" }}>
@@ -376,7 +376,7 @@ export default function ContentView() {
                                                     onClick={() => {
                                                         history.push({
                                                             pathname: '/questao',
-                                                            state: { id: 2 }
+                                                            state: { id: conteudo[assunto].aulas[ondeParou].id }
                                                         })
                                                     }}>Vamos lá!</Button>
                                             </Grid>
