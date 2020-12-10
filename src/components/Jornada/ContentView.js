@@ -86,7 +86,7 @@ export default function ContentView() {
     //     if (onde != ondeParou)
     //         setOndeParou(onde)
     // }
-    const locState = location.state.quiz ? location.state.quiz : location.state
+    const locState = location.state? location.state.quiz ? location.state.quiz : location.state : null
 
     const [ondeParou, setOndeParou] = useState(locState ? locState.ondeParou : 0)
     console.log(ondeParou)
@@ -127,7 +127,8 @@ export default function ContentView() {
 
                     zIndex: 2,
                     marginTop: -130, marginBottom: 0
-                }} src={require('../Quiz/ResultOver50.svg')} />
+                }} src={require(resultado===100?'../Quiz/Result100.svg':resultado>=50?'../Quiz/ResultOver50.svg':'../Quiz/ResultUnder50.svg')} />
+                
 
 
                 <Grid container item sm={12}>
@@ -147,7 +148,7 @@ export default function ContentView() {
                                 fontSize: 25,
                                 fontWeight: 600,
                             }}>Você acertou {acertos} das {qtdQuestoes} questões</div>
-                        <div>Continue assim!</div>
+                        <div>{resultado>=50?'Continue assim!':'Continue tentando!'}</div>
 
                     </Grid>
 
@@ -193,20 +194,7 @@ export default function ContentView() {
                                 }}>Voltar para o menu</Button>
 
                         </Grid>
-                        <Grid item style={{ textAlign: 'end' }}>
 
-                            <Button variant="contained"
-                                style={{
-                                    backgroundColor: colors.blue,
-                                    padding: '10px 40px',
-                                    color: 'white',
-                                    margin: '0',
-                                    fontSize: 16,
-                                    fontWeight: 500,
-                                    letterSpacing: 1.3
-                                }}
-                                onClick={() => { setOndeParou(ondeParou + 1) }}>PRÓXIMO</Button>
-                        </Grid>
 
                     </Grid>
 
@@ -305,6 +293,20 @@ export default function ContentView() {
                                 }}>Voltar para o menu</Button>
 
                         </Grid>
+                        <Grid item style={{ textAlign: 'end' }}>
+
+                            <Button variant="contained"
+                                style={{
+                                    backgroundColor: colors.blue,
+                                    padding: '10px 40px',
+                                    color: 'white',
+                                    margin: '0',
+                                    fontSize: 16,
+                                    fontWeight: 500,
+                                    letterSpacing: 1.3
+                                }}
+                                onClick={() => { setOndeParou(ondeParou + 1) }}>PRÓXIMO</Button>
+                        </Grid>
                         {/* <Grid item style={{ textAlign: 'end' }}>
 
                                 <Button variant="contained"
@@ -387,7 +389,7 @@ export default function ContentView() {
                     <Grid item xs={12} md={8}>
                         <Card style={{ height: '100%', border: 'none', minHeight: 400, overflow: 'visible' }} variant='outlined'>
                             {conteudo[assunto].aulas[ondeParou].tipo === 'Quiz' ?
-                                locState.assunto ?
+                                locState && locState.assunto ?
                                     resultadoQuiz()
                                     :
                                     <div>
@@ -442,7 +444,7 @@ export default function ContentView() {
                                         </div>
                                     </div> :
                                 conteudo[assunto].aulas[ondeParou].tipo === 'Blocos' ?
-                                    locState.id ?
+                                    locState && locState.id ?
                                         resultadoBlocos() :
                                         <div style={{
                                             backgroundColor: '#ffffff',

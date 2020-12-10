@@ -119,7 +119,6 @@ class BlockDiv extends React.Component {
     }).then(response => {
       console.log("responseaaaaaaaaaaaaaaaa")
       console.log(response.data)
-      alert("oi")
       if (response.data.result) {
         this.setState({ incorrect: false, correct: true })
 
@@ -135,29 +134,31 @@ class BlockDiv extends React.Component {
       else {
         this.setState({ incorrect: true, correct: false })
       }
-      if(this.props.location.state.jornada){
+      if (this.props.location.state.jornada) {
         this.props.history.push({
-          pathname: '/jornada/'+this.props.location.state.assunto,
+          pathname: '/jornada/' + this.props.location.state.assunto,
           state: {
-              id: this.state.question.id,
-              certo: this.state.correct,
-              resultado:'Ola mundo',
-              saida:'Ola mundo',
-              saidas:response.data.saida,
-              ondeParou: this.props.location.state.ondeParou
-          }})
-      }else{
+            id: this.state.question.id,
+            certo: this.state.correct,
+            resultado: 'Ola mundo',
+            saida: 'Ola mundo',
+            saidas: response.data.saida,
+            ondeParou: this.props.location.state.ondeParou
+          }
+        })
+      } else {
         this.props.history.push({
           pathname: '/questao/resultado',
           state: {
-              id: this.state.question.id,
-              certo: this.state.correct,
-              resultado:'Ola mundo',
-              saida:'Ola mundo',
-              saidas:response.data.saida
-          }})
+            id: this.state.question.id,
+            certo: this.state.correct,
+            resultado: 'Ola mundo',
+            saida: 'Ola mundo',
+            saidas: response.data.saida
+          }
+        })
       }
-  
+
 
     }).catch(error => {
       console.log(error)

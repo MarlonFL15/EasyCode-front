@@ -30,11 +30,8 @@ export default function QuizResult(props) {
     const location = useLocation()
     const history = useHistory()
     const { quiz } = location.state
-    console.log("no quiz result: ")
-    console.log(location.state)
     const assunto = location.state.quiz.assunto
-    console.log("anaálise")
-    console.log(assunto)
+  
     const qtdQuestoes = quiz.questoes
     const acertos = quiz.acertos
     const resultado = acertos/ qtdQuestoes * 100
@@ -85,7 +82,7 @@ export default function QuizResult(props) {
                         width: 150, height: 270,
                         margin: '0 auto',
                         marginTop: -130, marginBottom: 0
-                    }} src={require('./ResultOver50.svg')} />
+                    }} src={require(resultado===100?'./Result100.svg':resultado>=50?'./ResultOver50.svg':'./ResultUnder50.svg')} />
 
 
                     <Grid container item sm={12}>
@@ -105,7 +102,7 @@ export default function QuizResult(props) {
                                     fontSize: 25,
                                     fontWeight: 600,
                                 }}>Você acertou {acertos} das {qtdQuestoes} questões</div>
-                            <div>Continue assim!</div>
+                            <div>{resultado>=50?'Continue assim!':'Continue tentando!'}</div>
 
                         </Grid>
 
