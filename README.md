@@ -1,5 +1,5 @@
 ## Easy Code
-Web Site developed to help IFAM's Computing Students how to code with visual programming using Blockly API and Gamification. Our motivation is the difficulties the students have on learning Logic Programming in the first year. </br>
+Web Site developed to help IFAM's Computing Students how to code with visual programming using Blockly API and Gamification. Our motivation is the difficulties the students have on learning Programming Logic in the first year. </br>
 Easycode is our IFAM's Technical Course Completion Project.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
